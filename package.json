@@ -1,0 +1,23 @@
+{
+  "name": "docs",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "vuepress dev .",
+    "build": "vuepress build ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ralliejs/docs.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ralliejs/docs/issues"
+  },
+  "homepage": "https://github.com/ralliejs/docs#readme",
+  "devDependencies": {
+    "vuepress": "^1.8.2"
+  }
+}

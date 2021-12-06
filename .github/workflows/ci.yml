@@ -1,0 +1,41 @@
+name: Deploy 
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Cache node modules
+      uses: actions/cache@v2
+      env:
+        cache-name: cache-node-modules
+      with:
+        # npm cache files are stored in `~/.npm` on Linux/macOS
+        path: ~/.npm
+        key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-build-${{ env.cache-name }}-
+          ${{ runner.os }}-build-
+          ${{ runner.os }}-
+
+    - name: Install and build
+      run: |
+        npm install
+        npm run build
+    
+    - name: Deploy playground
+      uses: JamesIves/github-pages-deploy-action@4.1.5
+      with:
+        branch: gh-page # The branch the action should deploy to.
+        folder: .vuepress/dist # The folder the action should deploy.
