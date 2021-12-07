@@ -4,8 +4,11 @@ module.exports = {
     descriptions: '微前端; rallie; module federation; 模块联邦; 前端服务化',
     themeConfig: {
         logo: '/logo.png',
-        lastUpdated: 'Last Updated',
         repo: 'ralliejs/rallie',
+        docsRepo: 'ralliejs/docs',
+        docsBranch: 'main',
+        editLinks: true,
+        editLinkText: '在Github上编辑此页',
         nav: [
             { text: '指南', link: '/guide/introduction' },
             { text: 'API', link: '/api/' },
@@ -23,5 +26,5 @@ module.exports = {
             ]
         },
         sidebarDepth: 3
-    },
+    }
 }

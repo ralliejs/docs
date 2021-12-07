@@ -3,7 +3,7 @@ home: true
 heroImage: /logo.png
 heroAlt: rallie.js
 heroText: Rallie.js
-tagline: 帮助用户构建前端微服务架构的库
+tagline: 帮助用户构建去中心化的前端微服务架构的库
 actionText: 开始使用
 actionLink: /guide/introduction/
 features:

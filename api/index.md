@@ -7,32 +7,32 @@ App可以直接通过`import { App } from 'rallie'`导入
 - 说明：App的构造函数, 直接通过`new`操作符创建App实例。接收两个参数，第一个参数是App的名称，必须全局唯一；第二个参数是App的初始化选项，包含两个选项`state`和`isPrivate`，分别表示状态的初始值和状态是否可以被[Connector](#connector)更改。使用typescript时，可以接收三个泛型参数，分别声明App的状态，事件和方法的类型
 - 示例：
   ```ts
-    import { App } from 'rallie'
+  import { App } from 'rallie'
 
-    interface State {
-        count: number,
-        user: {
-            name: string
-        }
+  interface State {
+    count: number,
+    user: {
+      name: string
     }
+  }
 
-    interface Events {
-        incrementCount: () => void
+  interface Events {
+    incrementCount: () => void
+  }
+
+  interface Methods {
+    login: () => void
+    logout: () => void
+  }
+
+  const app = new App<State, Events, Methods>('my-app', {
+    state: { 
+      count: 0,
+      user: {
+        name: 'rallie'
+      }
     }
-
-    interface Methods {
-        login: () => void
-        logout: () => void
-    }
-
-    const app = new App<State, Events, Methods>('my-app', {
-        state: { 
-            count: 0,
-            user: {
-                name: 'rallie'
-            }
-        }
-    })
+  })
   ```
 ### name
 - 类型：`string`
@@ -154,7 +154,7 @@ App可以直接通过`import { App } from 'rallie'`导入
 - 类型：`(methods: Partial<Methods>) => (methodName?: string) => void`
 - 说明：给App添加方法，返回值是用来取消方法的函数
 - 示例：
-  - 监听事件：
+  - 添加方法：
     ```ts
     const cancelMethods = app.addMethods({
       logIn: async () => {
@@ -169,7 +169,7 @@ App可以直接通过`import { App } from 'rallie'`导入
     ```ts
     cancelMethods()
     ```
-  - 取消监听单个事件
+  - 取消单个方法
     ```ts
     cancelMethods('logIn')
     ```
@@ -205,11 +205,11 @@ App可以直接通过`import { App } from 'rallie'`导入
 
 ### runInHostMode
 - 类型：`(callback: (bus: Bus, setBusAccessible: (isAccessible: boolean) => void) => void | Promise<void>) => Promise<void>`
-- 说明：在App的Host模式下运行逻辑。当一个App是整个系统应用树中第一个被创建的App时，这个App将会以Host模式运行。Host模式下，可以通过[Bus](#bus)进行全局配置和添加中间件，并且可以通过setBusAccessible来让Remote模式下的App也能访问到Bus
+- 说明：在App的Host模式下运行逻辑。接收两个参数，一个是全局[Bus](#bus), 另一个是配置Bus可访问性的函数。当一个App是整个系统应用树中第一个被创建的App时，这个App将会以Host模式运行。Host模式下，可以通过[Bus](#bus)进行全局配置和添加中间件，并且可以通过setBusAccessible来让Remote模式下的App也能访问到Bus
 
 ### runInRemoteMode
 - 类型：`(callback: (bus?: Bus) => void | Promise<void>) => Promise<void>`
-- 说明：在App的Remote模式下运行逻辑。当一个App不是整个系统应用树中第一个被创建的App时，这个App将会以Remote模式运行。Remote模式下的App默认不能访问全局Bus，但是如果Host模式的App开放了全局Bus的可访问性，那么Remote模式下也能通过runInRemoteMode获取全局Bus。关于Host模式和Remote模式的详细区别参考[运行模式](/guide/advance.html#运行模式)
+- 说明：在App的Remote模式下运行逻辑。接收全局[Bus](#bus)作为唯一参数。当一个App不是整个系统应用树中第一个被创建的App时，这个App将会以Remote模式运行。Remote模式下的App默认不能访问全局Bus，即第一个参数默认是null，但是如果Host模式的App开放了全局Bus的可访问性，那么Remote模式的App也能通过runInRemoteMode获取全局Bus。关于Host模式和Remote模式的详细区别参考[运行模式](/guide/advance.html#运行模式)
 - 示例：
   ```ts
   const firstApp = new App('first-app') // Host
@@ -253,7 +253,7 @@ App可以直接通过`import { App } from 'rallie'`导入
     ```
 
 ## Connector
-`Connector`是用来访问其他App的状态事件和方法的对象，可以通过[app.connect](#connect)方法获取。Connector的属性和方法是[App](#app)的子集，包括
+`Connector`是用来访问其他App的状态事件和方法的对象，可以通过[app.connect](#connect)方法获取。`Connector`的属性和方法是[App](#app)的子集，包括
 - [name](#name)
 - [state](#state)
 - [events](#events)
