@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="685px"
+    height="86px" viewBox="-0.5 -0.5 685 86"
+    content="&lt;mxfile host=&quot;e27cd27e-f19f-4d53-942a-0eb20bb68ab8&quot; modified=&quot;2021-12-07T12:44:24.912Z&quot; agent=&quot;Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Code/1.62.3 Chrome/91.0.4472.164 Electron/13.5.2 Safari/537.36&quot; etag=&quot;RDuN-ycu0Gdh7ET-gZiK&quot; version=&quot;12.2.4&quot; pages=&quot;1&quot;&gt;&lt;diagram id=&quot;qyQY_dNiGdKrlFhdb-IN&quot; name=&quot;Page-1&quot;&gt;7VbBjpswEP2aXKuAE5I9Ntlke2ilSjl0e7RgALeGQcYE6NfXwAAmJLsb9bBq1VzieTNj7HlvRl6wfVI9KZ7FXzAAuXCXQbVgjwvXdTxnaf4apO4Qb7PqgEiJgIJG4CR+AYGUFxUigHwSqBGlFtkU9DFNwdcTjCuF5TQsRDn9asYjmAEnn8s5+k0EOu7QrbsZ8U8gorj/suM9dJ6E98F0kzzmAZYWxA4LtleIulsl1R5kU7y+Ll3e8YZ3OJiCVL8lwaNj6Lq/GwTmqmSi0jFGmHJ5GNGdwiINoNlgaawx5jNiZkDHgD9A65p444VGA8U6keSFSuhna/292erDmqzHinZujbo3Uq3qZ9uwshpzTGutPm8ocPOxXHOlPzYCMECKKfTYUUg5pAcXEQax/LlW+BP2KFG1BWPsuHZ268HTC4IZJMRUUxXcJdlW5rH9GXzOGhGZY6F8IsYloXMVAUVR1zSUWWnE9BNgAqYUJkCB5Fqcp+rl1ATREDfqxCxIKtdlQ2c5c1nQpl8VBoUPaqanUS0NA2UsNJwy3l6qNNNhqozQ1NkqUNj+7iz6hHEfE+ETc5HkeU7rlhk65BVmhu0vGbzJ1BmUhupFFsj7QK1Ps4+tyC7HSeL04yG2poi3/HPe2Iy3PaZ5kfzn7XXevPU7Erf5W+b0vzNvV/N5y95r3q5mfbsr8rkkpDQvIHi9XXmedc+iUFSNQKas2f1m9+FdTEwHws2+vJuht/cruxy0bN6v2yvtur2/XY05Ptlan/XwZYff&lt;/diagram&gt;&lt;/mxfile&gt;">
+    <defs />
+    <g>
+        <path d="M 121 41 L 301 41" fill="none" stroke="#000000" stroke-width="3" stroke-miterlimit="10"
+            transform="translate(2,3)" opacity="0.25" />
+        <path d="M 121 41 L 301 41" fill="none" stroke="#3f51b5" stroke-width="3" stroke-miterlimit="10"
+            pointer-events="stroke" />
+        <rect x="1" y="11" width="120" height="60" rx="9" ry="9" fill="#000000" stroke="#000000" stroke-width="3"
+            transform="translate(2,3)" opacity="0.25" />
+        <rect x="1" y="11" width="120" height="60" rx="9" ry="9" fill="#ffffff" stroke="#3f51b5" stroke-width="3"
+            pointer-events="all" />
+        <g transform="translate(19.5,29.5)">
+            <foreignObject style="overflow:visible;" pointer-events="all" width="82" height="22">
+                <div xmlns="http://www.w3.org/1999/xhtml"
+                    style="display: inline-block; font-size: 20px; font-family: Helvetica; color: rgb(63, 81, 181); line-height: 1.2; vertical-align: top; width: 82px; white-space: nowrap; overflow-wrap: normal; text-align: center;">
+                    <div xmlns="http://www.w3.org/1999/xhtml"
+                        style="display:inline-block;text-align:inherit;text-decoration:inherit;white-space:normal;">
+                        Producer</div>
+                </div>
+            </foreignObject>
+        </g>
+        <rect x="561" y="11" width="120" height="60" rx="9" ry="9" fill="#000000" stroke="#000000" stroke-width="3"
+            transform="translate(2,3)" opacity="0.25" />
+        <rect x="561" y="11" width="120" height="60" rx="9" ry="9" fill="#ffffff" stroke="#3f51b5" stroke-width="3"
+            pointer-events="all" />
+        <g transform="translate(574.5,29.5)">
+            <foreignObject style="overflow:visible;" pointer-events="all" width="92" height="22">
+                <div xmlns="http://www.w3.org/1999/xhtml"
+                    style="display: inline-block; font-size: 20px; font-family: Helvetica; color: rgb(63, 81, 181); line-height: 1.2; vertical-align: top; width: 94px; white-space: nowrap; overflow-wrap: normal; text-align: center;">
+                    <div xmlns="http://www.w3.org/1999/xhtml"
+                        style="display:inline-block;text-align:inherit;text-decoration:inherit;white-space:normal;">
+                        Consumer</div>
+                </div>
+            </foreignObject>
+        </g>
+        <path d="M 381 41 L 561 41" fill="none" stroke="#000000" stroke-width="3" stroke-miterlimit="10"
+            transform="translate(2,3)" opacity="0.25" />
+        <path d="M 381 41 L 561 41" fill="none" stroke="#3f51b5" stroke-width="3" stroke-miterlimit="10"
+            pointer-events="stroke" />
+        <ellipse cx="341" cy="41" rx="40" ry="40" fill="#000000" stroke="#000000" stroke-width="3"
+            transform="translate(2,3)" opacity="0.25" />
+        <ellipse cx="341" cy="41" rx="40" ry="40" fill="#3f51b5" stroke="#3f51b5" stroke-width="3"
+            pointer-events="all" />
+        <g transform="translate(323.5,29.5)">
+            <foreignObject style="overflow:visible;" pointer-events="all" width="34" height="22">
+                <div xmlns="http://www.w3.org/1999/xhtml"
+                    style="display: inline-block; font-size: 20px; font-family: Helvetica; color: rgb(255, 255, 255); line-height: 1.2; vertical-align: top; width: 36px; white-space: nowrap; overflow-wrap: normal; text-align: center;">
+                    <div xmlns="http://www.w3.org/1999/xhtml"
+                        style="display:inline-block;text-align:inherit;text-decoration:inherit;white-space:normal;">Bus
+                    </div>
+                </div>
+            </foreignObject>
+        </g>
+    </g>
+</svg>
