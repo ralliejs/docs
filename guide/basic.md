@@ -1,6 +1,7 @@
 # 基础
+下面你将学习关于Rallie的一切，阅读文档可能不能解答你的所有困惑，我们推荐你结合Rallie源码仓库中提供的[样例](https://github.com/ralliejs/rallie/tree/master/packages/playground)进行学习，虽然这是一个没有什么实用价值的demo，但它囊括了Rallie了的大多数功能
 ## 创建App
-正如[介绍](/guide/introduction.html#介绍)中所述，Rallie中的每个应用对外提供响应式状态，事件和方法作为服务。而声明这些服务的就是`App`对象，在创建`App`时，你需要指定一个全局唯一的名字，后续也是通过App名来连接其他App并使用其提供的服务。
+正如[介绍](/guide/introduction.html#介绍)中所述，Rallie中的每个应用对外提供响应式状态，事件和方法作为服务。而声明这些服务的就是App对象，在创建App时，你需要指定一个全局唯一的名字，后续也是通过App名来连接其他App并使用其提供的服务。
 ```ts
 export const producer = new App('producer')
 ```
@@ -10,10 +11,8 @@ export const producer = new App('producer')
 如果你的应用要对外提供响应式状态，那么你必须在创建App时给出状态的初始值。状态是一个[reactive](https://v3.vuejs.org/api/basic-reactivity.html#reactive)对象，因此也不能初始化为[原始数据类型](https://developer.mozilla.org/zh-CN/docs/Glossary/Primitive)
 ```ts
 interface State {
-  count: number,
-  user: {
-    name: string
-  }
+  items: string[],
+  user: string
 }
 interface Events {}
 interface Methods {}
@@ -21,78 +20,74 @@ interface Methods {}
 
 export const producer = new App<State, Events, Methods>('producer', {
   state: {
-    count: 0,
-    user: {
-      name: null
-    }
+    items: [],
+    user: null
   }
 })
 ```
 #### 读取状态
 状态值可以直接通过`app.state`属性读取
 ```ts
-console.log(producer.state.count) // 0
+console.log(producer.state.items) // []
 ```
 #### 修改状态
-要修改状态，必须通过`app.setState`方法，在回掉函数中修改
+要修改状态，必须通过`app.setState`方法，在回调函数中修改
 ```ts
 producer.setState((state) => {
-  state.count++ // count变为1
+  state.items.push('apple') // 状态能正常变更
 })
 
-producer.state.count++ // 抛出错误
+producer.state.items = [] // 抛出错误
 ```
 #### 监听状态变更
 我们使用`app.watchState`监听状态变更，它的使用方式比较灵活。 你可以在`watchState`方法中返回要监听的状态，紧接着链式调用`do`方法，指定监听回调
 ```ts {6-10,18}
 producer.setState((state) => {
-  state.count = 1
-  state.user.name = 'john'
+  state.items = []
+  state.user = null
 })
 
 const unwatch = producer
-  .watchState(state => [state.count, state.user.name])
-  .do(([newCount, newName], [oldCount, oldName]) => {
-    console.log(newCount, newName, oldCount, oldName)
+  .watchState(state => [state.items, state.user])
+  .do(([newTodoItems, newUser], [oldTodoItems, oldUser]) => {
+    console.log(newTodoItems, newUser, oldTodoItems, oldUser)
   })
 
 producer.setState((state) => {
-  state.count = 2
-  state.user.name = 'mike'
+  state.items = ['apple', 'banana']
+  state.user = 'mike'
 })
-// 打印 2, mike, 1, john
+// 打印 [], null, [apple, banana], mike
 
 unwatch() // 取消监听
 ```
 也可以直接在`watchState`方法中指定监听回调，响应式系统会自动记录依赖并在状态变更时执行回调函数，效果类似Vue的[watchEffect](https://v3.vuejs.org/guide/reactivity-computed-watchers.html#watcheffect)方法
 ```ts {6-10,18}
 producer.setState((state) => {
-  state.count = 1
-  state.user.name = 'john'
+  state.items = ['apple', 'banana']
+  state.user = 'mike'
 })
 
 const watcher = producer.watchState((state, isWatchingEffect) => {
   if (isWatchingEffect) {
-    console.log(state.count, state.user.name)
+    console.log(state.items, state.user)
   }
 })
 
 producer.setState((state) => {
-  state.count = 2
-  state.user.name = 'mike'
+  state.items.pop()
+  state.user = 'john'
 })
-// 分别打印 1, john; 2, mike
+// 分别打印 [apple, banana], mike; [apple], john
 
 watcher.stopEffect() // 取消监听
 ```
 ### 事件
 在创建App时，可以提供事件泛型参数，为后续API提供良好的typescript提示。
-```ts {7-9}
+```ts {5-7}
 interface State {
-  count: number,
-  user: {
-    name: string
-  }
+  items: string[],
+  user: string
 }
 interface Events {
   print: (text: string) => void
@@ -102,10 +97,8 @@ interface Methods {}
 
 export const producer = new App<State, Events, Methods>('producer', {
   state: {
-    count: 0,
-    user: {
-      name: null
-    }
+    items: [],
+    user: null
   }
 })
 ```
@@ -125,12 +118,10 @@ cancelEvents()
 
 ### 方法
 方法的API和事件类似
-```ts {11-14,17-24,26-27,29}
+```ts {9-12,20-27,26-27,29-30,32}
 interface State {
-  count: number,
-  user: {
-    name: string
-  }
+  items: string[],
+  user: string
 }
 interface Events {
   print: (text: string) => void
@@ -140,7 +131,12 @@ interface Methods {
   syncMethod: () => string
   asyncMethod: () => Promise<string>
 }
-const producer = new App<State, Events, Methods>('producer')
+const producer = new App<State, Events, Methods>('producer', {
+  state: {
+    items: [],
+    user: null
+  }
+})
 // 添加方法
 const cancelMethods = producer.addMethods({
   syncMethod() {
@@ -174,13 +170,13 @@ registerApp(producer)
 调用`registerApp`后，我们还可以紧接着声明App的生命周期和与其他App的关联依赖关系，你将会在[进阶](/guide/advance.html)章节中了解更多。
 
 ## 加载App
-假设我们已经将`producer`打包部署到`https://localhost:8000/producer.js`。现在我们要开发一个新的应用，并且该应用能加载并使用`producer`提供的服务。
+假设我们已经将producer打包部署到`https://localhost:8000/producer.js`。现在我们要开发一个新的应用，并且该应用能加载并使用producer提供的服务。
 
 首先，我们创建一个名为`consumer`的app
 ```ts
 const consumer = new App('consumer')
 ```
-要让`consumer`知道`producer`被部署在哪里，我们可以通过下面这段代码进行声明
+要让consumer知道producer被部署在哪里，我们可以通过下面这段代码进行声明
 ```ts
 consumer.runInHostMode((bus) => {
   bus.config({
@@ -192,11 +188,11 @@ consumer.runInHostMode((bus) => {
   })
 })
 ```
-Rallie的应用是去中心化的，也就是说并没有一个固定的基座应用，但是不同的应用要互相加载和通信，需要一个实质的中心来连接，这个中心就是所谓的`Bus`。每个应用都有`Host`和`Remote`两种运行模式，当我们在开发`consumer`的时候，`consumer`是入口应用，`producer`是被加载者，因此`consumer`将以`Host`模式运行，它将有权配置应用的管理中心——`Bus`。所以我们调用了`consumer.runInHostMode`方法，使得`consumer`在`Host`模式下，可以通过`bus`配置`producer`的静态资源路径。
-<div align="center">
+Rallie的每个App都有Host和Remote两种运行模式，当我们在开发consumer的时候，consumer是入口应用，producer是被加载应用，因此consumer将以Host模式运行，它将有权配置应用的管理中心——Bus。所以我们调用了`consumer.runInHostMode`方法，让consumer在Host模式下通过bus配置producer的静态资源路径。
+<div align="center" style="padding: 16px">
 ![producer](../images/producer-consumer.drawio.svg)
 </div>
-关于[Bus](/api/#bus)和运行模式，你可以在[运行模式](/guide/advance.html#运行模式)和[中间件](/guide/advance.html#中间件)章节中了解更多。
+你可以在进阶部分了解到更多关于[运行模式](/guide/advance.html#运行模式)和[Bus](/api/#bus)的知识
 
 配置好资源路径后，我们就可以直接加载`producer`
 ```ts
@@ -210,10 +206,8 @@ consumer.load('producer').then(() => {
 最后，我们要使用`producer`提供的服务，还需要与它进行连接
 ```ts {14}
 interface State {
-  count: number,
-  user: {
-    name: string
-  }
+  items: string[],
+  user: string
 }
 interface Events {
   print: (text: string) => void
@@ -233,11 +227,11 @@ import { consumer } from './consumer'
 
 consumer.load('producer').then(() => {
   // 状态
-  console.log(producer.state.user)
-  producer.watchState(state => state.count).do(count => {
-    console.log(count)
+  console.log(producer.state.items)
+  producer.watchState(state => state.user).do(user => {
+    console.log(user)
   })
-  producer.setState(state => state.count++)
+  producer.setState(state => state.items.push('strawberry'))
   // 事件
   producer.listenEvents({
     print(text) {
@@ -251,3 +245,43 @@ consumer.load('producer').then(() => {
   })
 })
 ```
+
+有的时候，为了保证状态安全，你不希望你的App的状态能直接被其他Connector更改，此时你可以在创建App时将状态初始化为private
+```ts {19}
+interface State {
+  user: {
+    name: string,
+    token: string
+  }
+}
+
+interface Methods {
+  logIn: () => Promise<void>
+  logOut: () => Promise<void>
+}
+const producer = new App<State>('producer', {
+  state: {
+    user: {
+      name: '',
+      token: ''
+    }
+  },
+  isPrivate: true
+})
+
+producer.addMethods({
+  logIn: async () => {
+    const user = await requestUserInfo()
+    producer.setState(state => {
+      state.user = user
+    })
+  },
+  logOut: async () => {
+    state.user = {
+      name: '',
+      token: ''
+    }
+  }
+})
+```
+这样其他App就只能通过你提供的方法修改状态，而无法使用`Connector.setState`直接修改状态
