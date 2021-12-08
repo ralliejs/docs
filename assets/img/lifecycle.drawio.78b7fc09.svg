@@ -1,0 +1,503 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="935px"
+    height="1045px" viewBox="-0.5 -0.5 935 1045"
+    content="&lt;mxfile host=&quot;50e8e5a5-c605-4e90-aec8-ac01fc481fc0&quot; modified=&quot;2021-12-08T10:07:42.937Z&quot; agent=&quot;Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Code/1.62.3 Chrome/91.0.4472.164 Electron/13.5.2 Safari/537.36&quot; etag=&quot;Uokbdo81iddg4tbByxuk&quot; version=&quot;12.2.4&quot; pages=&quot;1&quot;&gt;&lt;diagram id=&quot;BEX4y8uG82XCQlF5YQLJ&quot; name=&quot;Page-1&quot;&gt;7VxLc6M4EP41PiYFiId9tJ1kZqtmt6Y2U7WTowKyYQcjL8iJPb9+JZB4SXb8wAZiJ4dELSFEd3/d6m7BAEwX6y8xXPp/Yg+FA0Pz1gPwMDAM3dY1+odRNhnFcYYZYR4HHh9UEJ6D34gT+XXzVeChpDKQYBySYFklujiKkEsqNBjH+L06bIbD6l2XcI4kwrMLQ5n6T+ARP6MODaegf0XB3Bd31u1R1rOAYjB/ksSHHn4vkcDjAExjjEn232I9RSFjnuBLdt3Tlt58YTGKyD4XGHwZZCOeDXn0UXkTx8THcxzB8LGgTmK8ijzEJtBo69/VYsklBGizuOQbxktK1NkYRMiGD4IrginJJ4uQ96J1QH6y2e4t3nop9Tys+Y3SxoY3EgJjwmdMOyOv1EpIjH+hKQ5xnD4UMB1rMp3mPUJobMEzHBHVSJmTnLkJXsUuZxbgygfjORKjuCozPpau4+z/gvACkXhDB8QohCR4q6oU5Jo5z8cVwqP/cPmpZckX8wbDFZ80RvMgISimwpLEHIYULUyc735A0PMSps/0TgFblQ7jj9CHtB2E4XbOqnpqHH5Kf9gVQvfz22QS1M1d7H9DMUHrnZwVvYCDjFsZw+Ht9wKzusZpfgmvlna6MMyTgXUhJFH+xpufYhhrvBQzsGZxWdoS123DjYywOjaryN2uN3sh0JIRCNoCoCUB8BuGXnqnbMmJpBSFyPXDoSizem8QFuI6MwiHRhWE+kgBQkMBQrsBENod8m56CZEFPjvt3RyFd9PaApcjgWvs0htAgthGEi0pj1DkBteIMVDDGLgkxoaSXP7CPYVd7grzxn6usCNwFdis4NVsC68jSS9eFNjsR7RRKEahCy8VVeidYgjfeHnFEKspacZXOp+h4WhC41767NQmG3ZIFzp5jSvqYv+3YoFxyo27JOXkmA7QzeU65YXop//N2d8wmCF344bMRdB1+pgu4Un2Dz5evK6SY31DSSyPNvuVg6SC3pKHMJ09PIR9Jg+h65LA+2sKugJpUwHp1jIPepfSSEd5/AOD3y5rQWseX5cTUIqtILVYpCo4Gh0Hv+FrKNi3xEFE0nVYk4H1QCkwDOYRJbiUGYhyasIsX+DCcMw7FoHnpUoVwlcUTqD7a56qV4mzs/TnMI4bW+xsnlnmqx6Uk7cq+3un3Q81kRkU6aistbcY+OTfGXdKQ/BsllDZ1+WUr2E/0ZlbfXIRZd1ccpMu2R6NWnTJcqqqt1FbV2zxULbFTmumuEuZrz5urxTCbNGxyrkv1Qa6T57VbtCzGo7wpdyU3oEuuVY5QfYH86xwSaNc7VVEvARdqyPMS3CtOMKm0lQXso9NVd122voTS3ICjZ2oyeUHLVopxB6yj+lIQVUlPas16cmpo36HlEIdG3F8uj20q45P75DjE4qkdnyloyk3t5e29Qu6PWGPexcfdLcS48HEz4vMrPEdEqrfUUoxNH1v+6vI6YHWMruGnBiqbFklLbq+Y2WWNZKBe65jZcIV9xe4/cy0i3JpNxICYjUlVD7gcjQpO9TPfgbGHNVQqSnc6bnOwIhE3w2VF0Zlp9J0iqNQKSphXkG5NlA6erXGYY4UrvJsoJRTO6KG5euiHJUd0M2odMKiQxC94K1OYhWwKoVeWRn3YXxaFVWEI1TbAnFSQtUhiOaUYBWtH6lBuDO0LUqDqYBmYSpXnwaxKJKMzcGgO8AOW05F5IbKDjtAFrnZgMjB6cmec9nh3PR+RjsMxEtYnYhZgJw0unI7XD+Eb1/ygDCQ80CyHZZO/tWM8RVbVMOxak5UJTzrTBa1S4mi485yVxNFuYHtuEVVxJvCrrVgUeUsUM8L0EKvm8nDa6Ke3YnEO+hrjqg/SVoVPE2jNXjK6aDb6b3LVm8c+4LVG9D7dFPnqjf7oV6RbgKtvUcD5HSTvK/+GxVRjzZe3rbXcmxUC41MGciGqprTyO56nxRVWYQ34e1+r8nRhrIZNlXSM06Xnph3p/QeUEIwm/cmut0FmxFQiE4JvCZEp0u871tYO+hjolDIrrJvbq1gI1bzIYBjvLm5z60b4ftqfmqo+syONTyPBzXld85u75aeClLFCSSztW2ueXs17eLlglpwO7xkcGt2Knt1jGvuZw3PVKW0WqvhmVtOOHnCG9dReW0lvNHwgiU8sxMJp85ufY+xFk1lok1FTkocNG0Otuml4ziGm9IAXswpZhbVDPFZqtoBd02vfYt093hLq6lodv9jqyKm6kNV7O5ujODtKDM3KpZsVM72hcxRF4xKf7fpQgaVw49GWw7b2icZNr7lonfjUQqmgSqWHsmAbCKWtuRzU2URfhxZAXtLZPXDZyJn8RWztzzEwjO23mjA3wj7VLpQstXAbkY3LL3uTiXNMFWZ7iP2f7RZfIE8c7XFd9zB4/8=&lt;/diagram&gt;&lt;/mxfile&gt;">
+    <defs />
+    <g>
+        <path d="M 152 320 L 152 384.4" fill="none" stroke="#475bcc" stroke-width="3" stroke-miterlimit="10"
+            pointer-events="stroke" />
+        <path d="M 152 386.65 L 150.5 383.65 L 152 384.4 L 153.5 383.65 Z" fill="#475bcc" stroke="#475bcc"
+            stroke-width="3" stroke-miterlimit="10" pointer-events="all" />
+        <ellipse cx="152" cy="295" rx="50" ry="25" fill="#000000" stroke="#000000" transform="translate(2,3)"
+            opacity="0.25" />
+        <ellipse cx="152" cy="295" rx="50" ry="25" fill="#475bcc" stroke="#475bcc" pointer-events="all" />
+        <g transform="translate(117.5,287.5)">
+            <foreignObject style="overflow:visible;" pointer-events="all" width="68" height="14">
+                <div xmlns="http://www.w3.org/1999/xhtml"
+                    style="display: inline-block; font-size: 14px; font-family: Helvetica; color: rgb(255, 255, 255); line-height: 1.2; vertical-align: top; width: 68px; white-space: nowrap; overflow-wrap: normal; font-weight: bold; text-align: center;">
+                    <div xmlns="http://www.w3.org/1999/xhtml"
+                        style="display:inline-block;text-align:inherit;text-decoration:inherit;white-space:normal;">
+                        registered</div>
+                </div>
+            </foreignObject>
+        </g>
+        <path d="M 852 250 L 852 295 L 207.6 295" fill="none" stroke="#475bcc" stroke-width="3" stroke-miterlimit="10"
+            pointer-events="stroke" />
+        <path d="M 205.35 295 L 208.35 293.5 L 207.6 295 L 208.35 296.5 Z" fill="#475bcc" stroke="#475bcc"
+            stroke-width="3" stroke-miterlimit="10" pointer-events="all" />
+        <rect x="792" y="190" width="120" height="60" rx="9" ry="9" fill="#000000" stroke="#000000" stroke-width="3"
+            transform="translate(2,3)" opacity="0.25" />
+        <rect x="792" y="190" width="120" height="60" rx="9" ry="9" fill="#ffffff" stroke="#475bcc" stroke-width="3"
+            pointer-events="all" />
+        <g transform="translate(799.5,212.5)">
+            <foreignObject style="overflow:visible;" pointer-events="all" width="104" height="14">
+                <div xmlns="http://www.w3.org/1999/xhtml"
+                    style="display: inline-block; font-size: 14px; font-family: Helvetica; color: rgb(71, 91, 204); line-height: 1.2; vertical-align: top; width: 106px; white-space: nowrap; overflow-wrap: normal; font-weight: bold; text-align: center;">
+                    <div xmlns="http://www.w3.org/1999/xhtml"
+                        style="display:inline-block;text-align:inherit;text-decoration:inherit;white-space:normal;">Load
+                        resources</div>
+                </div>
+            </foreignObject>
+        </g>
+        <path d="M 412 420 L 432 420 L 422 420 L 436.4 420" fill="none" stroke="#475bcc" stroke-width="3"
+            stroke-miterlimit="10" pointer-events="stroke" />
+        <path d="M 438.65 420 L 435.65 421.5 L 436.4 420 L 435.65 418.5 Z" fill="#475bcc" stroke="#475bcc"
+            stroke-width="3" stroke-miterlimit="10" pointer-events="all" />
+        <rect x="292" y="390" width="120" height="60" rx="9" ry="9" fill="#000000" stroke="#000000" stroke-width="3"
+            transform="translate(2,3)" opacity="0.25" />
+        <rect x="292" y="390" width="120" height="60" rx="9" ry="9" fill="#ffffff" stroke="#475bcc" stroke-width="3"
+            pointer-events="all" />
+        <g transform="translate(294.5,404.5)">
+            <foreignObject style="overflow:visible;" pointer-events="all" width="114" height="30">
+                <div xmlns="http://www.w3.org/1999/xhtml"
+                    style="display: inline-block; font-size: 14px; font-family: Helvetica; color: rgb(71, 91, 204); line-height: 1.2; vertical-align: top; width: 114px; white-space: nowrap; overflow-wrap: normal; font-weight: bold; text-align: center;">
+                    <div xmlns="http://www.w3.org/1999/xhtml"
+                        style="display:inline-block;text-align:inherit;text-decoration:inherit;white-space:normal;">
+                        Activate dependencies</div>
+                </div>
+            </foreignObject>
+        </g>
+        <path d="M 602 420 L 665.4 420" fill="none" stroke="#475bcc" stroke-width="3" stroke-miterlimit="10"
+            pointer-events="stroke" />
+        <path d="M 667.65 420 L 664.65 421.5 L 665.4 420 L 664.65 418.5 Z" fill="#475bcc" stroke="#475bcc"
+            stroke-width="3" stroke-miterlimit="10" pointer-events="all" />
+        <g transform="translate(629.5,414.5)">
+            <foreignObject style="overflow:visible;" pointer-events="all" width="14" height="11">
+                <div xmlns="http://www.w3.org/1999/xhtml"
+                    style="display: inline-block; font-size: 11px; font-family: Helvetica; color: rgb(71, 91, 204); line-height: 1.2; vertical-align: top; white-space: nowrap; text-align: center;">
+                    <div xmlns="http://www.w3.org/1999/xhtml"
+                        style="display:inline-block;text-align:inherit;text-decoration:inherit;background-color:#ffffff;">
+                        No</div>
+                </div>
+            </foreignObject>
+        </g>
+        <path d="M 522 450 L 522 494.4" fill="none" stroke="#475bcc" stroke-width="3" stroke-miterlimit="10"
+            pointer-events="stroke" />
+        <path d="M 522 496.65 L 520.5 493.65 L 522 494.4 L 523.5 493.65 Z" fill="#475bcc" stroke="#475bcc"
+            stroke-width="3" stroke-miterlimit="10" pointer-events="all" />
+        <g transform="translate(512.5,469.5)">
+            <foreignObject style="overflow:visible;" pointer-events="all" width="18" height="11">
+                <div xmlns="http://www.w3.org/1999/xhtml"
+                    style="display: inline-block; font-size: 11px; font-family: Helvetica; color: rgb(71, 91, 204); line-height: 1.2; vertical-align: top; white-space: nowrap; text-align: center;">
+                    <div xmlns="http://www.w3.org/1999/xhtml"
+                        style="display:inline-block;text-align:inherit;text-decoration:inherit;background-color:#ffffff;">
+                        Yes</div>
+                </div>
+            </foreignObject>
+        </g>
+        <path d="M 522 390 L 602 420 L 522 450 L 442 420 Z" fill="#000000" stroke="#000000" stroke-miterlimit="10"
+            transform="translate(2,3)" opacity="0.25" />
+        <path d="M 522 390 L 602 420 L 522 450 L 442 420 Z" fill="#e6e6e6" stroke="#e6e6e6" stroke-miterlimit="10"
+            pointer-events="all" />
+        <g transform="translate(462.5,404.5)">
+            <foreignObject style="overflow:visible;" pointer-events="all" width="118" height="30">
+                <div xmlns="http://www.w3.org/1999/xhtml"
+                    style="display: inline-block; font-size: 14px; font-family: Helvetica; color: rgb(71, 91, 204); line-height: 1.2; vertical-align: top; width: 120px; white-space: nowrap; overflow-wrap: normal; font-weight: bold; text-align: center;">
+                    <div xmlns="http://www.w3.org/1999/xhtml"
+                        style="display:inline-block;text-align:inherit;text-decoration:inherit;white-space:normal;">Has
+                        onBootstrap<br style="font-size: 14px" />lifecycle method?</div>
+                </div>
+            </foreignObject>
+        </g>
+        <path d="M 751 450 L 751 493.4" fill="none" stroke="#475bcc" stroke-width="3" stroke-miterlimit="10"
+            pointer-events="stroke" />
+        <path d="M 751 495.65 L 749.5 492.65 L 751 493.4 L 752.5 492.65 Z" fill="#475bcc" stroke="#475bcc"
+            stroke-width="3" stroke-miterlimit="10" pointer-events="all" />
+        <g transform="translate(741.5,469.5)">
+            <foreignObject style="overflow:visible;" pointer-events="all" width="18" height="11">
+                <div xmlns="http://www.w3.org/1999/xhtml"
+                    style="display: inline-block; font-size: 11px; font-family: Helvetica; color: rgb(71, 91, 204); line-height: 1.2; vertical-align: top; white-space: nowrap; text-align: center;">
+                    <div xmlns="http://www.w3.org/1999/xhtml"
+                        style="display:inline-block;text-align:inherit;text-decoration:inherit;background-color:#ffffff;">
+                        Yes</div>
+                </div>
+            </foreignObject>
+        </g>
+        <path d="M 831 420 L 851 420 L 851 584 L 207.6 584" fill="none" stroke="#475bcc" stroke-width="3"
+            stroke-miterlimit="10" pointer-events="stroke" />
+        <path d="M 205.35 584 L 208.35 582.5 L 207.6 584 L 208.35 585.5 Z" fill="#475bcc" stroke="#475bcc"
+            stroke-width="3" stroke-miterlimit="10" pointer-events="all" />
+        <g transform="translate(845.5,477.5)">
+            <foreignObject style="overflow:visible;" pointer-events="all" width="15" height="12">
+                <div xmlns="http://www.w3.org/1999/xhtml"
+                    style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(71, 91, 204); line-height: 1.2; vertical-align: top; white-space: nowrap; text-align: center;">
+                    <div xmlns="http://www.w3.org/1999/xhtml"
+                        style="display:inline-block;text-align:inherit;text-decoration:inherit;background-color:#ffffff;">
+                        No</div>
+                </div>
+            </foreignObject>
+        </g>
+        <path d="M 751 390 L 831 420 L 751 450 L 671 420 Z" fill="#000000" stroke="#000000" stroke-miterlimit="10"
+            transform="translate(2,3)" opacity="0.25" />
+        <path d="M 751 390 L 831 420 L 751 450 L 671 420 Z" fill="#e6e6e6" stroke="#e6e6e6" stroke-miterlimit="10"
+            pointer-events="all" />
+        <g transform="translate(691.5,404.5)">
+            <foreignObject style="overflow:visible;" pointer-events="all" width="118" height="30">
+                <div xmlns="http://www.w3.org/1999/xhtml"
+                    style="display: inline-block; font-size: 14px; font-family: Helvetica; color: rgb(71, 91, 204); line-height: 1.2; vertical-align: top; width: 120px; white-space: nowrap; overflow-wrap: normal; font-weight: bold; text-align: center;">
+                    <div xmlns="http://www.w3.org/1999/xhtml"
+                        style="display:inline-block;text-align:inherit;text-decoration:inherit;white-space:normal;">Has
+                        onActivate<br style="font-size: 14px" />lifecycle method?</div>
+                </div>
+            </foreignObject>
+        </g>
+        <path d="M 232 420 L 286.4 420" fill="none" stroke="#475bcc" stroke-width="3" stroke-miterlimit="10"
+            pointer-events="stroke" />
+        <path d="M 288.65 420 L 285.65 421.5 L 286.4 420 L 285.65 418.5 Z" fill="#475bcc" stroke="#475bcc"
+            stroke-width="3" stroke-miterlimit="10" pointer-events="all" />
+        <g transform="translate(254.5,414.5)">
+            <foreignObject style="overflow:visible;" pointer-events="all" width="14" height="11">
+                <div xmlns="http://www.w3.org/1999/xhtml"
+                    style="display: inline-block; font-size: 11px; font-family: Helvetica; color: rgb(71, 91, 204); line-height: 1.2; vertical-align: top; white-space: nowrap; text-align: center;">
+                    <div xmlns="http://www.w3.org/1999/xhtml"
+                        style="display:inline-block;text-align:inherit;text-decoration:inherit;background-color:#ffffff;">
+                        No</div>
+                </div>
+            </foreignObject>
+        </g>
+        <path d="M 152 450 L 152 553.4" fill="none" stroke="#475bcc" stroke-width="3" stroke-miterlimit="10"
+            pointer-events="stroke" />
+        <path d="M 152 555.65 L 150.5 552.65 L 152 553.4 L 153.5 552.65 Z" fill="#475bcc" stroke="#475bcc"
+            stroke-width="3" stroke-miterlimit="10" pointer-events="all" />
+        <g transform="translate(139.5,484.5)">
+            <foreignObject style="overflow:visible;" pointer-events="all" width="20" height="12">
+                <div xmlns="http://www.w3.org/1999/xhtml"
+                    style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(71, 91, 204); line-height: 1.2; vertical-align: top; white-space: nowrap; text-align: center;">
+                    <div xmlns="http://www.w3.org/1999/xhtml"
+                        style="display:inline-block;text-align:inherit;text-decoration:inherit;background-color:#ffffff;">
+                        Yes</div>
+                </div>
+            </foreignObject>
+        </g>
+        <path d="M 152 390 L 232 420 L 152 450 L 72 420 Z" fill="#000000" stroke="#000000" stroke-miterlimit="10"
+            transform="translate(2,3)" opacity="0.25" />
+        <path d="M 152 390 L 232 420 L 152 450 L 72 420 Z" fill="#e6e6e6" stroke="#e6e6e6" stroke-miterlimit="10"
+            pointer-events="all" />
+        <g transform="translate(82.5,412.5)">
+            <foreignObject style="overflow:visible;" pointer-events="all" width="138" height="14">
+                <div xmlns="http://www.w3.org/1999/xhtml"
+                    style="display: inline-block; font-size: 14px; font-family: Helvetica; color: rgb(71, 91, 204); line-height: 1.2; vertical-align: top; width: 140px; white-space: nowrap; overflow-wrap: normal; font-weight: bold; text-align: center;">
+                    <div xmlns="http://www.w3.org/1999/xhtml"
+                        style="display:inline-block;text-align:inherit;text-decoration:inherit;white-space:normal;">Is
+                        app bootstrapted?</div>
+                </div>
+            </foreignObject>
+        </g>
+        <path d="M 152 170 L 152 264.4" fill="none" stroke="#475bcc" stroke-width="3" stroke-miterlimit="10"
+            pointer-events="stroke" />
+        <path d="M 152 266.65 L 150.5 263.65 L 152 264.4 L 153.5 263.65 Z" fill="#475bcc" stroke="#475bcc"
+            stroke-width="3" stroke-miterlimit="10" pointer-events="all" />
+        <g transform="translate(142.5,214.5)">
+            <foreignObject style="overflow:visible;" pointer-events="all" width="18" height="11">
+                <div xmlns="http://www.w3.org/1999/xhtml"
+                    style="display: inline-block; font-size: 11px; font-family: Helvetica; color: rgb(71, 91, 204); line-height: 1.2; vertical-align: top; white-space: nowrap; text-align: center;">
+                    <div xmlns="http://www.w3.org/1999/xhtml"
+                        style="display:inline-block;text-align:inherit;text-decoration:inherit;background-color:#ffffff;">
+                        Yes</div>
+                </div>
+            </foreignObject>
+        </g>
+        <path d="M 232 140 L 852 140 L 852 184.4" fill="none" stroke="#475bcc" stroke-width="3" stroke-miterlimit="10"
+            pointer-events="stroke" />
+        <path d="M 852 186.65 L 850.5 183.65 L 852 184.4 L 853.5 183.65 Z" fill="#475bcc" stroke="#475bcc"
+            stroke-width="3" stroke-miterlimit="10" pointer-events="all" />
+        <g transform="translate(503.5,135.5)">
+            <foreignObject style="overflow:visible;" pointer-events="all" width="15" height="12">
+                <div xmlns="http://www.w3.org/1999/xhtml"
+                    style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(71, 91, 204); line-height: 1.2; vertical-align: top; white-space: nowrap; text-align: center;">
+                    <div xmlns="http://www.w3.org/1999/xhtml"
+                        style="display:inline-block;text-align:inherit;text-decoration:inherit;background-color:#ffffff;">
+                        No</div>
+                </div>
+            </foreignObject>
+        </g>
+        <path d="M 152 110 L 232 140 L 152 170 L 72 140 Z" fill="#000000" stroke="#000000" stroke-miterlimit="10"
+            transform="translate(2,3)" opacity="0.25" />
+        <path d="M 152 110 L 232 140 L 152 170 L 72 140 Z" fill="#e6e6e6" stroke="#e6e6e6" stroke-miterlimit="10"
+            pointer-events="all" />
+        <g transform="translate(91.5,132.5)">
+            <foreignObject style="overflow:visible;" pointer-events="all" width="120" height="14">
+                <div xmlns="http://www.w3.org/1999/xhtml"
+                    style="display: inline-block; font-size: 14px; font-family: Helvetica; color: rgb(71, 91, 204); line-height: 1.2; vertical-align: top; width: 122px; white-space: nowrap; overflow-wrap: normal; font-weight: bold; text-align: center;">
+                    <div xmlns="http://www.w3.org/1999/xhtml"
+                        style="display:inline-block;text-align:inherit;text-decoration:inherit;white-space:normal;">Is
+                        app registered?</div>
+                </div>
+            </foreignObject>
+        </g>
+        <path d="M 152 609 L 152 634.4" fill="none" stroke="#475bcc" stroke-width="3" stroke-miterlimit="10"
+            stroke-dasharray="3 3" pointer-events="stroke" />
+        <path d="M 152 636.65 L 150.5 633.65 L 152 634.4 L 153.5 633.65 Z" fill="#475bcc" stroke="#475bcc"
+            stroke-width="3" stroke-miterlimit="10" pointer-events="all" />
+        <ellipse cx="152" cy="584" rx="50" ry="25" fill="#000000" stroke="#000000" transform="translate(2,3)"
+            opacity="0.25" />
+        <ellipse cx="152" cy="584" rx="50" ry="25" fill="#475bcc" stroke="#475bcc" pointer-events="all" />
+        <g transform="translate(108.5,576.5)">
+            <foreignObject style="overflow:visible;" pointer-events="all" width="86" height="14">
+                <div xmlns="http://www.w3.org/1999/xhtml"
+                    style="display: inline-block; font-size: 14px; font-family: Helvetica; color: rgb(255, 255, 255); line-height: 1.2; vertical-align: top; width: 86px; white-space: nowrap; overflow-wrap: normal; font-weight: bold; text-align: center;">
+                    <div xmlns="http://www.w3.org/1999/xhtml"
+                        style="display:inline-block;text-align:inherit;text-decoration:inherit;white-space:normal;">
+                        bootstrapted</div>
+                </div>
+            </foreignObject>
+        </g>
+        <path d="M 522 560 L 522 584 L 207.6 584" fill="none" stroke="#475bcc" stroke-width="3" stroke-miterlimit="10"
+            pointer-events="stroke" />
+        <path d="M 205.35 584 L 208.35 582.5 L 207.6 584 L 208.35 585.5 Z" fill="#475bcc" stroke="#475bcc"
+            stroke-width="3" stroke-miterlimit="10" pointer-events="all" />
+        <rect x="462" y="500" width="120" height="60" rx="9" ry="9" fill="#000000" stroke="#000000" stroke-width="3"
+            transform="translate(2,3)" opacity="0.25" />
+        <rect x="462" y="500" width="120" height="60" rx="9" ry="9" fill="#ffffff" stroke="#475bcc" stroke-width="3"
+            pointer-events="all" />
+        <g transform="translate(477.5,522.5)">
+            <foreignObject style="overflow:visible;" pointer-events="all" width="88" height="14">
+                <div xmlns="http://www.w3.org/1999/xhtml"
+                    style="display: inline-block; font-size: 14px; font-family: Helvetica; color: rgb(71, 91, 204); line-height: 1.2; vertical-align: top; width: 88px; white-space: nowrap; overflow-wrap: normal; font-weight: bold; text-align: center;">
+                    <div xmlns="http://www.w3.org/1999/xhtml"
+                        style="display:inline-block;text-align:inherit;text-decoration:inherit;white-space:normal;">Do
+                        bootstrap</div>
+                </div>
+            </foreignObject>
+        </g>
+        <path d="M 751 559 L 751 584 L 207.6 584" fill="none" stroke="#475bcc" stroke-width="3" stroke-miterlimit="10"
+            pointer-events="stroke" />
+        <path d="M 205.35 584 L 208.35 582.5 L 207.6 584 L 208.35 585.5 Z" fill="#475bcc" stroke="#475bcc"
+            stroke-width="3" stroke-miterlimit="10" pointer-events="all" />
+        <rect x="691" y="499" width="120" height="60" rx="9" ry="9" fill="#000000" stroke="#000000" stroke-width="3"
+            transform="translate(2,3)" opacity="0.25" />
+        <rect x="691" y="499" width="120" height="60" rx="9" ry="9" fill="#ffffff" stroke="#475bcc" stroke-width="3"
+            pointer-events="all" />
+        <g transform="translate(713.5,521.5)">
+            <foreignObject style="overflow:visible;" pointer-events="all" width="74" height="14">
+                <div xmlns="http://www.w3.org/1999/xhtml"
+                    style="display: inline-block; font-size: 14px; font-family: Helvetica; color: rgb(71, 91, 204); line-height: 1.2; vertical-align: top; width: 76px; white-space: nowrap; overflow-wrap: normal; font-weight: bold; text-align: center;">
+                    <div xmlns="http://www.w3.org/1999/xhtml"
+                        style="display:inline-block;text-align:inherit;text-decoration:inherit;white-space:normal;">Do
+                        activate</div>
+                </div>
+            </foreignObject>
+        </g>
+        <rect x="429" y="200" width="173" height="40" fill="none" stroke="none" pointer-events="all" />
+        <g transform="translate(433.5,189.5)">
+            <foreignObject style="overflow:visible;" pointer-events="all" width="57" height="50">
+                <div xmlns="http://www.w3.org/1999/xhtml"
+                    style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(71, 91, 204); line-height: 1.2; vertical-align: top; overflow: hidden; max-height: 50px; max-width: 163px; width: 58px; white-space: normal; overflow-wrap: normal; text-align: left;">
+                    <div xmlns="http://www.w3.org/1999/xhtml"
+                        style="display:inline-block;text-align:inherit;text-decoration:inherit;white-space:normal;">
+                        <h1>Load</h1>
+                        <div><br /></div>
+                    </div>
+                </div>
+            </foreignObject>
+        </g>
+        <path d="M 852 690 L 852 660 L 257.6 660" fill="none" stroke="#475bcc" stroke-width="3" stroke-miterlimit="10"
+            pointer-events="stroke" />
+        <path d="M 255.35 660 L 258.35 658.5 L 257.6 660 L 258.35 661.5 Z" fill="#475bcc" stroke="#475bcc"
+            stroke-width="3" stroke-miterlimit="10" pointer-events="all" />
+        <rect x="792" y="690" width="120" height="60" rx="9" ry="9" fill="#000000" stroke="#000000" stroke-width="3"
+            transform="translate(2,3)" opacity="0.25" />
+        <rect x="792" y="690" width="120" height="60" rx="9" ry="9" fill="#ffffff" stroke="#475bcc" stroke-width="3"
+            pointer-events="all" />
+        <g transform="translate(814.5,712.5)">
+            <foreignObject style="overflow:visible;" pointer-events="all" width="74" height="14">
+                <div xmlns="http://www.w3.org/1999/xhtml"
+                    style="display: inline-block; font-size: 14px; font-family: Helvetica; color: rgb(71, 91, 204); line-height: 1.2; vertical-align: top; width: 76px; white-space: nowrap; overflow-wrap: normal; font-weight: bold; text-align: center;">
+                    <div xmlns="http://www.w3.org/1999/xhtml"
+                        style="display:inline-block;text-align:inherit;text-decoration:inherit;white-space:normal;">Do
+                        activate</div>
+                </div>
+            </foreignObject>
+        </g>
+        <rect x="247" y="490" width="125" height="40" fill="none" stroke="none" pointer-events="all" />
+        <g transform="translate(251.5,479.5)">
+            <foreignObject style="overflow:visible;" pointer-events="all" width="113" height="50">
+                <div xmlns="http://www.w3.org/1999/xhtml"
+                    style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(71, 91, 204); line-height: 1.2; vertical-align: top; overflow: hidden; max-height: 50px; max-width: 115px; width: 114px; white-space: normal; overflow-wrap: normal; text-align: left;">
+                    <div xmlns="http://www.w3.org/1999/xhtml"
+                        style="display:inline-block;text-align:inherit;text-decoration:inherit;white-space:normal;">
+                        <h1>Bootstrap</h1>
+                    </div>
+                </div>
+            </foreignObject>
+        </g>
+        <path d="M 232 790 L 852 790 L 852 755.6" fill="none" stroke="#475bcc" stroke-width="3" stroke-miterlimit="10"
+            pointer-events="stroke" />
+        <path d="M 852 753.35 L 853.5 756.35 L 852 755.6 L 850.5 756.35 Z" fill="#475bcc" stroke="#475bcc"
+            stroke-width="3" stroke-miterlimit="10" pointer-events="all" />
+        <g transform="translate(518.5,784.5)">
+            <foreignObject style="overflow:visible;" pointer-events="all" width="20" height="12">
+                <div xmlns="http://www.w3.org/1999/xhtml"
+                    style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(71, 91, 204); line-height: 1.2; vertical-align: top; white-space: nowrap; text-align: center;">
+                    <div xmlns="http://www.w3.org/1999/xhtml"
+                        style="display:inline-block;text-align:inherit;text-decoration:inherit;background-color:#ffffff;">
+                        Yes</div>
+                </div>
+            </foreignObject>
+        </g>
+        <path d="M 152 820 L 152 845 L 152 864.4" fill="none" stroke="#475bcc" stroke-width="3" stroke-miterlimit="10"
+            stroke-dasharray="3 3" pointer-events="stroke" />
+        <path d="M 152 866.65 L 150.5 863.65 L 152 864.4 L 153.5 863.65 Z" fill="#475bcc" stroke="#475bcc"
+            stroke-width="3" stroke-miterlimit="10" pointer-events="all" />
+        <path d="M 152 760 L 232 790 L 152 820 L 72 790 Z" fill="#000000" stroke="#000000" stroke-miterlimit="10"
+            transform="translate(2,3)" opacity="0.25" />
+        <path d="M 152 760 L 232 790 L 152 820 L 72 790 Z" fill="#e6e6e6" stroke="#e6e6e6" stroke-miterlimit="10"
+            pointer-events="all" />
+        <g transform="translate(92.5,774.5)">
+            <foreignObject style="overflow:visible;" pointer-events="all" width="118" height="30">
+                <div xmlns="http://www.w3.org/1999/xhtml"
+                    style="display: inline-block; font-size: 14px; font-family: Helvetica; color: rgb(71, 91, 204); line-height: 1.2; vertical-align: top; width: 120px; white-space: nowrap; overflow-wrap: normal; font-weight: bold; text-align: center;">
+                    <div xmlns="http://www.w3.org/1999/xhtml"
+                        style="display:inline-block;text-align:inherit;text-decoration:inherit;white-space:normal;">Has
+                        onActivate<br style="font-size: 14px" />lifecycle method?</div>
+                </div>
+            </foreignObject>
+        </g>
+        <path d="M 152 680 L 152 754.4" fill="none" stroke="#475bcc" stroke-width="3" stroke-miterlimit="10"
+            pointer-events="stroke" />
+        <path d="M 152 756.65 L 150.5 753.65 L 152 754.4 L 153.5 753.65 Z" fill="#475bcc" stroke="#475bcc"
+            stroke-width="3" stroke-miterlimit="10" pointer-events="all" />
+        <rect x="52" y="640" width="200" height="40" fill="none" stroke="none" pointer-events="all" />
+        <g transform="translate(56.5,629.5)">
+            <foreignObject style="overflow:visible;" pointer-events="all" width="173" height="50">
+                <div xmlns="http://www.w3.org/1999/xhtml"
+                    style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(71, 91, 204); line-height: 1.2; vertical-align: top; overflow: hidden; max-height: 50px; max-width: 190px; width: 174px; white-space: normal; overflow-wrap: normal; text-align: left;">
+                    <div xmlns="http://www.w3.org/1999/xhtml"
+                        style="display:inline-block;text-align:inherit;text-decoration:inherit;white-space:normal;">
+                        <h1>Reactivate App</h1>
+                    </div>
+                </div>
+            </foreignObject>
+        </g>
+        <rect x="442" y="708" width="140" height="42" fill="none" stroke="none" pointer-events="all" />
+        <g transform="translate(446.5,697.5)">
+            <foreignObject style="overflow:visible;" pointer-events="all" width="120" height="52">
+                <div xmlns="http://www.w3.org/1999/xhtml"
+                    style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(71, 91, 204); line-height: 1.2; vertical-align: top; overflow: hidden; max-height: 52px; max-width: 130px; width: 121px; white-space: normal; overflow-wrap: normal; text-align: left;">
+                    <div xmlns="http://www.w3.org/1999/xhtml"
+                        style="display:inline-block;text-align:inherit;text-decoration:inherit;white-space:normal;">
+                        <h1>Reactivate</h1>
+                    </div>
+                </div>
+            </foreignObject>
+        </g>
+        <rect x="462" y="938" width="100" height="42" fill="none" stroke="none" pointer-events="all" />
+        <g transform="translate(466.5,927.5)">
+            <foreignObject style="overflow:visible;" pointer-events="all" width="89" height="52">
+                <div xmlns="http://www.w3.org/1999/xhtml"
+                    style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(71, 91, 204); line-height: 1.2; vertical-align: top; overflow: hidden; max-height: 52px; max-width: 90px; width: 90px; white-space: normal; overflow-wrap: normal; text-align: left;">
+                    <div xmlns="http://www.w3.org/1999/xhtml"
+                        style="display:inline-block;text-align:inherit;text-decoration:inherit;white-space:normal;">
+                        <h1>Destory</h1>
+                    </div>
+                </div>
+            </foreignObject>
+        </g>
+        <path d="M 231 890 L 766.4 890" fill="none" stroke="#475bcc" stroke-width="3" stroke-miterlimit="10"
+            pointer-events="stroke" />
+        <path d="M 768.65 890 L 765.65 891.5 L 766.4 890 L 765.65 888.5 Z" fill="#475bcc" stroke="#475bcc"
+            stroke-width="3" stroke-miterlimit="10" pointer-events="all" />
+        <rect x="72.5" y="870" width="158" height="40" fill="none" stroke="none" pointer-events="all" />
+        <g transform="translate(77.5,859.5)">
+            <foreignObject style="overflow:visible;" pointer-events="all" width="142" height="50">
+                <div xmlns="http://www.w3.org/1999/xhtml"
+                    style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(71, 91, 204); line-height: 1.2; vertical-align: top; overflow: hidden; max-height: 50px; max-width: 148px; width: 143px; white-space: normal; overflow-wrap: normal; text-align: left;">
+                    <div xmlns="http://www.w3.org/1999/xhtml"
+                        style="display:inline-block;text-align:inherit;text-decoration:inherit;white-space:normal;">
+                        <h1>Destroy App</h1>
+                    </div>
+                </div>
+            </foreignObject>
+        </g>
+        <path d="M 852 920 L 852 974.4" fill="none" stroke="#475bcc" stroke-width="3" stroke-miterlimit="10"
+            pointer-events="stroke" />
+        <path d="M 852 976.65 L 850.5 973.65 L 852 974.4 L 853.5 973.65 Z" fill="#475bcc" stroke="#475bcc"
+            stroke-width="3" stroke-miterlimit="10" pointer-events="all" />
+        <g transform="translate(842.5,944.5)">
+            <foreignObject style="overflow:visible;" pointer-events="all" width="18" height="11">
+                <div xmlns="http://www.w3.org/1999/xhtml"
+                    style="display: inline-block; font-size: 11px; font-family: Helvetica; color: rgb(71, 91, 204); line-height: 1.2; vertical-align: top; white-space: nowrap; text-align: center;">
+                    <div xmlns="http://www.w3.org/1999/xhtml"
+                        style="display:inline-block;text-align:inherit;text-decoration:inherit;background-color:#ffffff;">
+                        Yes</div>
+                </div>
+            </foreignObject>
+        </g>
+        <path d="M 852 860 L 932 890 L 852 920 L 772 890 Z" fill="#000000" stroke="#000000" stroke-miterlimit="10"
+            transform="translate(2,3)" opacity="0.25" />
+        <path d="M 852 860 L 932 890 L 852 920 L 772 890 Z" fill="#e6e6e6" stroke="#e6e6e6" stroke-miterlimit="10"
+            pointer-events="all" />
+        <g transform="translate(792.5,874.5)">
+            <foreignObject style="overflow:visible;" pointer-events="all" width="118" height="30">
+                <div xmlns="http://www.w3.org/1999/xhtml"
+                    style="display: inline-block; font-size: 14px; font-family: Helvetica; color: rgb(71, 91, 204); line-height: 1.2; vertical-align: top; width: 120px; white-space: nowrap; overflow-wrap: normal; font-weight: bold; text-align: center;">
+                    <div xmlns="http://www.w3.org/1999/xhtml"
+                        style="display:inline-block;text-align:inherit;text-decoration:inherit;white-space:normal;">Has
+                        onActivate<br style="font-size: 14px" />lifecycle method?</div>
+                </div>
+            </foreignObject>
+        </g>
+        <path d="M 792 1010 L 207.6 1010" fill="none" stroke="#475bcc" stroke-width="3" stroke-miterlimit="10"
+            pointer-events="stroke" />
+        <path d="M 205.35 1010 L 208.35 1008.5 L 207.6 1010 L 208.35 1011.5 Z" fill="#475bcc" stroke="#475bcc"
+            stroke-width="3" stroke-miterlimit="10" pointer-events="all" />
+        <rect x="792" y="980" width="120" height="60" rx="9" ry="9" fill="#000000" stroke="#000000" stroke-width="3"
+            transform="translate(2,3)" opacity="0.25" />
+        <rect x="792" y="980" width="120" height="60" rx="9" ry="9" fill="#ffffff" stroke="#475bcc" stroke-width="3"
+            pointer-events="all" />
+        <g transform="translate(814.5,1002.5)">
+            <foreignObject style="overflow:visible;" pointer-events="all" width="74" height="14">
+                <div xmlns="http://www.w3.org/1999/xhtml"
+                    style="display: inline-block; font-size: 14px; font-family: Helvetica; color: rgb(71, 91, 204); line-height: 1.2; vertical-align: top; width: 74px; white-space: nowrap; overflow-wrap: normal; font-weight: bold; text-align: center;">
+                    <div xmlns="http://www.w3.org/1999/xhtml"
+                        style="display:inline-block;text-align:inherit;text-decoration:inherit;white-space:normal;">Do
+                        destroy</div>
+                </div>
+            </foreignObject>
+        </g>
+        <path d="M 102 1010 L 2 1010 L 2 50 L 67.4 50" fill="none" stroke="#475bcc" stroke-width="3"
+            stroke-miterlimit="10" stroke-dasharray="3 3" pointer-events="stroke" />
+        <path d="M 69.65 50 L 66.65 51.5 L 67.4 50 L 66.65 48.5 Z" fill="#475bcc" stroke="#475bcc" stroke-width="3"
+            stroke-miterlimit="10" pointer-events="all" />
+        <ellipse cx="152" cy="1010" rx="50" ry="25" fill="#000000" stroke="#000000" transform="translate(2,3)"
+            opacity="0.25" />
+        <ellipse cx="152" cy="1010" rx="50" ry="25" fill="#475bcc" stroke="#475bcc" pointer-events="all" />
+        <g transform="translate(112.5,1002.5)">
+            <foreignObject style="overflow:visible;" pointer-events="all" width="78" height="14">
+                <div xmlns="http://www.w3.org/1999/xhtml"
+                    style="display: inline-block; font-size: 14px; font-family: Helvetica; color: rgb(255, 255, 255); line-height: 1.2; vertical-align: top; width: 78px; white-space: nowrap; overflow-wrap: normal; font-weight: bold; text-align: center;">
+                    <div xmlns="http://www.w3.org/1999/xhtml"
+                        style="display:inline-block;text-align:inherit;text-decoration:inherit;white-space:normal;">Not
+                        created</div>
+                </div>
+            </foreignObject>
+        </g>
+        <path d="M 152 70 L 152 104.4" fill="none" stroke="#475bcc" stroke-width="3" stroke-miterlimit="10"
+            pointer-events="stroke" />
+        <path d="M 152 106.65 L 150.5 103.65 L 152 104.4 L 153.5 103.65 Z" fill="#475bcc" stroke="#475bcc"
+            stroke-width="3" stroke-miterlimit="10" pointer-events="all" />
+        <rect x="72.5" y="30" width="159" height="40" fill="none" stroke="none" pointer-events="all" />
+        <g transform="translate(77.5,19.5)">
+            <foreignObject style="overflow:visible;" pointer-events="all" width="146" height="50">
+                <div xmlns="http://www.w3.org/1999/xhtml"
+                    style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(71, 91, 204); line-height: 1.2; vertical-align: top; overflow: hidden; max-height: 50px; max-width: 149px; width: 147px; white-space: normal; overflow-wrap: normal; text-align: left;">
+                    <div xmlns="http://www.w3.org/1999/xhtml"
+                        style="display:inline-block;text-align:inherit;text-decoration:inherit;white-space:normal;">
+                        <h1>Activate App</h1>
+                    </div>
+                </div>
+            </foreignObject>
+        </g>
+        <rect x="482" y="10" width="440" height="60" fill="none" stroke="none" pointer-events="all" />
+        <g transform="translate(486.5,-0.5)">
+            <foreignObject style="overflow:visible;" pointer-events="all" width="396" height="70">
+                <div xmlns="http://www.w3.org/1999/xhtml"
+                    style="display: inline-block; font-size: 36px; font-family: Helvetica; color: rgb(71, 91, 204); line-height: 1.2; vertical-align: top; overflow: hidden; max-height: 70px; max-width: 430px; width: 397px; white-space: normal; overflow-wrap: normal; text-align: left;">
+                    <div xmlns="http://www.w3.org/1999/xhtml"
+                        style="display:inline-block;text-align:inherit;text-decoration:inherit;white-space:normal;">
+                        <h1 style="font-size: 36px">The life cycle of an app</h1>
+                    </div>
+                </div>
+            </foreignObject>
+        </g>
+    </g>
+</svg>
