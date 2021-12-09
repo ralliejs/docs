@@ -339,8 +339,18 @@ registerApp方法可以直接通过`import { registerApp } from 'rallie'`导入
 Bus是Rallie的核心底层对象，事实上，Rallie的一切状态，事件，方法通信，以及App的加载激活操作都是基于Bus来实现的。Bus对象只能在[runInHostMode](#runinhostmode)和[runInRemoteMode](#runinremotemode)的回调参数中获得, 支持链式调用。我们一般使用Bus的`use`方法和`config`方法
 
 ### use
-- 类型：`(middleware: (ctx: Context, next: Function) => void) => Bus`
-- 说明：应用资源加载中间件，使用方式参考[中间件](/guide/advance.html#中间件)
+- 类型：`(middleware: (ctx: Context, next: () => Promise<void>) => void) => Bus`
+- 说明：应用资源加载中间件，使用方式参考[中间件](/guide/advance.html#中间件)，context的类型为：
+  ```ts
+  interface Context {
+    name: string; // 要加载的app的名字
+    conf: BusConfigOptions; // Bus全局配置，参考Bus.config
+    loadScript: (script: Partial<HTMLScriptElement> | string | HTMLScriptElement) => Promise<void>; // 插入script脚本的方法
+    loadLink: (link: Partial<HTMLLinkElement> | string | HTMLLinkElement) => Promise<void>; // 插入Link标签的方法
+    fetchScript: (url: string) => Promise<void>; // 用fetch加载并返回script源码的方法
+    excuteCode: (code: string) => void; // 用new Function执行代码的方法
+  }
+  ```
 
 ### config
 - 类型：`(configOptions: BusConfigOptions) => Bus`

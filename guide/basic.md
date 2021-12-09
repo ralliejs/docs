@@ -1,7 +1,7 @@
 # 基础
-下面你将学习关于Rallie的一切，阅读文档可能不能解答你的所有困惑，我们推荐你结合Rallie源码仓库中提供的[样例](https://github.com/ralliejs/rallie/tree/master/packages/playground)进行学习，虽然这是一个没有什么实用价值的demo，但它囊括了Rallie了的大多数功能
+下面你将学习关于Rallie的一切，阅读文档可能不能解答你的所有困惑，我们推荐你结合Rallie源码仓库中提供的[样例](https://github.com/ralliejs/rallie/tree/master/packages/playground)进行学习，虽然这是一个没有什么实用价值的demo，但它囊括了Rallie的大多数功能
 ## 创建App
-正如[介绍](/guide/introduction.html#介绍)中所述，Rallie中的每个应用对外提供响应式状态，事件和方法作为服务。而声明这些服务的就是App对象，在创建App时，你需要指定一个全局唯一的名字，后续也是通过App名来连接其他App并使用其提供的服务。
+正如[介绍](/guide/introduction.html#介绍)中所述，Rallie中的每个应用对外提供响应式状态，事件和方法作为服务。而声明这些服务的就是App对象，在创建App时，你需要指定一个全局唯一的名字，后续也是根据App名来连接其他App，并使用其提供的服务。
 ```ts
 export const producer = new App('producer')
 ```
@@ -49,8 +49,8 @@ producer.setState((state) => {
 
 const unwatch = producer
   .watchState(state => [state.items, state.user])
-  .do(([newTodoItems, newUser], [oldTodoItems, oldUser]) => {
-    console.log(newTodoItems, newUser, oldTodoItems, oldUser)
+  .do(([newItems, newUser], [oldItems, oldUser]) => {
+    console.log(newItems, newUser, oldItems, oldUser)
   })
 
 producer.setState((state) => {
@@ -200,11 +200,11 @@ consumer.load('producer').then(() => {
   // do something
 })
 ```
-执行上面的代码将会往`document`中插入`<script src="https://localhost:8000/producer.js" />`, 声明和注册`producer`的逻辑也就在`consumer`提供的宿主环境中执行了
+执行上面的代码将会往`document`中插入`<script src="https://localhost:8000/producer.js" />`, 创建和注册`producer`的逻辑也就在`consumer`提供的宿主环境中执行了
 
 ## 连接App
 最后，我们要使用`producer`提供的服务，还需要与它进行连接
-```ts {14}
+```ts {12}
 interface State {
   items: string[],
   user: string
