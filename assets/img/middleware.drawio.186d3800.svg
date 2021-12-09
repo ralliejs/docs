@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="667px"
+    height="496px" viewBox="-0.5 -0.5 667 496"
+    content="&lt;mxfile host=&quot;c56539d3-9466-422f-b710-de96bab433b9&quot; modified=&quot;2021-12-09T07:11:02.517Z&quot; agent=&quot;Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Code/1.62.3 Chrome/91.0.4472.164 Electron/13.5.2 Safari/537.36&quot; etag=&quot;hRlpBQRL1zC0EFyBLZwg&quot; version=&quot;12.2.4&quot; pages=&quot;1&quot;&gt;&lt;diagram id=&quot;3e71TO6yhQHyELqDcuR8&quot; name=&quot;Page-1&quot;&gt;1ZdPk5sgGMY/Te4CGvW4cdPtpTOdyaFnqkSZRckgiUk/fTHgH8Rss02TSSeHyAO86PODF1igpDy+CbwrvvGMsAX0suMCvS4gBEvgqb9WOWklDCMt5IJmptEgbOgvYkTTL9/TjNRWQ8k5k3RniymvKpJKS8NC8MZutuXMHnWHc+IImxQzV/1BM1loNYLhoH8lNC+6kcEy1jUl7hqbL6kLnPFmJKH1AiWCc6mfymNCWGte54vu9+VCbf9iglTymg5QdzhgtjffZt5LnrqPVR2Ur6qwagoqyWaH07amUWiVVsiSqRJQj7jeabO39EhU/FUtBX8nCWdcnEMhPwxWSdLXdN4hpWx5JQ1oEJnybM/OsHZEhn8StsLpey74vsq69hWv2tfdUsZGIdbL9qd01yNj24EISY4jyXj2RnhJpDipJl1taPiZCRz7utgMs8GPTZNiNBN6EZsZmPehB0jqwXCaZ4buymzs7z0A/gP3YRBZ7oPItR+BGft78Rb7fcf+hAvyZAiQ/wGCC8tmvEbuuHYQCix6MIgdemA5Q68Xb6EXXLF4quyl3SRUKWW4rmlqA7vW5s+gu+irxCIn0pp5JLN2J9fokZHBjI+dJgjDkh7sPW3OWzPCd07Vy/UcYzsFQi+2I9R8L1JiOo23oEkc4NuBQDAJpC1wAp1J9199Ffzl88H3P4L/JKT9CWr0t6hDb4I69O6FOnRQlzTLGGmUy8ChrlKXtDnb/GZOFEbCjOZVO1kUO6L0VZsIqToqvpgKPeyFbeCcf9uk/+pNE/9oosE776cIhDYW5LkZOYbu/OoW1C0JOfoAlLs8nxxU/FhQ/TXiEaBiB5S6Xp15/AeQ/nBTeBzCycVh7ujqz2Ry+PmjjyoO90idQYfbOFr/Bg==&lt;/diagram&gt;&lt;/mxfile&gt;">
+    <defs />
+    <g>
+        <ellipse cx="371" cy="246" rx="245" ry="245" fill="#000000" stroke="#000000" stroke-width="3"
+            transform="translate(2,3)" opacity="0.25" />
+        <ellipse cx="371" cy="246" rx="245" ry="245" fill="#e6e6e6" stroke="#475bcc" stroke-width="3"
+            pointer-events="all" />
+        <ellipse cx="369" cy="246" rx="155" ry="155" fill="#000000" stroke="#000000" stroke-width="3"
+            transform="translate(2,3)" opacity="0.25" />
+        <ellipse cx="369" cy="246" rx="155" ry="155" fill="#ffffff" stroke="#475bcc" stroke-width="3"
+            pointer-events="all" />
+        <ellipse cx="371" cy="246" rx="80" ry="80" fill="#000000" stroke="#000000" stroke-width="3"
+            transform="translate(2,3)" opacity="0.25" />
+        <ellipse cx="371" cy="246" rx="80" ry="80" fill="#e6e6e6" stroke="#475bcc" stroke-width="3"
+            pointer-events="all" />
+        <g transform="translate(333.5,226.5)">
+            <foreignObject style="overflow:visible;" pointer-events="all" width="74" height="38">
+                <div xmlns="http://www.w3.org/1999/xhtml"
+                    style="display: inline-block; font-size: 34px; font-family: Helvetica; color: rgb(71, 91, 204); line-height: 1.2; vertical-align: top; width: 74px; white-space: nowrap; overflow-wrap: normal; text-align: center;">
+                    <div xmlns="http://www.w3.org/1999/xhtml"
+                        style="display:inline-block;text-align:inherit;text-decoration:inherit;background-color:#E6E6E6;white-space:normal;">
+                        Core</div>
+                </div>
+            </foreignObject>
+        </g>
+        <path d="M 46 116 L 287.34 212.54" fill="none" stroke="#475bcc" stroke-width="3" stroke-miterlimit="10"
+            pointer-events="stroke" />
+        <path d="M 293.61 215.04 L 283.58 215.88 L 287.34 212.54 L 286.92 207.52 Z" fill="#475bcc" stroke="#475bcc"
+            stroke-width="3" stroke-miterlimit="10" pointer-events="all" />
+        <path d="M 446 216 L 646.02 83.61" fill="none" stroke="#475bcc" stroke-width="4" stroke-miterlimit="10"
+            pointer-events="stroke" />
+        <path d="M 652.27 79.47 L 646.69 89.16 L 646.02 83.61 L 641.17 80.82 Z" fill="#475bcc" stroke="#475bcc"
+            stroke-width="4" stroke-miterlimit="10" pointer-events="all" />
+        <rect x="273" y="37" width="192" height="26" fill="none" stroke="none" transform="translate(2,3)"
+            opacity="0.25" />
+        <rect x="273" y="37" width="192" height="26" fill="none" stroke="none" pointer-events="all" />
+        <g transform="translate(289.5,34.5)">
+            <foreignObject style="overflow:visible;" pointer-events="all" width="158" height="31">
+                <div xmlns="http://www.w3.org/1999/xhtml"
+                    style="display: inline-block; font-size: 28px; font-family: Helvetica; color: rgb(71, 91, 204); line-height: 1.2; vertical-align: top; width: 160px; white-space: nowrap; overflow-wrap: normal; text-align: center;">
+                    <div xmlns="http://www.w3.org/1999/xhtml"
+                        style="display:inline-block;text-align:inherit;text-decoration:inherit;white-space:normal;">
+                        middleware1</div>
+                </div>
+            </foreignObject>
+        </g>
+        <rect x="273" y="127" width="192" height="26" fill="none" stroke="none" transform="translate(2,3)"
+            opacity="0.25" />
+        <rect x="273" y="127" width="192" height="26" fill="none" stroke="none" pointer-events="all" />
+        <g transform="translate(286.5,123.5)">
+            <foreignObject style="overflow:visible;" pointer-events="all" width="164" height="32">
+                <div xmlns="http://www.w3.org/1999/xhtml"
+                    style="display: inline-block; font-size: 29px; font-family: Helvetica; color: rgb(71, 91, 204); line-height: 1.2; vertical-align: top; width: 166px; white-space: nowrap; overflow-wrap: normal; text-align: center;">
+                    <div xmlns="http://www.w3.org/1999/xhtml"
+                        style="display:inline-block;text-align:inherit;text-decoration:inherit;white-space:normal;">
+                        middleware2</div>
+                </div>
+            </foreignObject>
+        </g>
+        <rect x="26" y="91" width="40" height="20" fill="none" stroke="none" transform="translate(2,3)"
+            opacity="0.25" />
+        <rect x="26" y="91" width="40" height="20" fill="none" stroke="none" pointer-events="all" />
+        <g transform="translate(-0.5,84.5)">
+            <foreignObject style="overflow:visible;" pointer-events="all" width="93" height="32">
+                <div xmlns="http://www.w3.org/1999/xhtml"
+                    style="display: inline-block; font-size: 29px; font-family: Helvetica; color: rgb(71, 91, 204); line-height: 1.2; vertical-align: top; width: 95px; white-space: nowrap; overflow-wrap: normal; text-align: center;">
+                    <div xmlns="http://www.w3.org/1999/xhtml"
+                        style="display:inline-block;text-align:inherit;text-decoration:inherit;white-space:normal;">
+                        context</div>
+                </div>
+            </foreignObject>
+        </g>
+    </g>
+</svg>
