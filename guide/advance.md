@@ -19,13 +19,13 @@ app1.runInHostMode((bus) => {
   console.log('仅在Host模式下执行')
   bus.config({
     assets: {
-      app2: '/app2.js',
-      app3: '/app3.js',
-      app4: '/app4.js',
-      app5: '/app5.js',
-      app6: '/app6.js',
-      app7: '/app7.js',
-      app8: '/app8.js'
+      app2: { js: ['/app2.js'] },
+      app3: { js: ['/app3.js'] },
+      app4: { js: ['/app4.js'] },
+      app5: { js: ['/app5.js'] },
+      app6: { js: ['/app6.js'] },
+      app7: { js: ['/app7.js'] },
+      app8: { js: ['/app8.js'] },
     }
   })
   app1.activate(app1.name)
@@ -205,5 +205,6 @@ Rallie的中间件是一个洋葱圈模型
 <div align="center" style="padding: 20px">
 ![middleware](../images/middleware.drawio.svg)
 </div>
+
 最里层的Core中间件会从`bus.config`手动配置的资源表中查找资源并加载，在那之前你可以插入自定义的中间件，从而完全接管应用资源的查找、加载和执行全过程。基于中间件，你可以接入常见的微前端框架提供的js沙箱，样式隔离，html entry等特性，甚至可以直接用[动态导入](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import#dynamic_imports)来加载应用，从而实现[monorepo](https://en.wikipedia.org/wiki/Monorepo)形式的微前端架构
 
