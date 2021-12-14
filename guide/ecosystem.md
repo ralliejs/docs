@@ -326,4 +326,4 @@ bus.use(loadHtml({
 ```html
 <script src="https://cdn.jsdelivr.net/assets/chunk.js"></script>
 ```
-这个配置项对与将html上传到公共cdn上的场景非常有用
+这个配置项对于将html上传到公共cdn上的场景非常有用
