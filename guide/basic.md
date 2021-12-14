@@ -178,8 +178,8 @@ const consumer = new App('consumer')
 ```
 要让consumer知道producer被部署在哪里，我们可以通过下面这段代码进行声明
 ```ts
-consumer.runInHostMode((bus) => {
-  bus.config({
+consumer.run(({ bus }) => {
+  bus?.config({
     assets: {
       producer: [
         js: ['https://localhost:8000/producer.js']
@@ -188,11 +188,11 @@ consumer.runInHostMode((bus) => {
   })
 })
 ```
-Rallie的每个App都有Host和Remote两种运行模式，当我们在开发consumer的时候，consumer是入口应用，producer是被加载应用，因此consumer将以Host模式运行，它将有权配置应用的管理中心——Bus。所以我们调用了`consumer.runInHostMode`方法，让consumer在Host模式下通过bus配置producer的静态资源路径。
+Rallie的**应用**是去中心化的，但是在运行过程中存在一个实质的应用管理中心——Bus。我们可以调用`consumer.run`方法，在回调参数中获取Bus，并通过Bus配置producer的资源路径路径。
 <div align="center" style="padding: 16px">
 ![producer](../images/producer-consumer.drawio.svg)
 </div>
-你可以在进阶部分了解到更多关于[运行模式](/guide/advance.html#运行模式)和[Bus](/api/#bus)的知识
+你可以在[进阶](/guide/advance.html)章节了解到更多关于[Bus](/api/#bus)的知识
 
 配置好资源路径后，我们就可以直接加载`producer`
 ```ts

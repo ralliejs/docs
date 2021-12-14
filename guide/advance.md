@@ -1,58 +1,69 @@
 # 进阶
 
 ## 运行模式
-Rallie的每个App都有**Host**和**Remote**两种运行模式，当应用作为整个应用集群的入口应用被加载时，应用将以Host模式运行，否则就以Remote模式运行。
-
-以下图这个8个应用的集群为例，当你先加载`/app1.js`时，App1是第一个被创建的应用，它将以Host模式运行，后续加载的应用都将以Remote模式运行。如果你是先加载`/app8.js`，则App8将以Host模式运行，其他App以Remote模式运行
+在[加载App](/guide/basic.html#加载)章节中，我们已经知道，虽然Rallie的App是去中心化的，但是不同的应用要互相加载和通信，确实需要一个实质的负责整个集群中所有应用资源的配置和加载的控制中心来连接，而这个中心就是全局Bus，我们可以在使用`app.run`方法时访问它。
 <div align="center" style="padding: 20px">
 ![matrix](../images/matrix.drawio.svg)
 </div>
 
-由此可见，Rallie的App是去中心化的，也就是说并没有一个固定的中心应用。然而，不同的应用要互相加载和通信，确实需要一个实质的中心来连接，在Rallie中，这个中心就是全局Bus，它负责整个集群中所有应用资源的配置和加载。
+默认情况下，所有的App都可以通过`run`方法访问全局Bus，也就是说，所有的App都有权配置其他App的资源加载路径，App集群是完全去中心化的。
 
-App上提供了`runInHostMode`和`runInRemoteMode`两个方法，用于在不同的运行模式下执行不同的逻辑，你可以在这两个方法中访问全局Bus
-```ts
-const app1 = new App('app1')
-registerApp(app1)
+然而，这样的架构虽然灵活，但也会导致app资源注册的混乱。而Rallie运行模式的设计就是为了解决这个问题
 
-app1.runInHostMode((bus) => {
-  console.log('仅在Host模式下执行')
-  bus.config({
-    assets: {
-      app2: { js: ['/app2.js'] },
-      app3: { js: ['/app3.js'] },
-      app4: { js: ['/app4.js'] },
-      app5: { js: ['/app5.js'] },
-      app6: { js: ['/app6.js'] },
-      app7: { js: ['/app7.js'] },
-      app8: { js: ['/app8.js'] },
-    }
-  })
-  app1.activate(app1.name)
-})
-app1.runInRemoteMode((bus) => {
-  console.log(bus)
-  console.log('仅在Remote模式下执行')
-})
-```
-当App以Host模式运行时，`runInHostMode`的回调逻辑将会执行，你可以在该回调中通过Bus进行一些全局配置或者使用中间件，详情参考[Bus API](/api/#bus)；而当App以Remote模式运行时，`runInRemoteMode`的回调逻辑将会执行。默认情况下，只有Host模式的App才能访问全局Bus，你可以通过在Host模式下开放全局Bus的可访问性来放开这一限制
+Rallie的每个App都有**entry**和**remote**两种运行模式，当应用作为整个应用集群的入口应用被加载时，应用将以entry模式运行，否则就以remote模式运行。
+
+以上图这个8个应用的集群为例，当你先加载`/app1.js`时，App1是第一个被创建的应用，它将以entry模式运行，后续加载的应用都将以remote模式运行。如果你是先加载`/app8.js`，则App8将以entry模式运行。
+
+以entry模式运行的App（或者叫入口应用）拥有一个特权——它可以关闭其他App对全局Bus的访问权限
 ```ts
-app1.runInHostMode((bus, setBusAccessible) => {
-  setBusAccessible(true)
+app1.run(({ isEntryApp, setBusAccessible }) => {
+  if (isEntryApp) {
+    setBusAccessible(false)
+  }
 })
 ```
+当入口应用并关闭了全局Bus访问权限时，其他应用将无法通过`run`方法获取全局bus实例
 ```ts
-app2.runInRemoteMode((bus) => {
-  // app1开放全局Bus可访问后，app2可以访问全局Bus
-  bus?.use(someMiddleware)
+app2.run(({ isEntryApp, bus, setBusAccessible }) => {
+  if (!isEntryApp) {
+    console.log(setBusAccessible) // 只要app是非入口应用，setBusAccessible就是undefined
+    console.log(bus) // undefined
+  }
 })
 ```
-:::warning
-当开放全局Bus可访问性后，整个应用集群变成了一个完全去中心化的集群，任何应用都有权定义资源路径。不过，我们更推荐有一个应用专门负责配置Bus，其他应用以Host模式运行时开放全局Bus可访问性后再加载这个配置应用，你可以参考[样例](https://github.com/ralliejs/rallie/tree/master/packages/playground)中的做法
-:::
+这个特性可以让你的App集群的资源配置收归到一个配置App。
+```ts
+app1.run(({ isEntryApp, bus }) => {
+  if (bus) {
+    bus.config({
+      assets: {
+        app2: { js: ['/app2.js'] },
+        app3: { js: ['/app3.js'] },
+        app4: { js: ['/app4.js'] },
+        app5: { js: ['/app5.js'] },
+        app6: { js: ['/app6.js'] },
+        app7: { js: ['/app7.js'] },
+        app8: { js: ['/app8.js'] },
+      }
+    })
+  }
+})
+```
+当其他App以entry模式启动时，先启动这个配置App，待资源被统一配置后再关闭全局Bus访问权限即可。
+```ts
+app2.run(async ({ isEntryApp, bus, setBusAccessible }) => {
+  if (isEntryApp) {
+    bus.config({
+      app1: { js: ['/app1.js'] }
+    })
+    await app2.load('app1')
+    setBusAccessible(false)
+  }
+})
+```
 
 :::tip
-Rallie去中心化的特点使得应用本地开发和调试变得非常方便，使用好两种运行模式可以让你从任意一个入口应用启动整个应用集群。
+虽然Rallie支持将资源注册收归到某个配置中心，但是Rallie的App依然是去中心化的，你可以从任意一个入口启动应用集群，这对应用本地开发和调试非常有用
 :::
 
 ## 生命周期
@@ -115,7 +126,7 @@ registerApp(app2)
 ### 共享公共库
 Rallie把应用分为两类，一类是App，其js资源中必须包含调用`registerApp`注册App的逻辑，然后通过App实例对外提供服务，比如[基础](/guide/basic.html#基础)章节中的consumer和producer；另一类是Library，其js资源中不必包含注册App的逻辑，被加载之后作为整个环境的运行时使用，比如`React`、`Vue`、`jQuery`等第三方库。Rallie通过应用名是否以`lib:`开头判断应用是Library还是App
 ```ts
-app.runInHostMode((bus) => {
+app.run(({ bus }) => {
   bus.config({
     assets: {
       vue: {
@@ -126,14 +137,14 @@ app.runInHostMode((bus) => {
       }
     }
   })
-})
 
-app.activate('lib:vue') // 正常运行
-app.activate('vue') // 抛出异常，因为Vue源码中不包含注册App的逻辑
+  app.activate('lib:vue') // 正常运行
+  app.activate('vue') // 抛出异常，因为Vue源码中不包含注册App的逻辑
+})
 ```
 多个App往往会使用一些相同的公共库，你可以将他们声明为关联或依赖来确保资源不被重复加载
 ```ts
-app.runInHostMode((bus) => {
+app.run(({ bus }) => {
   bus.config({
     assets: {
       'lib:vue': {
@@ -141,13 +152,13 @@ app.runInHostMode((bus) => {
       }
     }
   })
-})
 
-registerApp(app)
-  .relyOn(['lib:vue']) // 也可以是.relateTo(['lib:vue'])
-  .onBootstrap(async () => {
-    (await import('./lifecycle')).onBootstrap()
-  })
+  registerApp(app)
+    .relyOn(['lib:vue']) // 也可以是.relateTo(['lib:vue'])
+    .onBootstrap(async () => {
+      (await import('./lifecycle')).onBootstrap()
+    })
+})
 ```
 你或许已经注意到我们在生命周期方法中使用了[动态导入](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import#dynamic_imports)，这是因为App的资源会先于Vue被加载，使用动态导入可以让App的源码在构建时被分包，在`window.Vue`全局变量被挂载后才加载使用了Vue的逻辑。
 
@@ -173,10 +184,11 @@ registerApp(app)
   ```
 
 ## 中间件
-Rallie参考了[koa](https://github.com/koajs/koa)的中间件设计，提供了让开发者通过中间件控制应用资源查找和加载过程的机制
+Rallie参考了[koa](https://github.com/koajs/koa)的中间件设计，提供了让开发者通过中间件控制应用资源查找和加载过程的机制。
+
 举个例子，假如一个集群中的所有应用都按照`/${appName}/index.js`的路径规范被部署到了[jsdelivr](https://www.jsdelivr.com/)上，那么你就可以应用这样一个中间件
 ```ts
-app.runInHostMode((bus) => {
+app.run(({ bus }) => {
   bus.use(async (ctx, next) => {
     await ctx.loadScript(`https://cdn.jsdelivr.net/npm/${ctx.name}/index.js`)
   })
@@ -186,7 +198,7 @@ app.runInHostMode((bus) => {
 
 中间件的上下文`ctx`包含了一些属性和方法，你可以在[中间件 API](/api/#use)中查看全部。你也可以在调用`app.load`和`app.activate`时传入一些自定义的上下文。举个例子，假设你不希望所有的应用都从jsdelivr加载，那么你可以改造一下刚才的中间件
 ```ts
-app.runInHostMode((bus) => {
+app.run(({ bus }) => {
   bus.use(async (ctx, next) => {
     if (ctx.jsdelivr === true) {
       await ctx.loadScript(`https://cdn.jsdelivr.net/npm/${ctx.name}/index.js`)

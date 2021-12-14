@@ -274,7 +274,7 @@ npm install @rallie/load-html
 ```ts
 import { loadHtml } from '@rallie/load-html'
 
-app.runInHostMode((bus) => {
+app.run(({ bus }) => {
   bus.use(loadHtml({
     entries: {
       producer: 'http://localhost:3000/producer.html',

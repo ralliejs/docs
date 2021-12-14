@@ -203,54 +203,17 @@ App可以直接通过`import { App } from 'rallie'`导入
   remoteApp.events.changeLang('en')
   ```
 
-### runInHostMode
-- 类型：`(callback: (bus: Bus, setBusAccessible: (isAccessible: boolean) => void) => void | Promise<void>) => Promise<void>`
-- 说明：在App的Host模式下运行逻辑。接收两个参数，一个是全局[Bus](#bus), 另一个是配置Bus可访问性的函数。当一个App是整个系统应用树中第一个被创建的App时，这个App将会以Host模式运行。Host模式下，可以通过[Bus](#bus)进行全局配置和添加中间件，并且可以通过setBusAccessible来让Remote模式下的App也能访问到Bus
-
-### runInRemoteMode
-- 类型：`(callback: (bus?: Bus) => void | Promise<void>) => Promise<void>`
-- 说明：在App的Remote模式下运行逻辑。接收全局[Bus](#bus)作为唯一参数。当一个App不是整个系统应用树中第一个被创建的App时，这个App将会以Remote模式运行。Remote模式下的App默认不能访问全局Bus，即第一个参数默认是null，但是如果Host模式的App开放了全局Bus的可访问性，那么Remote模式的App也能通过runInRemoteMode获取全局Bus。关于Host模式和Remote模式的详细区别参考[运行模式](/guide/advance.html#运行模式)
-- 示例：
+### run
+- 类型：`(callback: (runnerOptions: RunnerOptions) => void | Promise<void>) => Promise<void>`
+- 说明：用App执行特定逻辑。可以在回调参数中获取当前App是否是入口应用、全局Bus以及配置Bus是否可以被非入口应用访问的方法。
   ```ts
-  const firstApp = new App('first-app') // Host
-  const secondApp = new App('second-app') // Remote
+  interface RunnerOption {
+    isEntryApp: boolean;
+    bus?: Bus;
+    setBusAccessible?: (acccessible: boolean) => void;
+  }
   ```
-  - Host模式的App禁用Bus全局访问（默认）：
-    ```ts
-    firstApp.runInHostMode((bus) => {
-      bus.use(someMiddleware)
-      console.log('这段逻辑会被执行')
-    })
-    firstApp.runInRemoteMode(() => {
-      console.log('这段逻辑不会被执行')
-    })
-    secondApp.runInHostMode(() => {
-      console.log('这段逻辑不会被执行')
-    })
-    secondApp.runInRemoteMode((bus) => {
-      console.log('这段逻辑会被执行，但是无法访问全局Bus')
-      console.log(bus === null) // true
-    })
-    ```
-    - Host模式的App开发Bus全局访问：
-    ```ts
-    firstApp.runInHostMode((bus, setBusAccessible) => {
-      setBusAccessible(true)
-      bus.use(someMiddleware)
-      console.log('这段逻辑会被执行')
-    })
-    firstApp.runInRemoteMode(() => {
-      console.log('这段逻辑不会被执行')
-    })
-    secondApp.runInHostMode(() => {
-      console.log('这段逻辑不会被执行')
-    })
-    secondApp.runInRemoteMode((bus) => {
-      console.log('这段逻辑会被执行，且可以访问全局Bus')
-      console.log(bus === null) // false
-      bus.use(someOtherMiddleware)
-    })
-    ```
+  使用方式参考[运行模式](/guide/advance.html#运行模式)
 
 ## Connector
 `Connector`是用来访问其他App的状态事件和方法的对象，可以通过[app.connect](#connect)方法获取。`Connector`的属性和方法是[App](#app)的子集，包括
@@ -336,7 +299,7 @@ registerApp方法可以直接通过`import { registerApp } from 'rallie'`导入
 - 说明：声明destroy阶段的回调，参考[生命周期](/guide/advance.html#生命周期)
 
 ## Bus
-Bus是Rallie的核心底层对象，事实上，Rallie的一切状态，事件，方法通信，以及App的加载激活操作都是基于Bus来实现的。Bus对象只能在[runInHostMode](#runinhostmode)和[runInRemoteMode](#runinremotemode)的回调参数中获得, 支持链式调用。我们一般使用Bus的`use`方法和`config`方法
+Bus是Rallie的核心底层对象，事实上，Rallie的一切状态，事件，方法通信，以及App的加载激活操作都是基于Bus来实现的。Bus对象只能在[run](#run)方法的回调参数中获得, 支持链式调用。我们一般使用Bus的`use`方法和`config`方法
 
 ### use
 - 类型：`(middleware: (ctx: Context, next: () => Promise<void>) => void) => Bus`
@@ -370,7 +333,7 @@ Bus是Rallie的核心底层对象，事实上，Rallie的一切状态，事件�
   - **fetch**：默认是null，如果配置了值，最里层中间件会通过配置的fetch函数加载assets中的js资源，而不是通过插入script标签的方式加载js资源
 - 示例：
   ```ts
-  app.runInHostMode((bus) => {
+  app.run(({ bus }) => {
     bus.config({
       assets: {
         myApp: {
