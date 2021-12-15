@@ -1,6 +1,6 @@
 module.exports = {
     title: 'Rallie.js',
-    base: '/docs/',
+    base: '/',
     descriptions: '微前端; rallie; module federation; 模块联邦; 前端服务化',
     themeConfig: {
         logo: '/logo.png',
