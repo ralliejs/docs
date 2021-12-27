@@ -31,18 +31,22 @@ export const producer = new App<State, Events, Methods>('producer', {
 console.log(producer.state.items) // []
 ```
 #### 修改状态
-要修改状态，必须通过`app.setState`方法，在回调函数中修改
+要修改状态，必须通过`app.setState`方法，在回调函数中修改，且在修改时，需要对本次操作进行适当说明。
 ```ts
-producer.setState((state) => {
+producer.setState('add apple', (state) => {
   state.items.push('apple') // 状态能正常变更
 })
 
 producer.state.items = [] // 抛出错误
 ```
+
+:::tip
+要求在setState时描述本次操作主要是为了督促开发者更规范，谨慎地修改状态，后续还会开发devtools，修改状态的描述将会出现在devtools面板中
+:::
 #### 监听状态变更
 我们使用`app.watchState`监听状态变更，它的使用方式比较灵活。 你可以在`watchState`方法中返回要监听的状态，紧接着链式调用`do`方法，指定监听回调
 ```ts {6-10,18}
-producer.setState((state) => {
+producer.setState('clear the state', (state) => {
   state.items = []
   state.user = null
 })
@@ -53,7 +57,7 @@ const unwatch = producer
     console.log(newItems, newUser, oldItems, oldUser)
   })
 
-producer.setState((state) => {
+producer.setState('modify the state', (state) => {
   state.items = ['apple', 'banana']
   state.user = 'mike'
 })
@@ -63,24 +67,22 @@ unwatch() // 取消监听
 ```
 也可以直接在`watchState`方法中指定监听回调，响应式系统会自动记录依赖并在状态变更时执行回调函数，效果类似Vue的[watchEffect](https://v3.vuejs.org/guide/reactivity-computed-watchers.html#watcheffect)方法
 ```ts {6-10,18}
-producer.setState((state) => {
+producer.setState('modify the state', (state) => {
   state.items = ['apple', 'banana']
   state.user = 'mike'
 })
 
-const watcher = producer.watchState((state, isWatchingEffect) => {
-  if (isWatchingEffect) {
-    console.log(state.items, state.user)
-  }
+const watcher = producer.watchState((state) => {
+  console.log(state.items, state.user)
 })
 
-producer.setState((state) => {
+producer.setState('modify the state again', (state) => {
   state.items.pop()
   state.user = 'john'
 })
 // 分别打印 [apple, banana], mike; [apple], john
 
-watcher.stopEffect() // 取消监听
+watcher.unwatch() // 取消监听
 ```
 ### 事件
 在创建App时，可以提供事件泛型参数，为后续API提供良好的typescript提示。
@@ -231,7 +233,7 @@ consumer.load('producer').then(() => {
   producer.watchState(state => state.user).do(user => {
     console.log(user)
   })
-  producer.setState(state => state.items.push('strawberry'))
+  producer.setState('push strawberry', state => state.items.push('strawberry'))
   // 事件
   producer.listenEvents({
     print(text) {
@@ -272,15 +274,17 @@ const producer = new App<State>('producer', {
 producer.addMethods({
   logIn: async () => {
     const user = await requestUserInfo()
-    producer.setState(state => {
+    producer.setState('log in', state => {
       state.user = user
     })
   },
   logOut: async () => {
-    state.user = {
-      name: '',
-      token: ''
-    }
+    producer.setState('log out', state => {
+      state.user = {
+        name: '',
+        token: ''
+      }
+    })
   }
 })
 ```

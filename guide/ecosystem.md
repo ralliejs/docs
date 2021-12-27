@@ -27,7 +27,7 @@ const useConsumerState = stateHook(consumer)
 export const Demo = () => {
   const count = useProducerState<number>(state => state.count)
   const theme = useConsumerState<string>(state => state.theme)
-  const addCount = () => consumer.setState(state => state.count++)
+  const addCount = () => consumer.setState('add count', state => state.count++)
   return (
     <div style={{ color: theme }}>
       <button onClick={addCount}>count: {count}</button>
@@ -113,7 +113,7 @@ const producer = consumer.connect<{ theme: string }>('producer')
 
 const theme = stateHook(producer)(state => state.theme)
 const count = stateHook(consumer)(state => state.count)
-const addCount = () => consumer.setState(state => state.count++)
+const addCount = () => consumer.setState('add count', state => state.count++)
 </script>
 
 <template>
@@ -200,7 +200,7 @@ export default {
   ],
   methods: {
     addCount() {
-      app.setState(state => state.count++)
+      app.setState('add count', state => state.count++)
     }
   }
 }

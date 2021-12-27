@@ -80,24 +80,21 @@ App可以直接通过`import { App } from 'rallie'`导入
   ```
 
 ### setState
-- 类型：`((state: State) => void | Promise<void>) => Promise<void>`
-- 说明：修改App的状态
+- 类型：`((action: string, state: State) => void | Promise<void>) => Promise<void>`
+- 说明：修改App的状态，第一个参数是对本次操作的描述
 - 示例：
   ```ts
     // 同步修改状态
-    app.setState((state) => {
+    app.setState('add the count synchronously', (state) => {
       state.count++
     })
 
     // 异步修改状态
-    await app.setState(async (state) => {
+    await app.setState('add the count synchronously', async (state) => {
         const userInfo = await requestLogIn()
         state.user = userInfo
     })
   ```
-::: warning
-后续版本中，可能会要求setState的回调方法中返回一个字符串用来描述本次操作
-:::
 
 ### watchState
 - 类型：`((state: State，isWatchingEffect?: boolean) => any)) => Watcher`
