@@ -123,7 +123,7 @@ App可以直接通过`import { App } from 'rallie'`导入
     })
 
     // 取消监听
-    watcher.stopEffect()
+    watcher.unwatch()
     ```
 
 ### listenEvents
