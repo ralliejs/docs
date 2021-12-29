@@ -36,7 +36,7 @@ export const Demo = () => {
 }
 ```
 
-### evenstHook
+### eventsHook
 `eventsHook`也是一个柯里化函数，它接收一个`App`或`Connctor`实例做参数，返回一个在组件挂载时监听事件，在组件卸载时取消监听的Hook
 ```tsx {5,8-10}
 import { App } from 'rallie'
