@@ -321,12 +321,10 @@ Bus是Rallie的核心底层对象，事实上，Rallie的一切状态，事件�
       js: Array<string>,
       css: Array<string>
     }>;
-    maxBootstrapTime: number;
-    fetch: typeof window.fetch
+    fetch?: typeof window.fetch
   }
   ```
   - **assets**: app资源的静态配置，直接配置app的js资源路径和css资源路径。rallie的洋葱圈中间件模型的最内层中间件会根据app的名字在assets中查找应用资源并加载
-  - **maxBootstrapTime**：激活app的最长等待时间，默认是10 * 1000ms。通常只有App的依赖关系中存在循环依赖时才会出现激活超时的情况，请谨慎配置
   - **fetch**：默认是null，如果配置了值，最里层中间件会通过配置的fetch函数加载assets中的js资源，而不是通过插入script标签的方式加载js资源
 - 示例：
   ```ts
@@ -339,9 +337,8 @@ Bus是Rallie的核心底层对象，事实上，Rallie的一切状态，事件�
         }
       },
       fetch: window.fetch,
-      maxBootstrapTime: 1000
     })
   })
-  // 查找assets声明后加载资源，通过window.fetch加载js，且如果1s内myApp没有被激活，则抛出错误
+  // 查找assets声明后加载资源，通过window.fetch加载js资源
   app.activate('myApp')
   ```
