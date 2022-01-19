@@ -8,11 +8,11 @@ npm install @rallie/react
 ```html
 <script src="https://cdn.jsdelivr.net/npm/@rallie/react"></script>
 ```
-### stateHook
-`stateHook`是一个柯里化函数，它接收一个`App`或`Connctor`实例做参数，返回一个可以使用该App的状态的Hook
+### useRallieState
+你可以通过`useRallieState`获取App的状态值，并在函数式组件中使用它
 ```tsx {11-12,15-16}
 import { App } from 'rallie'
-import { stateHook } from '@rallie/react'
+import { useRallieState } from '@rallie/react'
 
 const consumer = new App('consumer', {
   state: {
@@ -21,12 +21,9 @@ const consumer = new App('consumer', {
 })
 const producer = consumer.connect<{ theme: string }>('producer')
 
-const useProducerState = stateHook(producer)
-const useConsumerState = stateHook(consumer)
-
 export const Demo = () => {
-  const count = useProducerState<number>(state => state.count)
-  const theme = useConsumerState<string>(state => state.theme)
+  const count = useRallieState(producer, state => state.count)
+  const theme = useRallieState(consumer, state => state.theme)
   const addCount = () => consumer.setState('add count', state => state.count++)
   return (
     <div style={{ color: theme }}>
@@ -36,17 +33,16 @@ export const Demo = () => {
 }
 ```
 
-### eventsHook
-`eventsHook`也是一个柯里化函数，它接收一个`App`或`Connctor`实例做参数，返回一个在组件挂载时监听事件，在组件卸载时取消监听的Hook
+### useRallieEvents
+你可以通过useRallieEvents，在React组件挂载时监听事件，在组件卸载时取消监听
 ```tsx {5,8-10}
 import { App } from 'rallie'
-import { eventsHook } from '@rallie/react'
+import { useRallieEvents } from '@rallie/react'
 
 const producer = new App<{}, { print: () => void }, {}>('producer')
-const useProducerEvents = eventsHook(producer)
 
 export const Demo = () => {
-  useProducerEvents({
+  useRallieEvents(producer, {
     print: () => console.log('Hello Rallie')
   })
   const onEmitPrint = () => producer.events.print()
@@ -58,7 +54,7 @@ export const Demo = () => {
 }
 ```
 
-### methodsHook
+### useRallieMethods
 `methodsHook`也是一个柯里化函数，它接收一个`App`或`Connctor`实例做参数，返回一个在组件挂载时添加方法，在组件卸载时取消方法的Hook
 ```tsx {6,10-12}
 import { useRef } from 'react'

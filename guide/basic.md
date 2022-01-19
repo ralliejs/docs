@@ -180,8 +180,8 @@ const consumer = new App('consumer')
 ```
 要让consumer知道producer被部署在哪里，我们可以通过下面这段代码进行声明
 ```ts
-consumer.run(({ bus }) => {
-  bus?.config({
+consumer.run((env) => {
+  env.config({
     assets: {
       producer: [
         js: ['https://localhost:8000/producer.js']
@@ -190,11 +190,7 @@ consumer.run(({ bus }) => {
   })
 })
 ```
-Rallie的**应用**是去中心化的，但是在运行过程中存在一个实质的应用管理中心——Bus。我们可以调用`consumer.run`方法，在回调参数中获取Bus，并通过Bus配置producer的资源路径路径。
-<div align="center" style="padding: 16px">
-![producer](../images/producer-consumer.drawio.svg)
-</div>
-你可以在[进阶](/guide/advance.html)章节了解到更多关于[Bus](/api/#bus)的知识
+`consumer.run`方法会立即执行我们传入的函数，这个函数的参数是当前app的运行环境。我们通过运行环境对象来配置要加载的应用的资源路径。关于app的运行环境，你将在[进阶](/guide/advance.html)章节中了解更多。
 
 配置好资源路径后，我们就可以直接加载`producer`
 ```ts
@@ -202,7 +198,7 @@ consumer.load('producer').then(() => {
   // do something
 })
 ```
-执行上面的代码将会往`document`中插入`<script src="https://localhost:8000/producer.js" />`, 创建和注册`producer`的逻辑也就在`consumer`提供的宿主环境中执行了
+执行上面的代码将会往`document`中插入`<script src="https://localhost:8000/producer.js" />`, 然后我们之前编写的创建和注册`producer`的逻辑也就在`consumer`提供的宿主环境中执行了
 
 ## 连接App
 最后，我们要使用`producer`提供的服务，还需要与它进行连接
@@ -224,9 +220,6 @@ export const producer = consumer.connect<State, Events, Methods>('producer')
 
 然后我们就可以用这个`Connector`调用`producer`提供的服务了
 ```ts
-import { producer } from './connect-apps'
-import { consumer } from './consumer'
-
 consumer.load('producer').then(() => {
   // 状态
   console.log(producer.state.items)
