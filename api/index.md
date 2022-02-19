@@ -201,16 +201,8 @@ App可以直接通过`import { App } from 'rallie'`导入
   ```
 
 ### run
-- 类型：`(callback: (runnerOptions: RunnerOptions) => void | Promise<void>) => Promise<void>`
-- 说明：用App执行特定逻辑。可以在回调参数中获取当前App是否是入口应用、全局Bus以及配置Bus是否可以被非入口应用访问的方法。
-  ```ts
-  interface RunnerOption {
-    isEntryApp: boolean;
-    bus?: Bus;
-    setBusAccessible?: (acccessible: boolean) => void;
-  }
-  ```
-  使用方式参考[运行模式](/guide/advance.html#运行模式)
+- 类型：`(callback: (env: Env) => void | Promise<void>) => Promise<void>`
+- 说明：用App执行特定逻辑。可以在回调参数中获取当前App的运行环境，详见[Env](#env)
 
 ## Connector
 `Connector`是用来访问其他App的状态事件和方法的对象，可以通过[app.connect](#connect)方法获取。`Connector`的属性和方法是[App](#app)的子集，包括
@@ -295,53 +287,74 @@ registerApp方法可以直接通过`import { registerApp } from 'rallie'`导入
 - 类型：`(callback: (data: any) => void | Promise<void>) => Registrant`
 - 说明：声明destroy阶段的回调，参考[生命周期](/guide/advance.html#生命周期)
 
-## Bus
-Bus是Rallie的核心底层对象，事实上，Rallie的一切状态，事件，方法通信，以及App的加载激活操作都是基于Bus来实现的。Bus对象只能在[run](#run)方法的回调参数中获得, 支持链式调用。我们一般使用Bus的`use`方法和`config`方法
+## Env
+App的运行环境对象，可以在`App.run`方法的回调中获得
+
+### isEntry
+- 类型：`boolean`
+- 说明：是否是入口环境。如果一个App是应用集群中第一个被创建的应用，则在执行App的`run`方法时，其回调参数`env.isEntry`为`true`，否则为`false`
+
+### freeze
+- 类型：`() => void`
+- 说明：冻结当前运行环境，只有当`env.isEntry`为`true`时，该方法才有效。当运行环境被冻结后，非入口环境的App应用的中间件和配置将不生效
+
+### unfreeze
+- 类型：`() => void`
+- 说明：解冻当前运行环境，只有当`env.isEntry`为`true`时，该方法才有效。
 
 ### use
-- 类型：`(middleware: (ctx: Context, next: () => Promise<void>) => void) => Bus`
+- 类型：`(middleware: (ctx: Context, next: () => Promise<void>) => void) => void`
 - 说明：应用资源加载中间件，使用方式参考[中间件](/guide/advance.html#中间件)，context的类型为：
   ```ts
   interface Context {
     name: string; // 要加载的app的名字
-    conf: BusConfigOptions; // Bus全局配置，参考Bus.config
+    conf: ConfType; // 运行环境的配置，参考env.conf
     loadScript: (script: Partial<HTMLScriptElement> | string | HTMLScriptElement) => Promise<void>; // 插入script脚本的方法
     loadLink: (link: Partial<HTMLLinkElement> | string | HTMLLinkElement) => Promise<void>; // 插入Link标签的方法
-    fetchScript: (url: string) => Promise<void>; // 用fetch加载并返回script源码的方法
-    excuteCode: (code: string) => void; // 用new Function执行代码的方法
+    [other: string]: any;
   }
   ```
 
-### config
-- 类型：`(configOptions: BusConfigOptions) => Bus`
-- 说明：对Bus进行配置，配置项包括
+### conf
+- 类型：
   ```ts
-  interface BusConfigOptions {
+  interface ConfType {
     assets?: Record<string, {
       js: Array<string>,
       css: Array<string>
     }>;
-    maxBootstrapTime: number;
-    fetch: typeof window.fetch
+    [other: string]: any
   }
   ```
-  - **assets**: app资源的静态配置，直接配置app的js资源路径和css资源路径。rallie的洋葱圈中间件模型的最内层中间件会根据app的名字在assets中查找应用资源并加载
-  - **maxBootstrapTime**：激活app的最长等待时间，默认是10 * 1000ms。通常只有App的依赖关系中存在循环依赖时才会出现激活超时的情况，请谨慎配置
-  - **fetch**：默认是null，如果配置了值，最里层中间件会通过配置的fetch函数加载assets中的js资源，而不是通过插入script标签的方式加载js资源
-- 示例：
+- 说明：运行环境的全局配置，可以通过`env.config`进行配置。其中`assets`属性是应用集群的资源路径信息，rallie的洋葱圈中间件模型的最内层中间件会根据app的名字在`assets`中查找应用资源并加载
+
+### config
+- 类型：`(conf: ConfType) => void`
+- 说明：对运行环境进行配置。在配置`assets`时，配置的信息将会追加，而不会覆盖。
   ```ts
-  app.run(({ bus }) => {
-    bus.config({
-      assets: {
-        myApp: {
-           js: ['https://cdn.jsdelivr.com/path/to/my-app.js'],
-           css: ['https://cdn.jsdelivr.com/path/to/my-app.css']
-        }
-      },
-      fetch: window.fetch,
-      maxBootstrapTime: 1000
-    })
+  env.config({
+    assets: {
+      bar: {
+        js: ['bar.js']
+      }
+    }
   })
-  // 查找assets声明后加载资源，通过window.fetch加载js，且如果1s内myApp没有被激活，则抛出错误
-  app.activate('myApp')
+  env.config({
+    assets: {
+      foo: {
+        js: ['foo.js']
+      }
+    }
+  })
+  console.log(env.conf.assets)
+  /*
+    {
+      bar: {
+        js: ['bar.js']
+      },
+      foo: {
+        js: ['foo.js']
+      }
+    }
+  */
   ```

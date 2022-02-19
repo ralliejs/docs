@@ -8,11 +8,11 @@ npm install @rallie/react
 ```html
 <script src="https://cdn.jsdelivr.net/npm/@rallie/react"></script>
 ```
-### stateHook
-`stateHook`是一个柯里化函数，它接收一个`App`或`Connctor`实例做参数，返回一个可以使用该App的状态的Hook
-```tsx {11-12,15-16}
+### useRallieState
+该hook的第一个参数是一个`App`或`Connector`实例，第二个参数是指定Rallie状态的回调，最终该hook会返回与指定的Rallie状态同步的React状态
+```tsx {12-13}
 import { App } from 'rallie'
-import { stateHook } from '@rallie/react'
+import { useRallieState } from '@rallie/react'
 
 const consumer = new App('consumer', {
   state: {
@@ -21,12 +21,9 @@ const consumer = new App('consumer', {
 })
 const producer = consumer.connect<{ theme: string }>('producer')
 
-const useProducerState = stateHook(producer)
-const useConsumerState = stateHook(consumer)
-
 export const Demo = () => {
-  const count = useProducerState<number>(state => state.count)
-  const theme = useConsumerState<string>(state => state.theme)
+  const count = useRallieState(consumer, state => state.count)
+  const theme = useRallieState(producer, state => state.theme)
   const addCount = () => consumer.setState('add count', state => state.count++)
   return (
     <div style={{ color: theme }}>
@@ -35,18 +32,18 @@ export const Demo = () => {
   )
 }
 ```
+同时你可以指定第三个参数——一个依赖数组，useRallieState将在依赖变化时重新监听Rallie状态
 
-### evenstHook
-`eventsHook`也是一个柯里化函数，它接收一个`App`或`Connctor`实例做参数，返回一个在组件挂载时监听事件，在组件卸载时取消监听的Hook
-```tsx {5,8-10}
+### useRallieEvents
+该hook将在组件挂载时监听Rallie事件，在组件卸载时取消监听
+```tsx {7-9}
 import { App } from 'rallie'
-import { eventsHook } from '@rallie/react'
+import { useRallieEvents } from '@rallie/react'
 
 const producer = new App<{}, { print: () => void }, {}>('producer')
-const useProducerEvents = eventsHook(producer)
 
 export const Demo = () => {
-  useProducerEvents({
+  useRallieEvents(producer, {
     print: () => console.log('Hello Rallie')
   })
   const onEmitPrint = () => producer.events.print()
@@ -57,20 +54,20 @@ export const Demo = () => {
   )
 }
 ```
+同时你可以指定第三个参数——一个依赖数组，useRallieEvents将在依赖变化时重新监听事件
 
-### methodsHook
-`methodsHook`也是一个柯里化函数，它接收一个`App`或`Connctor`实例做参数，返回一个在组件挂载时添加方法，在组件卸载时取消方法的Hook
-```tsx {6,10-12}
+### useRallieMethods
+该hook将在组件挂载时添加方法，在组件卸载时取消方法
+```tsx {9-11}
 import { useRef } from 'react'
 import { App } from 'rallie'
-import { methodsHook } from '@rallie/react'
+import { useRallieMethods } from '@rallie/react'
 
 const producer = new App<{}, {}, { getInputRef: () => HTMLElement }>('producer')
-const useProducerMethods = methodsHook(producer)
 
 export const Demo = () => {
   const inputRef = useRef(null)
-  useProducerMethods({
+  useRallieMethods(producer, {
     getInputRef: () => inputRef.current
   })
   const focusInputInput = () => {
@@ -87,6 +84,7 @@ export const Demo = () => {
   )
 }
 ```
+同时你可以指定第三个参数——一个依赖数组，useRallieMethods将在依赖变化时重新添加方法
 
 ## Vue3
 Rallie官方维护`@rallie/vue`，同时包含了对Vue3和对Vue2的支持，你可以安装`@rallie/vue`来使用
@@ -97,12 +95,12 @@ npm install @rallie/vue
 ```html
 <script src="https://cdn.jsdelivr.net/npm/@rallie/vue"></script>
 ```
-针对Vue3应用，Rallie提供了几个CompositionAPI，命名和使用方法都与`@rallie/react`的api相同
-### stateHook
+针对Vue3应用，Rallie提供了几个CompositionAPI，除了不需要指定依赖数组之外，命名和使用方法都与`@rallie/react`的api相同
+### useRallieState
 ```vue {12-13}
 <script setup lang="ts">
 import { App } from 'rallie'
-import { stateHook } from '@rallie/vue'
+import { useRallieState } from '@rallie/vue'
 
 const consumer = new App('consumer', {
   state: {
@@ -111,8 +109,8 @@ const consumer = new App('consumer', {
 })
 const producer = consumer.connect<{ theme: string }>('producer')
 
-const theme = stateHook(producer)(state => state.theme)
-const count = stateHook(consumer)(state => state.count)
+const theme = useRallieState(producer, state => state.theme)
+const count = useRallieState(consumer, state => state.count)
 const addCount = () => consumer.setState('add count', state => state.count++)
 </script>
 
@@ -123,15 +121,15 @@ const addCount = () => consumer.setState('add count', state => state.count++)
 </template>
 ```
 
-### eventsHook
+### useRallieEvents
 ```vue {7-9}
 <script setup lang="ts">
 import { App } from 'rallie'
-import { eventsHook } from '@rallie/vue'
+import { useRallieEvents } from '@rallie/vue'
 
 const producer = new App<{}, { print: () => void }, {}>('producer')
 
-eventsHook(producer)({
+useRallieEvents(producer, {
   print: () => console.log('Hello Rallie')
 })
 </script>
@@ -143,17 +141,17 @@ eventsHook(producer)({
 </template>
 ```
 
-### methodsHook
+### useRallieMethods
 ```vue {9-11}
 <script setup lang="ts">
 import { ref } from 'vue'
 import { App } from 'rallie'
-import { methodsHook } from '@rallie/vue'
+import { useRallieMethods } from '@rallie/vue'
 
 const producer = new App<{}, {}, { getRef: () => HTMLElement }>('producer')
 
 const inputRef = ref(null)
-methodsHook(producer)({
+useRallieMethods(producer, {
   getInputRef: () => inputRef.value
 })
 const focusInput = () => {
@@ -174,18 +172,18 @@ const focusInput = () => {
 ## Vue2
 对于Vue2的应用，`@rallie/vue`提供了几个mixin支持，你可以从`@rallie/vue/dist/mixin`中导入它们
 ```ts
-import { stateMixin, eventsMixin, methodsMixin } from '@rallie/vue/dist/mixin'
+import { mixinRallieState, mixinRallieEvents, mixinRallieMethods } from '@rallie/vue/dist/mixin'
 ```
 
-### stateMixin
-`stateMixin`是一个柯里化函数，其第一个参数是一个`App`或`Connector`实例，第二个参数是一个将App的状态映射为组件的计算属性的函数。你可以像这样使用它
+### mixinRallieState
+该方法接收两个参数，第一个参数是一个`App`或`Connector`实例，第二个参数是一个将App的状态映射为组件的计算属性的函数。你可以像这样使用它
 ```vue
 <template>
     <button @click="addCount">count: {{ count }}</button>
 </template>
 
 <script>
-import { stateMixin } from '@rallie/vue/dist/mixin'
+import { mixinRallieState } from '@rallie/vue/dist/mixin'
 const producer = new App('producer', {
   state: {
     count: 0
@@ -194,7 +192,7 @@ const producer = new App('producer', {
 
 export default {
   mixins: [
-    stateMixin(app)((state) => ({
+    mixinRallieState(app, (state) => ({
       count: state.count
     }))
   ],
@@ -206,20 +204,20 @@ export default {
 }
 </script>
 ```
-### eventsMixin
-`eventsMixin`也是一个柯里化函数，其第一个参数是一个`App`或`Connector`实例，第二个参数是要监听的事件回调集合。组件将在挂载时监听事件，在卸载时取消监听
+### mixinRallieEvents
+该方法的第一个参数是一个`App`或`Connector`实例，第二个参数是要监听的事件回调集合。组件将在挂载时监听事件，在卸载时取消监听
 ```vue
 <template>
   <button @click="print">print</button>
 </template>
 
 <script>
-import { eventsMixin } from '@rallie/vue/dist/mixin'
+import { mixinRallieEvents } from '@rallie/vue/dist/mixin'
 
 const producer = new App('producer')
 export default {
   mixins: [
-    eventsMixin(producer)({
+    mixinRallieEvents(producer, {
       print() {
         console.log(this.text) // 可以在回调函数中通过this访问组件实例
       }
@@ -233,8 +231,8 @@ export default {
 }
 </script>
 ```
-### methodsMixin
-`methodsMixin`和`eventsMixin`使用方法相同。组件将在挂载时添加方法，在卸载时取消方法
+### mixinRallieMethods
+`mixinRallieMethods`和`mixinRallieEvents`使用方法相同。组件将在挂载时添加方法，在卸载时取消方法
 ```vue
 <template>
   <div>
@@ -244,12 +242,12 @@ export default {
 </template>
 
 <script>
-import { methodsMixin } from '@rallie/vue/dist/mixin'
+import { mixinRallieMethods } from '@rallie/vue/dist/mixin'
 
 const producer = new App('producer')
 export default {
   mixins: [
-    methodsMixin(producer)({
+    mixinRallieMethods(producer, {
       getInputRef () {
         return this.$refs.input
       }
@@ -274,8 +272,8 @@ npm install @rallie/load-html
 ```ts
 import { loadHtml } from '@rallie/load-html'
 
-app.run(({ bus }) => {
-  bus.use(loadHtml({
+app.run((env) => {
+  env.use(loadHtml({
     entries: {
       producer: 'http://localhost:3000/producer.html',
       consumer: 'http://localhost:3000/consumer.html'
@@ -285,13 +283,14 @@ app.run(({ bus }) => {
 ```
 你也可以不配置`entries`，而是在后续中间件中使用`ctx.loadHtml`方法来加载和解析html
 ```ts
-bus.use(loadHtml()).use(async (ctx, next) => {
+env.use(loadHtml())
+env.use(async (ctx, next) => {
   await ctx.loadHtml(`http://localhost:3000/${ctx.name}.html`)
 })
 ```
 如果在html路径中带上hash，则中间件还会以该hash值作为id，将html中对应id的元素插入到文档中。
 ```ts
-bus.use(loadHtml({
+env.use(loadHtml({
   entries: {
     producer: 'http://localhost:3000/producer.html#root'
   }
@@ -303,7 +302,7 @@ bus.use(loadHtml({
 
 举个例子：
 ```ts
-bus.use(loadHtml({
+env.use(loadHtml({
   regardHtmlPathAsRoot: true,
   entries: {
     producer: 'https://cdn.jsdelivr.net/npm/@rallie/demo/dist/index.html'

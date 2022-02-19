@@ -162,7 +162,7 @@ cancelMethods()
 :::
 
 ### 注册
-创建好App并声明了状态，事件和方法服务后，我们还需要通过`registerApp`注册App，这样才能让其他App使用我们提供的服务
+创建好App并声明了状态，事件和方法后，我们还需要通过`registerApp`注册App，这样才能让其他App使用我们提供的服务
 ```ts
 import { registerApp } from 'rallie'
 import { producer } from './app'
@@ -180,8 +180,8 @@ const consumer = new App('consumer')
 ```
 要让consumer知道producer被部署在哪里，我们可以通过下面这段代码进行声明
 ```ts
-consumer.run(({ bus }) => {
-  bus?.config({
+consumer.run((env) => {
+  env.config({
     assets: {
       producer: [
         js: ['https://localhost:8000/producer.js']
@@ -190,11 +190,8 @@ consumer.run(({ bus }) => {
   })
 })
 ```
-Rallie的**应用**是去中心化的，但是在运行过程中存在一个实质的应用管理中心——Bus。我们可以调用`consumer.run`方法，在回调参数中获取Bus，并通过Bus配置producer的资源路径路径。
-<div align="center" style="padding: 16px">
-![producer](../images/producer-consumer.drawio.svg)
-</div>
-你可以在[进阶](/guide/advance.html)章节了解到更多关于[Bus](/api/#bus)的知识
+Rallie没有所谓的的主应用或中心应用的概念，但是每个应用可以通过`run`方法，访问到应用集群的运行环境，通过该运行环境对象来配置整个应用集群的资源路径、或者应用资源加载的中间件。
+你可以在[进阶](/guide/advance.html)章节了解到更多关于[运行环境](/api/#bus)的知识
 
 配置好资源路径后，我们就可以直接加载`producer`
 ```ts
@@ -224,9 +221,6 @@ export const producer = consumer.connect<State, Events, Methods>('producer')
 
 然后我们就可以用这个`Connector`调用`producer`提供的服务了
 ```ts
-import { producer } from './connect-apps'
-import { consumer } from './consumer'
-
 consumer.load('producer').then(() => {
   // 状态
   console.log(producer.state.items)

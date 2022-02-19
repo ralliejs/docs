@@ -5,13 +5,10 @@ rallie是一个可以帮助用户实现去中心化的前端微服务架构的�
 前端服务化常常以“微前端”的名字出现在近几年的前端技术圈中，它将微服务的理念应用于浏览器端，即将 Web 应用由单一的单体应用转变为多个小型前端应用聚合为一的应用，且各个前端应用还可以独立运行、独立开发、独立部署。微前端不是单纯的前端框架或者工具，而是一套架构体系，这个概念最早在2016年底被提出，更多相关信息可以参考[这篇文章](https://swearer23.github.io/micro-frontends/)
 ## 核心理念
 - **应用即服务：** 基于Rallie构建的应用，可以对外暴露响应式状态，事件和方法作为服务，应用间并不强调严格独立与隔离，可以有依赖关系，也可以共享公共的库。而在开发应用的时候，用户只需要声明依赖即可，依赖的加载和编排问题由Rallie解决
-- **去中心化：** 基于Rallie构建的应用是平等的，并不区分所谓的基座应用和子应用。每个应用既有可能作为入口去加载其他应用（entry模式），也可能被其他入口加载（remote模式）
+- **去中心化：** 基于Rallie构建的应用是平等的，并不区分所谓的基座应用和子应用。每个应用既有可能作为入口去加载其他应用，也可能被其他入口加载
 
 ## 它是如何工作的
-Rallie的响应式状态依赖[@vue/reactivity](https://github.com/vuejs/vue-next/tree/master/packages/reactivity)，事件和方法则是基于发布订阅模式和`Proxy`实现的。基于Rallie构建的前端微服务体系将会呈现出这样的架构
-<div align="center">
-![architecture](../images/architecture.drawio.svg)
-</div>
+Rallie的响应式状态依赖[@vue/reactivity](https://github.com/vuejs/vue-next/tree/master/packages/reactivity)，事件和方法则是基于发布订阅模式和`Proxy`实现的。
 
 ## 比较
 ### 微前端框架
