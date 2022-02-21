@@ -113,7 +113,7 @@ registerApp(producer)
     // do something
   })
 ```
-我们可以调用`app.acticvate`和`app.destroy`方法对目标App进行激活和销毁，同时给其注册的生命周期回调传递参数
+我们可以调用`app.activate`和`app.destroy`方法对目标App进行激活和销毁，同时给其注册的生命周期回调传递参数
 ```ts
 consumer.activate('producer', document.getElementById('producer-root'))
 consumer.destroy('producer', document.getElementById('producer-root'))
@@ -157,8 +157,8 @@ registerApp(app2)
 ### 共享公共库
 Rallie把应用分为两类，一类是App，其js资源中必须包含调用`registerApp`注册App的逻辑，然后通过App实例对外提供服务，比如[基础](/guide/basic.html#基础)章节中的consumer和producer；另一类是Library，其js资源中不必包含注册App的逻辑，被加载之后作为整个环境的运行时使用，比如`React`、`Vue`、`jQuery`等第三方库。Rallie通过应用名是否以`lib:`开头判断应用是Library还是App
 ```ts
-app.run(({ bus }) => {
-  bus.config({
+app.run((env) => {
+  env.config({
     assets: {
       vue: {
         js: ['https://cdn.jsdelivr.net/npm/vue@3.2.24/dist/vue.global.prod.js']
@@ -175,8 +175,8 @@ app.run(({ bus }) => {
 ```
 多个App往往会使用一些相同的公共库，你可以将他们声明为关联或依赖来确保资源不被重复加载
 ```ts
-app.run(({ bus }) => {
-  bus.config({
+app.run((env) => {
+  env.config({
     assets: {
       'lib:vue': {
         js: ['https://cdn.jsdelivr.net/npm/vue@3.2.24/dist/vue.global.prod.js']
