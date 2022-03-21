@@ -26,7 +26,7 @@ type Methods = {
 export const producer = createBlock<State, Events, Methods>("producer");
 ```
 
-创建 block 时，需要提供一个全局唯一的名字作为 block 的唯一标识，后续我们也是通过 block 名来与其他应用建立连接
+创建 block 时，需要提供一个全局唯一的名字作为 block 的唯一标识，后续我们也是通过 block 名来与其他应用建立连接。同时，我们可以提供状态，事件和方法的泛型参数，为后面要使用的 API 提供更好的 typescript 支持。
 
 ### 状态
 
@@ -200,7 +200,7 @@ consumer.run((env) => {
 
 Rallie 没有所谓的的主应用或中心应用的概念，默认情况下每个 block 都可以调用`run`方法，在回调函数中访问到应用集群的运行环境对象`env`，并通过`env`来配置整个应用集群的资源路径。
 
-你可以在[进阶](/guide/advance.html)章节了解到更多关于[运行环境](/api/#bus)的知识
+你可以在[进阶](/guide/advance.html)章节了解到更多关于[运行环境](/api/#bus)的用法
 
 配置好资源路径后，我们就可以直接加载`producer`
 
