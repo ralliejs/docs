@@ -242,7 +242,7 @@
 
 以上属性和方法的使用方式与 CreatedBlock 的使用方式是完全一致的
 ::: tip
-connect 操作并不会加载和激活要连接的 Block，因此，如果你要连接一个 Block 并使用它的状态，应该保证在访问`ConnectedBlock.state`之前，连接的 Block 已经被加载并初始化了状态。你可以将要连接的 Block 声明为当前 App 的[关联或依赖](/guide/advance.html#关联和依赖)，也可以手动加载或激活要连接的 Block
+connect 操作并不会加载和激活要连接的 Block，因此，如果你要连接一个 Block 并使用它的状态，应该保证在访问`ConnectedBlock.state`之前，连接的 Block 已经被加载并初始化了状态。你可以将要连接的 Block 声明为当前 Block 的[关联或依赖](/guide/advance.html#关联和依赖)，也可以手动加载或激活要连接的 Block
 :::
 
 ## registerBlock
