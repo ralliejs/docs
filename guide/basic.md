@@ -4,29 +4,32 @@
 
 ## 创建 Block
 
-正如[介绍](/guide/introduction.html#介绍)中所述，Rallie 中的每个应用对外提供响应式状态，事件和方法作为服务。我们把这样的应用称之为一个 Block，它可以通过下面的方式创建：
+正如[介绍](/guide/introduction.html#介绍)中所述，Rallie 中的每个应用对外提供响应式状态，事件，方法以及基于方法封装的导出对象作为服务。我们把这样的应用称之为一个 Block，它可以通过下面的方式创建：
 
 ```ts
 import { createBlock } from "rallie";
 
-type State = {
-  user: string;
-  items: string[];
-};
+interface Producer {
+  state: {
+    user: string,
+    items: string[],
+  },
+  events: {
+    print: (text: string) => void,
+  },
+  methods: {
+    syncMethod: () => string,
+    asyncMethod: () => Promise<string>,
+  },
+  exports: {
+    text: string
+  }
+}
 
-type Events = {
-  print: (text: string) => void;
-};
-
-type Methods = {
-  syncMethod: () => string;
-  asyncMethod: () => Promise<string>;
-};
-
-export const producer = createBlock<State, Events, Methods>("producer");
+export const producer = createBlock<Producer>("producer");
 ```
 
-创建 block 时，需要提供一个全局唯一的名字作为 block 的唯一标识，后续我们也是通过 block 名来与其他应用建立连接。同时，我们可以提供状态，事件和方法的泛型参数，为后面要使用的 API 提供更好的 typescript 支持。
+创建 block 时，需要提供一个全局唯一的名字作为 block 的唯一标识，后续我们也是通过 block 名来与其他应用建立连接。同时，我们可以提供状态，事件，方法以及导出对象的泛型参数，为后面要使用的 API 提供更好的 typescript 支持。
 
 ### 状态
 
@@ -158,7 +161,21 @@ cancelMethods();
 
 1. 同一个事件可以被监听多次，当事件触发时，每一个事件回调都会被执行；同一个方法只能被添加一次，重复添加重名方法会抛出异常
 2. 事件回调没有返回值，方法则可以有返回值
-   :::
+:::
+
+### 导出对象
+
+我们也可以直接导出一个对象暴露给其他block使用
+
+```ts
+producer.export({
+  text: 'hello rallie'
+})
+```
+
+:::tip
+export是基于addMethods封装的一个语法糖。需要注意的是，无论调用export方法多少次，最终导出的只会是第一次调用export传入的对象
+:::
 
 ### 注册 Block
 
@@ -214,24 +231,29 @@ consumer.load("producer").then(() => {
 
 ## 连接 Block
 
-最后，我们要使用`producer`提供的服务，还需要与它进行连接
+最后，我们要使用`producer`提供的服务，还需要与它建立连接
 
-```ts {12}
-type State = {
-  items: string[];
-  user: string;
-};
-type Events = {
-  print: (text: string) => void;
-};
-type Methods = {
-  syncMethod: () => string;
-  asyncMethod: () => Promise<string>;
-};
-export const producer = consumer.connect<State, Events, Methods>("producer");
+```ts {17}
+interface Producer {
+  state: {
+    user: string,
+    items: string[],
+  },
+  events: {
+    print: (text: string) => void,
+  },
+  methods: {
+    syncMethod: () => string,
+    asyncMethod: () => Promise<string>,
+  },
+  exports: {
+    text: string
+  }
+}
+export const producer = consumer.connect<Producer>("producer");
 ```
 
-`connect`方法将返回一个`ConnectedBlock`对象，该对象的 API 是我们通过`createBlock`方法创建出的`CreatedBlock`对象的 API 的子集。具体可查看[ConnectedBlock API](/api/#connector)
+`connect`方法将返回一个`ConnectedBlock`对象，除了`ConnectedBlock.import`外，该对象的 API 是我们通过`createBlock`方法创建出的`CreatedBlock`对象的 API 的子集。具体可查看[ConnectedBlock API](/api/#connector)
 
 然后我们就可以用这个`ConnectedBlock`调用`producer`提供的服务了
 
@@ -260,23 +282,29 @@ consumer.load("producer").then(() => {
   producer.methods.asyncMethod().then((text) => {
     console.log(text);
   });
+  // 导入对象
+  const { text } = producer.import()
+  console.log(text)
 });
 ```
 
 有的时候，为了保证状态安全，你不希望你创建的 block 的状态能直接被其他 ConnectedBlock 更改，此时你可以在初始化状态时给`initState`方法传入第二个参数, 将状态设为私有
 
-```ts {20}
-type State = {
-  user: {
-    name: string;
-    token: string;
-  };
-};
-type Methods = {
-  logIn: () => Promise<void>;
-  logOut: () => Promise<void>;
-};
-const producer = createBlock<State, never, Methods>("producer");
+```ts {23}
+interface Producer {
+  state: {
+    user: {
+      name: string,
+      token: string,
+    }
+  },
+  methods: {
+    logIn: () => Promise<void>,
+    logOut: () => Promise<void>,
+  }
+}
+
+const producer = createBlock<Producer>("producer");
 
 producer.initState(
   {

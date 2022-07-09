@@ -22,11 +22,23 @@ npm install @rallie/react
 import { createBlock } from "rallie";
 import { useBlockState } from "@rallie/react";
 
-const consumer = createBlock<{ count: number }, never, never>("consumer");
+interface Comsumer {
+  state: {
+    count: number
+  }
+}
+
+interface Producer {
+  state: {
+    theme: string
+  }
+}
+
+const consumer = createBlock<Consumer>("consumer");
 consumer.initState({
   count: 0,
 });
-const producer = consumer.connect<{ theme: string }, never, never>("producer");
+const producer = consumer.connect<Producer>("producer");
 
 export const Demo = () => {
   const count = useBlockState(consumer, (state) => state.count);
@@ -51,7 +63,13 @@ export const Demo = () => {
 import { createBlock } from "rallie";
 import { useBlockEvents } from "@rallie/react";
 
-const producer = createBlock<never, { print: () => void }, never>("producer");
+interface Producer {
+  events: {
+    print: () => void
+  }
+}
+
+const producer = createBlock<Producer>("producer");
 
 export const Demo = () => {
   useBlockEvents(producer, {
@@ -77,9 +95,13 @@ import { useRef } from "react";
 import { createBlock } from "rallie";
 import { useBlockMethods } from "@rallie/react";
 
-const producer = createBlock<never, never, { getInputRef: () => HTMLElement }>(
-  "producer"
-);
+interface Producer {
+  methods: {
+    getInputRef: () => HTMLElement
+  }
+}
+
+const producer = createBlock<Producer>('producer');
 
 export const Demo = () => {
   const inputRef = useRef(null);
@@ -123,21 +145,31 @@ npm install @rallie/vue
 
 ```vue
 <script setup lang="ts">
-  import { createBlock } from "rallie";
-  import { useBlockState } from "@rallie/vue";
+import { createBlock } from "rallie";
+import { useBlockState } from "@rallie/vue";
 
-  const consumer = createBlock<{ count: number }, never, never>("consumer");
-  consumer.initState({
-    count: 0,
-  });
-  const producer = consumer.connect<{ theme: string }, never, never>(
-    "producer"
-  );
+interface Comsumer {
+  state: {
+    count: number
+  }
+}
 
-  const theme = useBlockState(producer, (state) => state.theme);
-  const count = useBlockState(consumer, (state) => state.count);
-  const addCount = () =>
-    consumer.setState("add count", (state) => state.count++);
+interface Producer {
+  state: {
+    theme: string
+  }
+}
+
+const consumer = createBlock<Consumer>("consumer");
+consumer.initState({
+  count: 0,
+});
+const producer = consumer.connect<Producer>("producer");
+
+const theme = useBlockState(producer, (state) => state.theme);
+const count = useBlockState(consumer, (state) => state.count);
+const addCount = () =>
+  consumer.setState("add count", (state) => state.count++);
 </script>
 
 <template>
@@ -151,14 +183,20 @@ npm install @rallie/vue
 
 ```vue
 <script setup lang="ts">
-  import { createBlock } from "rallie";
-  import { useBlockEvents } from "@rallie/vue";
+import { createBlock } from "rallie";
+import { useBlockEvents } from "@rallie/vue";
 
-  const producer = createBlock<never, { print: () => void }, never>("producer");
+interface Producer {
+  events: {
+    print: () => voi
+  }
+}
 
-  useBlockEvents(producer, {
-    print: () => console.log("Hello Rallie"),
-  });
+const producer = createBlock<Producer>("producer");
+
+useBlockEvents(producer, {
+  print: () => console.log("Hello Rallie"),
+});
 </script>
 
 <template>
@@ -172,24 +210,28 @@ npm install @rallie/vue
 
 ```vue
 <script setup lang="ts">
-  import { ref } from "vue";
-  import { createBlock } from "rallie";
-  import { useBlockMethods } from "@rallie/vue";
+import { ref } from "vue";
+import { createBlock } from "rallie";
+import { useBlockMethods } from "@rallie/vue";
 
-  const producer = createBlock<never, never, { getRef: () => HTMLElement }>(
-    "producer"
-  );
+interface Producer {
+  methods: {
+    getRef: () => HTMLElement
+  }
+}
 
-  const inputRef = ref(null);
-  useBlockMethods(producer, {
-    getInputRef: () => inputRef.value,
-  });
-  const focusInput = () => {
-    const el = producer.methods.getInputRef();
-    if (el) {
-      el.focus();
-    }
-  };
+const producer = createBlock<Producer>("producer");
+
+const inputRef = ref(null);
+useBlockMethods(producer, {
+  getInputRef: () => inputRef.value,
+});
+const focusInput = () => {
+  const el = producer.methods.getInputRef();
+  if (el) {
+    el.focus();
+  }
+};
 </script>
 
 <template>
@@ -222,26 +264,26 @@ import {
 </template>
 
 <script>
-  import { mixinBlockState } from "@rallie/vue/dist/mixin";
-  import { createBlock } from "rallie";
+import { mixinBlockState } from "@rallie/vue/dist/mixin";
+import { createBlock } from "rallie";
 
-  const producer = createBlock("producer");
-  producer.initState({
-    count: 0,
-  });
+const producer = createBlock("producer");
+producer.initState({
+  count: 0,
+});
 
-  export default {
-    mixins: [
-      mixinBlockState(app, (state) => ({
-        count: state.count,
-      })),
-    ],
-    methods: {
-      addCount() {
-        producer.setState("add count", (state) => state.count++);
-      },
+export default {
+  mixins: [
+    mixinBlockState(app, (state) => ({
+      count: state.count,
+    })),
+  ],
+  methods: {
+    addCount() {
+      producer.setState("add count", (state) => state.count++);
     },
-  };
+  },
+};
 </script>
 ```
 
@@ -255,24 +297,24 @@ import {
 </template>
 
 <script>
-  import { createBlock } from "rallie";
-  import { mixinBlockEvents } from "@rallie/vue/dist/mixin";
+import { createBlock } from "rallie";
+import { mixinBlockEvents } from "@rallie/vue/dist/mixin";
 
-  const producer = createBlock("producer");
-  export default {
-    mixins: [
-      mixinBlockEvents(producer, {
-        print() {
-          console.log(this.text); // 可以在回调函数中通过this访问组件实例
-        },
-      }),
-    ],
-    data() {
-      return {
-        text: "Hello Rallie",
-      };
-    },
-  };
+const producer = createBlock("producer");
+export default {
+  mixins: [
+    mixinBlockEvents(producer, {
+      print() {
+        console.log(this.text); // 可以在回调函数中通过this访问组件实例
+      },
+    }),
+  ],
+  data() {
+    return {
+      text: "Hello Rallie",
+    };
+  },
+};
 </script>
 ```
 
@@ -290,24 +332,24 @@ import {
 
 <script>
 import { createBlock } from "rallie";
-  import { mixinBlockMethods } from '@rallie/vue/dist/mixin'
+import { mixinBlockMethods } from '@rallie/vue/dist/mixin'
 
-  const producer = createBlock('producer')
-  export default {
-    mixins: [
-      mixinBlockMethods(producer, {
-        getInputRef () {
-          return this.$refs.input
-        }
-      })
-    ],
-
-    methods: {
-      focusInput() {
-        producer.methods.getInputRef()?.focus()
+const producer = createBlock('producer')
+export default {
+  mixins: [
+    mixinBlockMethods(producer, {
+      getInputRef () {
+        return this.$refs.input
       }
+    })
+  ],
+
+  methods: {
+    focusInput() {
+      producer.methods.getInputRef()?.focus()
     }
   }
+}
 </script>
 ```
 

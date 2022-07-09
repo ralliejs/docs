@@ -1,31 +1,51 @@
 # API
+## 基础类型
+```ts
+type State = Record<string, any>
+
+type Events = Record<string, (...args: any[]) => void>
+
+type Methods = Record<string, (...args: any[]) => any>
+
+type Exports = Record<string, any>
+
+type BlockDeclare = Partial<{ 
+  state:  State, 
+  events: Events, 
+  methods: Methods, 
+  exports: Exports 
+}>
+```
 
 ## createBlock
 
-- 类型：`<State, Events, Methods>(name: string) => CreatedBlock`
-- 说明：创建一个 Block，接收全局唯一的 block 名作为参数，返回一个[CreatedBlock](#createdblock)实例。使用 typescript 时，可以接收三个泛型参数，分别声明 Block 的状态，事件和方法的类型
+- 类型：`<T extends BlockDeclare>(name: string) => CreatedBlock<T['state'], T['events'], T['methods'], T['exports']>`
+- 说明：创建一个 Block，接收全局唯一的 block 名作为参数，返回一个[CreatedBlock](#createdblock)实例。
 - 示例：
 
   ```ts
   import { createBlock } from "rallie";
 
-  interface State {
-    count: number;
-    user: {
-      name: string;
-    };
+  interface MyBlock {
+    state: {
+      count: number,
+      user: {
+        name: string
+      }
+    },
+    events: {
+      incrementCount: () => void
+    },
+    methods: {
+      login: () => void,
+      logout: () => void
+    },
+    exports: {
+      text: string
+    }
   }
 
-  interface Events {
-    incrementCount: () => void;
-  }
-
-  interface Methods {
-    login: () => void;
-    logout: () => void;
-  }
-
-  const myBlock = createBlock<State, Events, Methods>("my-block");
+  const myBlock = createBlock<MyBlock>("my-block");
   ```
 
 ## CreatedBlock
@@ -99,7 +119,7 @@
   });
 
   // 异步修改状态
-  await block.setState("add the count synchronously", async (state) => {
+  await block.setState("add the count asynchronously", async (state) => {
     const userInfo = await requestLogIn();
     state.user = userInfo;
   });
@@ -187,6 +207,17 @@
     cancelMethods("logIn");
     ```
 
+### export
+
+- 类型：`(exports: Exports) => void`
+- 说明：导出一个对象供其他Block使用
+- 示例：
+  ```ts
+  block.export({
+    text: 'hello rallie'
+  })
+  ```
+
 ### load
 
 - 类型：`(name: string, ctx?: Context) => Promise<void>`
@@ -209,25 +240,36 @@
 
 ### connect
 
-- 类型：`<State, Events, Methods>(name: string) => ConnectedBlock`
-- 说明：连接 Block，接收要连接的 Block 的名字作为唯一参数，返回一个可以使用被连接 Block 的状态，事件和方法的[ConnectedBlock](#connectedblock)。使用`connect`方法时同样可以传入要连接的 Block 的状态，事件和方法的类型作为泛型参数。
+- 类型：`<T extends BlockDeclare>(name: string) => ConnectedBlock<T['state'], T['events'], T['methods'], T['exports']>`
+- 说明：连接 Block，接收要连接的 Block 的名字作为唯一参数，返回一个可以使用被连接 Block 的状态，事件，方法和导出对象的[ConnectedBlock](#connectedblock)。
 - 示例：
   ```ts
-  interface State {
-    lang: string;
+  interface RemoteBlock {
+    state: {
+      count: number,
+      user: {
+        name: string
+      }
+    },
+    events: {
+      incrementCount: () => void
+    },
+    methods: {
+      login: () => void,
+      logout: () => void
+    },
+    exports: {
+      text: string
+    }
   }
-  interface Events {
-    changeLang: (lang: string) => void;
-  }
-  interface Methods {}
-  const remoteBlock = block.connect<State, Events, Methods>("remote");
-  console.log(remoteBlock.state.lang);
-  remoteBlock.events.changeLang("en");
+  const connectedBlock = block.connect<RemoteBlock>("remote");
   ```
 
 ## ConnectedBlock
 
-[connect](#connect)方法将返回一个`ConnectedBlock`。其属性和方法是[CreatedBlock](#createdblock)的子集，包括
+### state / events / methods
+
+[connect](#connect)方法将返回一个`ConnectedBlock`。其状态，事件和方法相关的API是[CreatedBlock](#createdblock)的API的子集，包括
 
 - [name](#name)
 - [state](#state)
@@ -241,8 +283,30 @@
 - [listenEvents](#lisenevents)
 
 以上属性和方法的使用方式与 CreatedBlock 的使用方式是完全一致的
+
+### import
+
+- 类型：`() => Exports`
+- 说明：将连接的Block导出的对象进行导入
+- 示例：
+
+  导出对象
+  ```ts
+  const producer = createBlock('producer')
+  producer.export({
+    text: 'hello rallie'
+  })
+  ```
+  导入对象
+  ```ts
+  const consumer = createBlock('consumer')
+  const producer = consumer.connect('producer')
+  const { text } = producer.import()
+  console.log(text) // hello rallie
+  ```
+
 ::: tip
-connect 操作并不会加载和激活要连接的 Block，因此，如果你要连接一个 Block 并使用它的状态，应该保证在访问`ConnectedBlock.state`之前，连接的 Block 已经被加载并初始化了状态。你可以将要连接的 Block 声明为当前 Block 的[关联或依赖](/guide/advance.html#关联和依赖)，也可以手动加载或激活要连接的 Block
+对于一个 ConnectedBlock，要使用其状态，调用其方法，导入其暴露的对象，应该保证其状态已经被初始化，方法已经被添加，对象已经被导出。而 connect 操作并不会加载和激活要连接的 Block，因此你应该将要连接的 Block 声明为当前 Block 的[关联或依赖](/guide/advance.html#关联和依赖)，或者手动加载或激活要连接的 Block
 :::
 
 ## registerBlock
