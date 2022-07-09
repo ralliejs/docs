@@ -8,7 +8,7 @@
     
     <meta name="description" content="">
     
-    <link rel="preload" href="/assets/css/0.styles.ec4df931.css" as="style"><link rel="preload" href="/assets/js/app.a785b2c4.js" as="script"><link rel="preload" href="/assets/js/2.2db9e384.js" as="script"><link rel="preload" href="/assets/js/11.70262b70.js" as="script"><link rel="prefetch" href="/assets/js/10.d4901031.js"><link rel="prefetch" href="/assets/js/12.534e2fcc.js"><link rel="prefetch" href="/assets/js/13.5ae1f0d4.js"><link rel="prefetch" href="/assets/js/3.c12b0949.js"><link rel="prefetch" href="/assets/js/4.4c4e0ad9.js"><link rel="prefetch" href="/assets/js/5.24503e2b.js"><link rel="prefetch" href="/assets/js/6.0a337b1b.js"><link rel="prefetch" href="/assets/js/7.f7266eab.js"><link rel="prefetch" href="/assets/js/8.e80906c7.js"><link rel="prefetch" href="/assets/js/9.25485707.js">
+    <link rel="preload" href="/assets/css/0.styles.ec4df931.css" as="style"><link rel="preload" href="/assets/js/app.325b9674.js" as="script"><link rel="preload" href="/assets/js/2.2db9e384.js" as="script"><link rel="preload" href="/assets/js/11.54928e68.js" as="script"><link rel="prefetch" href="/assets/js/10.81d76b31.js"><link rel="prefetch" href="/assets/js/12.534e2fcc.js"><link rel="prefetch" href="/assets/js/13.14e94e4a.js"><link rel="prefetch" href="/assets/js/3.c12b0949.js"><link rel="prefetch" href="/assets/js/4.4c4e0ad9.js"><link rel="prefetch" href="/assets/js/5.24503e2b.js"><link rel="prefetch" href="/assets/js/6.0a337b1b.js"><link rel="prefetch" href="/assets/js/7.f7266eab.js"><link rel="prefetch" href="/assets/js/8.e80906c7.js"><link rel="prefetch" href="/assets/js/9.16f920ad.js">
     <link rel="stylesheet" href="/assets/css/0.styles.ec4df931.css">
   </head>
   <body>
@@ -29,11 +29,23 @@
 </code></pre></div><h3 id="useblockstate"><a href="#useblockstate" class="header-anchor">#</a> useBlockState</h3> <p>该 hook 的第一个参数是一个<code>CreatedBlock</code>或<code>ConnectedBlock</code>实例，第二个参数是指定 Block 状态的回调，最终该 hook 会返回与指定的 Block 状态同步的 React 状态</p> <div class="language-tsx extra-class"><pre class="language-tsx"><code><span class="token keyword">import</span> <span class="token punctuation">{</span> createBlock <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">&quot;rallie&quot;</span><span class="token punctuation">;</span>
 <span class="token keyword">import</span> <span class="token punctuation">{</span> useBlockState <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">&quot;@rallie/react&quot;</span><span class="token punctuation">;</span>
 
-<span class="token keyword">const</span> consumer <span class="token operator">=</span> <span class="token generic-function"><span class="token function">createBlock</span><span class="token generic class-name"><span class="token operator">&lt;</span><span class="token punctuation">{</span> count<span class="token operator">:</span> <span class="token builtin">number</span> <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token builtin">never</span><span class="token punctuation">,</span> <span class="token builtin">never</span><span class="token operator">&gt;</span></span></span><span class="token punctuation">(</span><span class="token string">&quot;consumer&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">interface</span> <span class="token class-name">Comsumer</span> <span class="token punctuation">{</span>
+  state<span class="token operator">:</span> <span class="token punctuation">{</span>
+    count<span class="token operator">:</span> <span class="token builtin">number</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">interface</span> <span class="token class-name">Producer</span> <span class="token punctuation">{</span>
+  state<span class="token operator">:</span> <span class="token punctuation">{</span>
+    theme<span class="token operator">:</span> <span class="token builtin">string</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">const</span> consumer <span class="token operator">=</span> <span class="token generic-function"><span class="token function">createBlock</span><span class="token generic class-name"><span class="token operator">&lt;</span>Consumer<span class="token operator">&gt;</span></span></span><span class="token punctuation">(</span><span class="token string">&quot;consumer&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 consumer<span class="token punctuation">.</span><span class="token function">initState</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
   count<span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
 <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token keyword">const</span> producer <span class="token operator">=</span> consumer<span class="token punctuation">.</span><span class="token generic-function"><span class="token function">connect</span><span class="token generic class-name"><span class="token operator">&lt;</span><span class="token punctuation">{</span> theme<span class="token operator">:</span> <span class="token builtin">string</span> <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token builtin">never</span><span class="token punctuation">,</span> <span class="token builtin">never</span><span class="token operator">&gt;</span></span></span><span class="token punctuation">(</span><span class="token string">&quot;producer&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> producer <span class="token operator">=</span> consumer<span class="token punctuation">.</span><span class="token generic-function"><span class="token function">connect</span><span class="token generic class-name"><span class="token operator">&lt;</span>Producer<span class="token operator">&gt;</span></span></span><span class="token punctuation">(</span><span class="token string">&quot;producer&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
 <span class="token keyword">export</span> <span class="token keyword">const</span> <span class="token function-variable function">Demo</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
   <span class="token keyword">const</span> count <span class="token operator">=</span> <span class="token function">useBlockState</span><span class="token punctuation">(</span>consumer<span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token parameter">state</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> state<span class="token punctuation">.</span>count<span class="token punctuation">)</span><span class="token punctuation">;</span>
@@ -49,7 +61,13 @@ consumer<span class="token punctuation">.</span><span class="token function">ini
 </code></pre></div><p>同时你可以指定第三个参数——一个依赖数组，useBlockState 将在依赖变化时重新监听 Rallie 状态</p> <h3 id="useblockevents"><a href="#useblockevents" class="header-anchor">#</a> useBlockEvents</h3> <p>该 hook 将在组件挂载时监听事件，在组件卸载时取消监听</p> <div class="language-tsx extra-class"><pre class="language-tsx"><code><span class="token keyword">import</span> <span class="token punctuation">{</span> createBlock <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">&quot;rallie&quot;</span><span class="token punctuation">;</span>
 <span class="token keyword">import</span> <span class="token punctuation">{</span> useBlockEvents <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">&quot;@rallie/react&quot;</span><span class="token punctuation">;</span>
 
-<span class="token keyword">const</span> producer <span class="token operator">=</span> createBlock<span class="token operator">&lt;</span><span class="token builtin">never</span><span class="token punctuation">,</span> <span class="token punctuation">{</span> <span class="token function-variable function">print</span><span class="token operator">:</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token keyword">void</span> <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token builtin">never</span><span class="token operator">&gt;</span><span class="token punctuation">(</span><span class="token string">&quot;producer&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">interface</span> <span class="token class-name">Producer</span> <span class="token punctuation">{</span>
+  events<span class="token operator">:</span> <span class="token punctuation">{</span>
+    <span class="token function-variable function">print</span><span class="token operator">:</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token keyword">void</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">const</span> producer <span class="token operator">=</span> <span class="token generic-function"><span class="token function">createBlock</span><span class="token generic class-name"><span class="token operator">&lt;</span>Producer<span class="token operator">&gt;</span></span></span><span class="token punctuation">(</span><span class="token string">&quot;producer&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
 <span class="token keyword">export</span> <span class="token keyword">const</span> <span class="token function-variable function">Demo</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
   <span class="token function">useBlockEvents</span><span class="token punctuation">(</span>producer<span class="token punctuation">,</span> <span class="token punctuation">{</span>
@@ -66,9 +84,13 @@ consumer<span class="token punctuation">.</span><span class="token function">ini
 <span class="token keyword">import</span> <span class="token punctuation">{</span> createBlock <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">&quot;rallie&quot;</span><span class="token punctuation">;</span>
 <span class="token keyword">import</span> <span class="token punctuation">{</span> useBlockMethods <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">&quot;@rallie/react&quot;</span><span class="token punctuation">;</span>
 
-<span class="token keyword">const</span> producer <span class="token operator">=</span> createBlock<span class="token operator">&lt;</span><span class="token builtin">never</span><span class="token punctuation">,</span> <span class="token builtin">never</span><span class="token punctuation">,</span> <span class="token punctuation">{</span> <span class="token function-variable function">getInputRef</span><span class="token operator">:</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> HTMLElement <span class="token punctuation">}</span><span class="token operator">&gt;</span><span class="token punctuation">(</span>
-  <span class="token string">&quot;producer&quot;</span>
-<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">interface</span> <span class="token class-name">Producer</span> <span class="token punctuation">{</span>
+  methods<span class="token operator">:</span> <span class="token punctuation">{</span>
+    <span class="token function-variable function">getInputRef</span><span class="token operator">:</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> HTMLElement
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">const</span> producer <span class="token operator">=</span> <span class="token generic-function"><span class="token function">createBlock</span><span class="token generic class-name"><span class="token operator">&lt;</span>Producer<span class="token operator">&gt;</span></span></span><span class="token punctuation">(</span><span class="token string">'producer'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
 <span class="token keyword">export</span> <span class="token keyword">const</span> <span class="token function-variable function">Demo</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
   <span class="token keyword">const</span> inputRef <span class="token operator">=</span> <span class="token function">useRef</span><span class="token punctuation">(</span><span class="token keyword">null</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
@@ -91,21 +113,31 @@ consumer<span class="token punctuation">.</span><span class="token function">ini
 </code></pre></div><p>同时你可以指定第三个参数——一个依赖数组，useBlockMethods 将在依赖变化时重新添加方法</p> <h2 id="vue3"><a href="#vue3" class="header-anchor">#</a> Vue3</h2> <p>Rallie 官方维护<code>@rallie/vue</code>，同时包含了对 Vue3 和对 Vue2 的支持，你可以安装<code>@rallie/vue</code>来使用</p> <div class="language-sh extra-class"><pre class="language-sh"><code><span class="token function">npm</span> <span class="token function">install</span> @rallie/vue
 </code></pre></div><p>也可以直接引用 script，所有 API 都将挂载在全局变量<code>window.RallieVue</code>上</p> <div class="language-html extra-class"><pre class="language-html"><code><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">&quot;</span>https://cdn.jsdelivr.net/npm/@rallie/vue<span class="token punctuation">&quot;</span></span><span class="token punctuation">&gt;</span></span><span class="token script"></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">&gt;</span></span>
 </code></pre></div><p>针对 Vue3 应用，Rallie 提供了几个 CompositionAPI，除了不需要指定依赖数组之外，命名和使用方法都与<code>@rallie/react</code>的 api 相同</p> <h3 id="useblockstate-2"><a href="#useblockstate-2" class="header-anchor">#</a> useBlockState</h3> <div class="language-vue extra-class"><pre class="language-vue"><code><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">setup</span> <span class="token attr-name">lang</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">&quot;</span>ts<span class="token punctuation">&quot;</span></span><span class="token punctuation">&gt;</span></span><span class="token script"><span class="token language-javascript">
-  <span class="token keyword">import</span> <span class="token punctuation">{</span> createBlock <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">&quot;rallie&quot;</span><span class="token punctuation">;</span>
-  <span class="token keyword">import</span> <span class="token punctuation">{</span> useBlockState <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">&quot;@rallie/vue&quot;</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> createBlock <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">&quot;rallie&quot;</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> useBlockState <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">&quot;@rallie/vue&quot;</span><span class="token punctuation">;</span>
 
-  <span class="token keyword">const</span> consumer <span class="token operator">=</span> createBlock<span class="token operator">&lt;</span><span class="token punctuation">{</span> count<span class="token operator">:</span> number <span class="token punctuation">}</span><span class="token punctuation">,</span> never<span class="token punctuation">,</span> never<span class="token operator">&gt;</span><span class="token punctuation">(</span><span class="token string">&quot;consumer&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-  consumer<span class="token punctuation">.</span><span class="token function">initState</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
-    count<span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
-  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-  <span class="token keyword">const</span> producer <span class="token operator">=</span> consumer<span class="token punctuation">.</span>connect<span class="token operator">&lt;</span><span class="token punctuation">{</span> theme<span class="token operator">:</span> string <span class="token punctuation">}</span><span class="token punctuation">,</span> never<span class="token punctuation">,</span> never<span class="token operator">&gt;</span><span class="token punctuation">(</span>
-    <span class="token string">&quot;producer&quot;</span>
-  <span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">interface</span> <span class="token class-name">Comsumer</span> <span class="token punctuation">{</span>
+  state<span class="token operator">:</span> <span class="token punctuation">{</span>
+    count<span class="token operator">:</span> number
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
 
-  <span class="token keyword">const</span> theme <span class="token operator">=</span> <span class="token function">useBlockState</span><span class="token punctuation">(</span>producer<span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token parameter">state</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> state<span class="token punctuation">.</span>theme<span class="token punctuation">)</span><span class="token punctuation">;</span>
-  <span class="token keyword">const</span> count <span class="token operator">=</span> <span class="token function">useBlockState</span><span class="token punctuation">(</span>consumer<span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token parameter">state</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> state<span class="token punctuation">.</span>count<span class="token punctuation">)</span><span class="token punctuation">;</span>
-  <span class="token keyword">const</span> <span class="token function-variable function">addCount</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span>
-    consumer<span class="token punctuation">.</span><span class="token function">setState</span><span class="token punctuation">(</span><span class="token string">&quot;add count&quot;</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token parameter">state</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> state<span class="token punctuation">.</span>count<span class="token operator">++</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">interface</span> <span class="token class-name">Producer</span> <span class="token punctuation">{</span>
+  state<span class="token operator">:</span> <span class="token punctuation">{</span>
+    theme<span class="token operator">:</span> string
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">const</span> consumer <span class="token operator">=</span> createBlock<span class="token operator">&lt;</span>Consumer<span class="token operator">&gt;</span><span class="token punctuation">(</span><span class="token string">&quot;consumer&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+consumer<span class="token punctuation">.</span><span class="token function">initState</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  count<span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> producer <span class="token operator">=</span> consumer<span class="token punctuation">.</span>connect<span class="token operator">&lt;</span>Producer<span class="token operator">&gt;</span><span class="token punctuation">(</span><span class="token string">&quot;producer&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> theme <span class="token operator">=</span> <span class="token function">useBlockState</span><span class="token punctuation">(</span>producer<span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token parameter">state</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> state<span class="token punctuation">.</span>theme<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> count <span class="token operator">=</span> <span class="token function">useBlockState</span><span class="token punctuation">(</span>consumer<span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token parameter">state</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> state<span class="token punctuation">.</span>count<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> <span class="token function-variable function">addCount</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span>
+  consumer<span class="token punctuation">.</span><span class="token function">setState</span><span class="token punctuation">(</span><span class="token string">&quot;add count&quot;</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token parameter">state</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> state<span class="token punctuation">.</span>count<span class="token operator">++</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 </span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">&gt;</span></span>
 
 <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>template</span><span class="token punctuation">&gt;</span></span>
@@ -114,14 +146,20 @@ consumer<span class="token punctuation">.</span><span class="token function">ini
   <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
 <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>template</span><span class="token punctuation">&gt;</span></span>
 </code></pre></div><h3 id="useblockevents-2"><a href="#useblockevents-2" class="header-anchor">#</a> useBlockEvents</h3> <div class="language-vue extra-class"><pre class="language-vue"><code><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">setup</span> <span class="token attr-name">lang</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">&quot;</span>ts<span class="token punctuation">&quot;</span></span><span class="token punctuation">&gt;</span></span><span class="token script"><span class="token language-javascript">
-  <span class="token keyword">import</span> <span class="token punctuation">{</span> createBlock <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">&quot;rallie&quot;</span><span class="token punctuation">;</span>
-  <span class="token keyword">import</span> <span class="token punctuation">{</span> useBlockEvents <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">&quot;@rallie/vue&quot;</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> createBlock <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">&quot;rallie&quot;</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> useBlockEvents <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">&quot;@rallie/vue&quot;</span><span class="token punctuation">;</span>
 
-  <span class="token keyword">const</span> producer <span class="token operator">=</span> createBlock<span class="token operator">&lt;</span>never<span class="token punctuation">,</span> <span class="token punctuation">{</span> <span class="token function-variable function">print</span><span class="token operator">:</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token keyword">void</span> <span class="token punctuation">}</span><span class="token punctuation">,</span> never<span class="token operator">&gt;</span><span class="token punctuation">(</span><span class="token string">&quot;producer&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">interface</span> <span class="token class-name">Producer</span> <span class="token punctuation">{</span>
+  events<span class="token operator">:</span> <span class="token punctuation">{</span>
+    <span class="token function-variable function">print</span><span class="token operator">:</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> voi
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
 
-  <span class="token function">useBlockEvents</span><span class="token punctuation">(</span>producer<span class="token punctuation">,</span> <span class="token punctuation">{</span>
-    <span class="token function-variable function">print</span><span class="token operator">:</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">&quot;Hello Rallie&quot;</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
-  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> producer <span class="token operator">=</span> createBlock<span class="token operator">&lt;</span>Producer<span class="token operator">&gt;</span><span class="token punctuation">(</span><span class="token string">&quot;producer&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token function">useBlockEvents</span><span class="token punctuation">(</span>producer<span class="token punctuation">,</span> <span class="token punctuation">{</span>
+  <span class="token function-variable function">print</span><span class="token operator">:</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">&quot;Hello Rallie&quot;</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 </span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">&gt;</span></span>
 
 <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>template</span><span class="token punctuation">&gt;</span></span>
@@ -130,24 +168,28 @@ consumer<span class="token punctuation">.</span><span class="token function">ini
   <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
 <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>template</span><span class="token punctuation">&gt;</span></span>
 </code></pre></div><h3 id="useblockmethods-2"><a href="#useblockmethods-2" class="header-anchor">#</a> useBlockMethods</h3> <div class="language-vue extra-class"><pre class="language-vue"><code><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">setup</span> <span class="token attr-name">lang</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">&quot;</span>ts<span class="token punctuation">&quot;</span></span><span class="token punctuation">&gt;</span></span><span class="token script"><span class="token language-javascript">
-  <span class="token keyword">import</span> <span class="token punctuation">{</span> ref <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">&quot;vue&quot;</span><span class="token punctuation">;</span>
-  <span class="token keyword">import</span> <span class="token punctuation">{</span> createBlock <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">&quot;rallie&quot;</span><span class="token punctuation">;</span>
-  <span class="token keyword">import</span> <span class="token punctuation">{</span> useBlockMethods <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">&quot;@rallie/vue&quot;</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> ref <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">&quot;vue&quot;</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> createBlock <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">&quot;rallie&quot;</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> useBlockMethods <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">&quot;@rallie/vue&quot;</span><span class="token punctuation">;</span>
 
-  <span class="token keyword">const</span> producer <span class="token operator">=</span> createBlock<span class="token operator">&lt;</span>never<span class="token punctuation">,</span> never<span class="token punctuation">,</span> <span class="token punctuation">{</span> <span class="token function-variable function">getRef</span><span class="token operator">:</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> HTMLElement <span class="token punctuation">}</span><span class="token operator">&gt;</span><span class="token punctuation">(</span>
-    <span class="token string">&quot;producer&quot;</span>
-  <span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">interface</span> <span class="token class-name">Producer</span> <span class="token punctuation">{</span>
+  methods<span class="token operator">:</span> <span class="token punctuation">{</span>
+    <span class="token function-variable function">getRef</span><span class="token operator">:</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> HTMLElement
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
 
-  <span class="token keyword">const</span> inputRef <span class="token operator">=</span> <span class="token function">ref</span><span class="token punctuation">(</span><span class="token keyword">null</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-  <span class="token function">useBlockMethods</span><span class="token punctuation">(</span>producer<span class="token punctuation">,</span> <span class="token punctuation">{</span>
-    <span class="token function-variable function">getInputRef</span><span class="token operator">:</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> inputRef<span class="token punctuation">.</span>value<span class="token punctuation">,</span>
-  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-  <span class="token keyword">const</span> <span class="token function-variable function">focusInput</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
-    <span class="token keyword">const</span> el <span class="token operator">=</span> producer<span class="token punctuation">.</span>methods<span class="token punctuation">.</span><span class="token function">getInputRef</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token keyword">if</span> <span class="token punctuation">(</span>el<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-      el<span class="token punctuation">.</span><span class="token function">focus</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token punctuation">}</span>
-  <span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> producer <span class="token operator">=</span> createBlock<span class="token operator">&lt;</span>Producer<span class="token operator">&gt;</span><span class="token punctuation">(</span><span class="token string">&quot;producer&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> inputRef <span class="token operator">=</span> <span class="token function">ref</span><span class="token punctuation">(</span><span class="token keyword">null</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token function">useBlockMethods</span><span class="token punctuation">(</span>producer<span class="token punctuation">,</span> <span class="token punctuation">{</span>
+  <span class="token function-variable function">getInputRef</span><span class="token operator">:</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> inputRef<span class="token punctuation">.</span>value<span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> <span class="token function-variable function">focusInput</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> el <span class="token operator">=</span> producer<span class="token punctuation">.</span>methods<span class="token punctuation">.</span><span class="token function">getInputRef</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>el<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    el<span class="token punctuation">.</span><span class="token function">focus</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
 </span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">&gt;</span></span>
 
 <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>template</span><span class="token punctuation">&gt;</span></span>
@@ -166,50 +208,50 @@ consumer<span class="token punctuation">.</span><span class="token function">ini
 <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>template</span><span class="token punctuation">&gt;</span></span>
 
 <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span><span class="token punctuation">&gt;</span></span><span class="token script"><span class="token language-javascript">
-  <span class="token keyword">import</span> <span class="token punctuation">{</span> mixinBlockState <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">&quot;@rallie/vue/dist/mixin&quot;</span><span class="token punctuation">;</span>
-  <span class="token keyword">import</span> <span class="token punctuation">{</span> createBlock <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">&quot;rallie&quot;</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> mixinBlockState <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">&quot;@rallie/vue/dist/mixin&quot;</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> createBlock <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">&quot;rallie&quot;</span><span class="token punctuation">;</span>
 
-  <span class="token keyword">const</span> producer <span class="token operator">=</span> <span class="token function">createBlock</span><span class="token punctuation">(</span><span class="token string">&quot;producer&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-  producer<span class="token punctuation">.</span><span class="token function">initState</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
-    count<span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
-  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> producer <span class="token operator">=</span> <span class="token function">createBlock</span><span class="token punctuation">(</span><span class="token string">&quot;producer&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+producer<span class="token punctuation">.</span><span class="token function">initState</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  count<span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-  <span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token punctuation">{</span>
-    mixins<span class="token operator">:</span> <span class="token punctuation">[</span>
-      <span class="token function">mixinBlockState</span><span class="token punctuation">(</span>app<span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token parameter">state</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">(</span><span class="token punctuation">{</span>
-        count<span class="token operator">:</span> state<span class="token punctuation">.</span>count<span class="token punctuation">,</span>
-      <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
-    <span class="token punctuation">]</span><span class="token punctuation">,</span>
-    methods<span class="token operator">:</span> <span class="token punctuation">{</span>
-      <span class="token function">addCount</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-        producer<span class="token punctuation">.</span><span class="token function">setState</span><span class="token punctuation">(</span><span class="token string">&quot;add count&quot;</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token parameter">state</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> state<span class="token punctuation">.</span>count<span class="token operator">++</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-      <span class="token punctuation">}</span><span class="token punctuation">,</span>
+<span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token punctuation">{</span>
+  mixins<span class="token operator">:</span> <span class="token punctuation">[</span>
+    <span class="token function">mixinBlockState</span><span class="token punctuation">(</span>app<span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token parameter">state</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">(</span><span class="token punctuation">{</span>
+      count<span class="token operator">:</span> state<span class="token punctuation">.</span>count<span class="token punctuation">,</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+  <span class="token punctuation">]</span><span class="token punctuation">,</span>
+  methods<span class="token operator">:</span> <span class="token punctuation">{</span>
+    <span class="token function">addCount</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      producer<span class="token punctuation">.</span><span class="token function">setState</span><span class="token punctuation">(</span><span class="token string">&quot;add count&quot;</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token parameter">state</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> state<span class="token punctuation">.</span>count<span class="token operator">++</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
     <span class="token punctuation">}</span><span class="token punctuation">,</span>
-  <span class="token punctuation">}</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
 </span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">&gt;</span></span>
 </code></pre></div><h3 id="mixinblockevents"><a href="#mixinblockevents" class="header-anchor">#</a> mixinBlockEvents</h3> <p>该方法的第一个参数是一个<code>CreatedBlock</code>或<code>ConnectedBlock</code>实例，第二个参数是要监听的事件回调集合。组件将在挂载时监听事件，在卸载时取消监听</p> <div class="language-vue extra-class"><pre class="language-vue"><code><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>template</span><span class="token punctuation">&gt;</span></span>
   <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>button</span> <span class="token attr-name">@click</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">&quot;</span>print<span class="token punctuation">&quot;</span></span><span class="token punctuation">&gt;</span></span>print<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>button</span><span class="token punctuation">&gt;</span></span>
 <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>template</span><span class="token punctuation">&gt;</span></span>
 
 <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span><span class="token punctuation">&gt;</span></span><span class="token script"><span class="token language-javascript">
-  <span class="token keyword">import</span> <span class="token punctuation">{</span> createBlock <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">&quot;rallie&quot;</span><span class="token punctuation">;</span>
-  <span class="token keyword">import</span> <span class="token punctuation">{</span> mixinBlockEvents <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">&quot;@rallie/vue/dist/mixin&quot;</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> createBlock <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">&quot;rallie&quot;</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> mixinBlockEvents <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">&quot;@rallie/vue/dist/mixin&quot;</span><span class="token punctuation">;</span>
 
-  <span class="token keyword">const</span> producer <span class="token operator">=</span> <span class="token function">createBlock</span><span class="token punctuation">(</span><span class="token string">&quot;producer&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-  <span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token punctuation">{</span>
-    mixins<span class="token operator">:</span> <span class="token punctuation">[</span>
-      <span class="token function">mixinBlockEvents</span><span class="token punctuation">(</span>producer<span class="token punctuation">,</span> <span class="token punctuation">{</span>
-        <span class="token function">print</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-          console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>text<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 可以在回调函数中通过this访问组件实例</span>
-        <span class="token punctuation">}</span><span class="token punctuation">,</span>
-      <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
-    <span class="token punctuation">]</span><span class="token punctuation">,</span>
-    <span class="token function">data</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-      <span class="token keyword">return</span> <span class="token punctuation">{</span>
-        text<span class="token operator">:</span> <span class="token string">&quot;Hello Rallie&quot;</span><span class="token punctuation">,</span>
-      <span class="token punctuation">}</span><span class="token punctuation">;</span>
-    <span class="token punctuation">}</span><span class="token punctuation">,</span>
-  <span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> producer <span class="token operator">=</span> <span class="token function">createBlock</span><span class="token punctuation">(</span><span class="token string">&quot;producer&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token punctuation">{</span>
+  mixins<span class="token operator">:</span> <span class="token punctuation">[</span>
+    <span class="token function">mixinBlockEvents</span><span class="token punctuation">(</span>producer<span class="token punctuation">,</span> <span class="token punctuation">{</span>
+      <span class="token function">print</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>text<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 可以在回调函数中通过this访问组件实例</span>
+      <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+  <span class="token punctuation">]</span><span class="token punctuation">,</span>
+  <span class="token function">data</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token punctuation">{</span>
+      text<span class="token operator">:</span> <span class="token string">&quot;Hello Rallie&quot;</span><span class="token punctuation">,</span>
+    <span class="token punctuation">}</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
 </span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">&gt;</span></span>
 </code></pre></div><h3 id="mixinblockmethods"><a href="#mixinblockmethods" class="header-anchor">#</a> mixinBlockMethods</h3> <p><code>mixinBlockMethods</code>和<code>mixinBlockEvents</code>使用方法相同。组件将在挂载时添加方法，在卸载时取消方法</p> <div class="language-vue extra-class"><pre class="language-vue"><code><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>template</span><span class="token punctuation">&gt;</span></span>
   <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span><span class="token punctuation">&gt;</span></span>
@@ -220,24 +262,24 @@ consumer<span class="token punctuation">.</span><span class="token function">ini
 
 <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span><span class="token punctuation">&gt;</span></span><span class="token script"><span class="token language-javascript">
 <span class="token keyword">import</span> <span class="token punctuation">{</span> createBlock <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">&quot;rallie&quot;</span><span class="token punctuation">;</span>
-  <span class="token keyword">import</span> <span class="token punctuation">{</span> mixinBlockMethods <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@rallie/vue/dist/mixin'</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> mixinBlockMethods <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@rallie/vue/dist/mixin'</span>
 
-  <span class="token keyword">const</span> producer <span class="token operator">=</span> <span class="token function">createBlock</span><span class="token punctuation">(</span><span class="token string">'producer'</span><span class="token punctuation">)</span>
-  <span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token punctuation">{</span>
-    mixins<span class="token operator">:</span> <span class="token punctuation">[</span>
-      <span class="token function">mixinBlockMethods</span><span class="token punctuation">(</span>producer<span class="token punctuation">,</span> <span class="token punctuation">{</span>
-        <span class="token function">getInputRef</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-          <span class="token keyword">return</span> <span class="token keyword">this</span><span class="token punctuation">.</span>$refs<span class="token punctuation">.</span>input
-        <span class="token punctuation">}</span>
-      <span class="token punctuation">}</span><span class="token punctuation">)</span>
-    <span class="token punctuation">]</span><span class="token punctuation">,</span>
-
-    methods<span class="token operator">:</span> <span class="token punctuation">{</span>
-      <span class="token function">focusInput</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-        producer<span class="token punctuation">.</span>methods<span class="token punctuation">.</span><span class="token function">getInputRef</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">?.</span><span class="token function">focus</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token keyword">const</span> producer <span class="token operator">=</span> <span class="token function">createBlock</span><span class="token punctuation">(</span><span class="token string">'producer'</span><span class="token punctuation">)</span>
+<span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token punctuation">{</span>
+  mixins<span class="token operator">:</span> <span class="token punctuation">[</span>
+    <span class="token function">mixinBlockMethods</span><span class="token punctuation">(</span>producer<span class="token punctuation">,</span> <span class="token punctuation">{</span>
+      <span class="token function">getInputRef</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token keyword">this</span><span class="token punctuation">.</span>$refs<span class="token punctuation">.</span>input
       <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span>
+  <span class="token punctuation">]</span><span class="token punctuation">,</span>
+
+  methods<span class="token operator">:</span> <span class="token punctuation">{</span>
+    <span class="token function">focusInput</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      producer<span class="token punctuation">.</span>methods<span class="token punctuation">.</span><span class="token function">getInputRef</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">?.</span><span class="token function">focus</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
     <span class="token punctuation">}</span>
   <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
 </span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">&gt;</span></span>
 </code></pre></div><h2 id="load-html-中间件"><a href="#load-html-中间件" class="header-anchor">#</a> load-html 中间件</h2> <p>Rallie 官方维护<code>@rallie/load-html</code>，这是一个中间件，你可以安装<code>@rallie/load-html</code>来使用它</p> <div class="language-sh extra-class"><pre class="language-sh"><code><span class="token function">npm</span> <span class="token function">install</span> @rallie/load-html
 </code></pre></div><p>它的作用是让你可以直接给应用配置 html 路径，中间件将通过<code>fetch</code>加载并解析 html，然后将<code>link</code>、<code>style</code>和<code>script</code>标签插入到文档中</p> <div class="language-ts extra-class"><pre class="language-ts"><code><span class="token keyword">import</span> <span class="token punctuation">{</span> loadHtml <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">&quot;@rallie/load-html&quot;</span><span class="token punctuation">;</span>
@@ -280,6 +322,6 @@ env<span class="token punctuation">.</span><span class="token function">use</spa
       <a href="/guide/advance.html" class="prev">
         进阶
       </a></span> <!----></p></div> </main></div><div class="global-ui"></div></div>
-    <script src="/assets/js/app.a785b2c4.js" defer></script><script src="/assets/js/2.2db9e384.js" defer></script><script src="/assets/js/11.70262b70.js" defer></script>
+    <script src="/assets/js/app.325b9674.js" defer></script><script src="/assets/js/2.2db9e384.js" defer></script><script src="/assets/js/11.54928e68.js" defer></script>
   </body>
 </html>
