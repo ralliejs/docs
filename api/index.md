@@ -24,7 +24,7 @@ type BlockDeclare = Partial<{
 - 示例：
 
   ```ts
-  import { createBlock } from "rallie";
+  import { createBlock } from "@rallie/block";
 
   interface MyBlock {
     state: {
@@ -316,7 +316,7 @@ type BlockDeclare = Partial<{
 - 示例：
 
   ```ts
-  import { registerBlock, createBlock } from "rallie";
+  import { registerBlock, createBlock } from "@rallie/block";
 
   const app = createBlock("my-app");
   registerBlock(app)

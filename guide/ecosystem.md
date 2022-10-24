@@ -19,7 +19,7 @@ npm install @rallie/react
 该 hook 的第一个参数是一个`CreatedBlock`或`ConnectedBlock`实例，第二个参数是指定 Block 状态的回调，最终该 hook 会返回与指定的 Block 状态同步的 React 状态
 
 ```tsx
-import { createBlock } from "rallie";
+import { createBlock } from "@rallie/block";
 import { useBlockState } from "@rallie/react";
 
 interface Comsumer {
@@ -60,7 +60,7 @@ export const Demo = () => {
 该 hook 将在组件挂载时监听事件，在组件卸载时取消监听
 
 ```tsx
-import { createBlock } from "rallie";
+import { createBlock } from "@rallie/block";
 import { useBlockEvents } from "@rallie/react";
 
 interface Producer {
@@ -92,7 +92,7 @@ export const Demo = () => {
 
 ```tsx
 import { useRef } from "react";
-import { createBlock } from "rallie";
+import { createBlock } from "@rallie/block";
 import { useBlockMethods } from "@rallie/react";
 
 interface Producer {
@@ -145,7 +145,7 @@ npm install @rallie/vue
 
 ```vue
 <script setup lang="ts">
-import { createBlock } from "rallie";
+import { createBlock } from "@rallie/block";
 import { useBlockState } from "@rallie/vue";
 
 interface Comsumer {
@@ -183,7 +183,7 @@ const addCount = () =>
 
 ```vue
 <script setup lang="ts">
-import { createBlock } from "rallie";
+import { createBlock } from "@rallie/block";
 import { useBlockEvents } from "@rallie/vue";
 
 interface Producer {
@@ -211,7 +211,7 @@ useBlockEvents(producer, {
 ```vue
 <script setup lang="ts">
 import { ref } from "vue";
-import { createBlock } from "rallie";
+import { createBlock } from "@rallie/block";
 import { useBlockMethods } from "@rallie/vue";
 
 interface Producer {
@@ -265,7 +265,7 @@ import {
 
 <script>
 import { mixinBlockState } from "@rallie/vue/dist/mixin";
-import { createBlock } from "rallie";
+import { createBlock } from "@rallie/block";
 
 const producer = createBlock("producer");
 producer.initState({
@@ -297,7 +297,7 @@ export default {
 </template>
 
 <script>
-import { createBlock } from "rallie";
+import { createBlock } from "@rallie/block";
 import { mixinBlockEvents } from "@rallie/vue/dist/mixin";
 
 const producer = createBlock("producer");
@@ -331,7 +331,7 @@ export default {
 </template>
 
 <script>
-import { createBlock } from "rallie";
+import { createBlock } from "@rallie/block";
 import { mixinBlockMethods } from '@rallie/vue/dist/mixin'
 
 const producer = createBlock('producer')
