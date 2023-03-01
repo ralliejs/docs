@@ -2,7 +2,7 @@
 
 ## 运行环境
 
-在[加载 Block](/guide/basic.html#加载-block)章节中，我们调用了`block.run`方法，通过回调参数——运行环境对象 env 来配置应用集群的资源路径。在 Rallie 中， 应用（Block）是去中心化的，但是每个应用其实都运行在一个相同的环境下，这个运行环境可以被认为是应用集群的实质中心
+在[加载 Block](/guide/basic.html#加载-block)章节中，我们调用了`block.run`方法，通过回调参数中的运行环境对象 env 来配置应用集群的资源路径。在 Rallie 中， 应用（Block）是去中心化的，但是每个应用其实都运行在一个相同的环境下，这个运行环境可以被认为是应用集群的实质中心
 
 <div align="center" style="padding: 20px">
 <img src="../images/matrix.drawio.svg">
@@ -78,80 +78,20 @@ block.run((env) => {
 
 这样你就不必使用`env.config`手动配置应用的资源路径了。
 
-中间件的上下文`ctx`包含了一些属性和方法，你可以在[中间件 API](/api/#use)中查看全部。你也可以在调用`block.load`时传入一些自定义的上下文。举个例子，假设你不希望所有的应用都从 jsdelivr 加载，那么你可以改造一下刚才的中间件
-
-```ts
-block.run((env) => {
-  env.use(async (ctx, next) => {
-    if (ctx.jsdelivr === true) {
-      await ctx.loadScript(`https://cdn.jsdelivr.net/npm/${ctx.name}/index.js`);
-    } else {
-      await next();
-    }
-  });
-});
-```
-
-这样的话，只有在上下文中明确标识了 jsdelivr 的应用才会从 jsdelivr 加载资源
-
-```ts
-block.load("producer", { jsdelivr: true }); // 从jsdelivr加载资源
-block.load("consumer"); // 不从jsdelivr加载资源
-```
-
 Rallie 的中间件是一个洋葱圈模型
 
 <div align="center" style="padding: 20px">
 <img src="../images/middleware.drawio.svg">
 </div>
 
-最里层的 Core 中间件会从`env.config`手动配置的资源表中查找资源并加载，在那之前你可以插入自定义的中间件，从而完全接管应用资源的查找、加载和执行全过程。基于中间件，你可以接入常见的微前端框架提供的 js 沙箱，样式隔离，html entry 等特性，甚至可以直接用[动态导入](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import#dynamic_imports)来加载应用，从而实现[monorepo](https://en.wikipedia.org/wiki/Monorepo)形式的微前端架构
+最里层的 Core 中间件会从`env.config`手动配置的资源表中查找资源并加载，在那之前你可以插入自定义的中间件，从而完全接管应用资源的查找、加载和执行全过程。基于中间件，你可以接入常见的微前端框架提供的 js 沙箱，样式隔离，html entry 等特性，甚至可以直接用[动态导入](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import#dynamic_imports)来加载应用
 
 :::tip
 如果运行环境被冻结，那么运行在非入口环境的 Block 注册的中间件将不会生效
 :::
 
-## 生命周期
-
-在[注册](/guide/introduction.html#注册)章节中，我们使用`registerBlock`方法注册了 Block，事实上，这个方法将会返回一个`RegisteredBlock`实例，你可以接着用这个注册实例直接链式调用指定生命周期回调。
-
-`RegisteredBlock` 有 bootstrap、activate、destroy 三个生命周期
-
-```ts
-registerBlock(producer)
-  .onBootstrap((data) => {
-    // do something
-  })
-  .onActivate((data) => {
-    // do something
-  })
-  .onDestroy((data) => {
-    // do something
-  });
-```
-
-我们可以调用`block.acticvate`和`block.destroy`方法对目标 Block 进行激活和销毁，同时给其注册的生命周期回调传递参数
-
-```ts
-consumer.activate("producer", document.getElementById("producer-root"));
-consumer.destroy("producer", document.getElementById("producer-root"));
-```
-
-你不必为每个生命周期都指定回调函数，事实上，对生命周期的取舍能让你的应用有不同的响应效果。
-
-- 如果只指定了 onBootstrap 生命周期，Block 将只在第一次被激活执行 onBootstrap 回调，而不会理会后续的激活
-- 如果只指定了 onActivate 生命周期，Block 将在每次被激活时都执行 onActivate 回调
-- 如果同时指定了 onBootstrap 和 onActivate 生命周期，Block 将在第一次被激活时执行 onBootstrap 回调，在后续被激活时执行 onActivate 回调
-
-下面展示了 Block 的生命周期图谱，或许你还不能完全明白所有东西，但是随着你的不断学习和深入，它的参考价值会越来越高
-
-<div align="center" style="padding: 20px">
-<img src="../images/lifecycle.drawio.svg">
-</div>
-
 ## 关联和依赖
-
-除了指定生命周期，你还可以在 Block 注册后指定其关联和依赖，这样当你的 App 启动时，其关联和依赖的 App 也会被加载或激活
+创建Block时，你可以声明关联和依赖的Block
 
 ### 关联
 
