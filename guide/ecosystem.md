@@ -8,12 +8,6 @@ Rallie 官方维护`@rallie/react`，提供了几个常用的 Hook 帮助你更�
 npm install @rallie/react
 ```
 
-也可以直接引用 script，所有 API 都将挂载在全局变量`window.RallieReact`上
-
-```html
-<script src="https://cdn.jsdelivr.net/npm/@rallie/react"></script>
-```
-
 ### useBlockState
 
 该 hook 的第一个参数是一个`CreatedBlock`或`ConnectedBlock`实例，第二个参数是指定 Block 状态的回调，最终该 hook 会返回与指定的 Block 状态同步的 React 状态
@@ -34,10 +28,10 @@ interface Producer {
   }
 }
 
-const consumer = createBlock<Consumer>("consumer");
-consumer.initState({
+const consumer = createBlock<Consumer>("consumer").initState({
   count: 0,
 });
+consumer
 const producer = consumer.connect<Producer>("producer");
 
 export const Demo = () => {
@@ -131,12 +125,6 @@ Rallie 官方维护`@rallie/vue`，同时包含了对 Vue3 和对 Vue2 的支持
 
 ```sh
 npm install @rallie/vue
-```
-
-也可以直接引用 script，所有 API 都将挂载在全局变量`window.RallieVue`上
-
-```html
-<script src="https://cdn.jsdelivr.net/npm/@rallie/vue"></script>
 ```
 
 针对 Vue3 应用，Rallie 提供了几个 CompositionAPI，除了不需要指定依赖数组之外，命名和使用方法都与`@rallie/react`的 api 相同
@@ -244,14 +232,14 @@ const focusInput = () => {
 
 ## Vue2
 
-对于 Vue2 的应用，`@rallie/vue`提供了几个 mixin 支持，你可以从`@rallie/vue/dist/mixin`中导入它们
+对于 Vue2 的应用，`@rallie/vue`提供了几个 mixin 支持，你可以从`@rallie/vue/mixins`中导入它们
 
 ```ts
 import {
   mixinBlockState,
   mixinBlockEvents,
   mixinBlockMethods,
-} from "@rallie/vue/dist/mixin";
+} from "@rallie/vue/mixin";
 ```
 
 ### mixinBlockState

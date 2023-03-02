@@ -90,37 +90,49 @@ Rallie 的中间件是一个洋葱圈模型
 如果运行环境被冻结，那么运行在非入口环境的 Block 注册的中间件将不会生效
 :::
 
-## 关联和依赖
-创建Block时，你可以声明关联和依赖的Block
-
-### 关联
-
-还是以[运行环境](#运行环境)章节中的 8 个 Block 的集群为例，假如 block2 需要使用 block1 提供的状态，那么它必须等 block1 的资源被加载，初始化状态的逻辑被执行后才能对 block1 的状态进行读，写和监听。此时，我们可以在注册 block2 时，将 block1 声明为 block2 的关联 Block
-
-```ts
-registerBlock(block2).relateTo(["block1"]);
-```
-
-经过这个声明，当你在激活 block2 时，Rallie 会先检查 block1 是否已经注册，如果没有，则会先加载 block1 的资源，等 block1 注册后，才进入 block2 指定的生命周期回调。你可以指定多个关联 Block，Rallie 会**按顺序**检查并加载关联的 Block。
+## 依赖管理
 
 ### 依赖
+在[基础](/guide/basic.html#基础)章节中，consumer必须等待producer初始化状态后才能执行后续操作，因此我们可以说consumer依赖了producer
 
-假如 block2 必须等待 block1 激活后才能正常工作，那么我们可以在注册 block2 时，将 block1 声明为 block2 的依赖
+Rallie 支持通过下面的形式声明Block间的依赖关系
 
 ```ts
-registerBlock(block2).relyOn(["block1"]);
+const consumer = createBlock('consumer')
+  .relyOn(['producer'])
+  .onActivate(() => {
+    // do something
+  })
 ```
 
-经过这个声明，当你在**首次激活**block2 时，Rallie 会先激活 block1，然后才进入 block2 的生命周期
+`relyOn`方法用于指定依赖，`onActivate`方法则用于指定依赖就绪后的回调。
+ 
+当我们需要使用consumer提供的服务时，不再调用`load`方法，而是调用`activate('consumer')`，Rallie 将会先激活producer，等producer就绪后再执行consumer指定的onActivate回调。
+
+:::tip
+load方法只会加载Block的资源，而`activate`方法还会递归激活依赖并执行`onActivate`回调
+:::
+
+### 关联
+除了指定依赖，你也可以通过`relateTo`方法指定Block间的关联关系
+
+```ts
+const consumer = createBlock('consumer')
+  .relateTo(['producer'])
+  .onActivate(() => {
+    // do something
+  })
+```
 
 **关联和依赖的区别：**
 
-1. 关联只会加载 Block，而依赖会激活 Block。
+1. 关联只会加载 Block 的资源，而依赖会激活 Block。
 2. 关联不会递归传递，依赖会递归传递。也就是说，如果 block1 关联了 block2，block2 又关联了 block3，那么在激活 block1 时，只会加载 block2，而不会加载 block3，只有当激活 block2 时才会加载 block3，但是，如果 block1 依赖了 block2，block2 又依赖了 block3，那么在激活 block1 时，block2 和 block3 都会被激活
-3. 允许互相关联，不允许互相依赖。正是因为依赖会递归传递，因此如果应用树中出现了循环依赖，就将导致[死锁](https://zh.wikipedia.org/wiki/%E6%AD%BB%E9%94%81)，会抛出异常
+3. 允许互相关联，不允许互相依赖。正是因为依赖会递归传递，因此如果应用树中出现了循环依赖，就将导致[死锁](https://zh.wikipedia.org/wiki/%E6%AD%BB%E9%94%81)，Rallie 检测到循环依赖会抛出异常
 <div align="center">
 <img src="../images/circle.drawio.svg">
 </div>
+
 
 ### 共享公共库
 
@@ -147,6 +159,12 @@ block.run((env) => {
 多个 Block 往往会使用一些相同的公共库，你可以将他们声明为关联或依赖来确保资源不被重复加载
 
 ```ts
+const block = createBlock("block")
+  .relyOn(["lib:vue"]) // 也可以是.relateTo(['lib:vue'])
+  .onActivate(async () => {
+    await import("./app")
+  });
+
 block.run((env) => {
   env.config({
     assets: {
@@ -155,13 +173,7 @@ block.run((env) => {
       },
     },
   });
-
-  registerBlock(block)
-    .relyOn(["lib:vue"]) // 也可以是.relateTo(['lib:vue'])
-    .onBootstrap(async () => {
-      (await import("./lifecycle")).onBootstrap();
-    });
-});
+})
 ```
 
 你或许已经注意到我们在生命周期方法中使用了[动态导入](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import#dynamic_imports)，这是因为 block 的资源会先于 Vue 源码被加载，使用动态导入可以让 block 的源码在构建时被分包，在`window.Vue`全局变量被挂载后才加载使用了 Vue 的逻辑。

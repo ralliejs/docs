@@ -213,8 +213,8 @@ const connectedProducer = consumer.connect<Producer>("producer");
 `connect`方法将返回一个 `ConnectedBlock`对象，然后我们就可以用这个 `ConnectedBlock`调用 `producer`提供的服务了
 
 ```ts
+const connectedProducer = consumer.connect<Producer>("producer");
 consumer.load("producer").then(() => {
-  const connectedProducer = consumer.connect<Producer>("producer");
   // 状态
   console.log(connectedProducer.state.count);
   connectedProducer
@@ -239,8 +239,8 @@ consumer.load("producer").then(() => {
 
 你会发现`ConnectedBlock`的 API 和用 `createBlock`方法创建出的 `CreatedBlock`对象的 API 一模一样，不过需要额外注意的是：
 
-1. `ConnectedBlock`没有`addMethods`方法，即你只能调用连接的 block 提供的方法，而无法为其添加方法
-2. 有的时候，为了保证状态安全，你不希望你创建的 block 的状态能直接被其他`ConnectedBlock`更改，此时你可以在初始化状态时给 `initState`方法传入第二个参数, 将状态设为私有
+1. `ConnectedBlock`没有`addMethods`方法，你只能调用连接的 block 提供的方法，而无法为其添加方法
+2. 有的时候，为了保证状态安全，你不希望你创建的 block 的状态能直接被其他`ConnectedBlock`更改，此时你可以在初始化状态时给 `initState`方法传入第二个参数, 将状态权限设为私有
 
 ```ts
 const producer = createBlock<Producer>("producer").initState({
