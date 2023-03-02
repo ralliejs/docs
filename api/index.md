@@ -7,20 +7,17 @@ type Events = Record<string, (...args: any[]) => void>
 
 type Methods = Record<string, (...args: any[]) => any>
 
-type Exports = Record<string, any>
-
 type BlockDeclare = Partial<{ 
-  state:  State, 
-  events: Events, 
-  methods: Methods, 
-  exports: Exports 
+  state:  State
+  events: Events
+  methods: Methods
 }>
 ```
 
 ## createBlock
 
 - 类型：`<T extends BlockDeclare>(name: string) => CreatedBlock<T['state'], T['events'], T['methods'], T['exports']>`
-- 说明：创建一个 Block，接收全局唯一的 block 名作为参数，返回一个[CreatedBlock](#createdblock)实例。
+- 说明：创建一个 Block，接收全局唯一的 block 名作为参数，返回一个[CreatedBlock](#createBlock)实例。
 - 示例：
 
   ```ts
@@ -39,21 +36,18 @@ type BlockDeclare = Partial<{
     methods: {
       login: () => void,
       logout: () => void
-    },
-    exports: {
-      text: string
     }
   }
 
   const myBlock = createBlock<MyBlock>("my-block");
   ```
 
-## CreatedBlock
-
 ### name
 
 - 类型：`string`
 - 说明： Block 的名称
+
+
 
 ### state
 
@@ -103,7 +97,7 @@ type BlockDeclare = Partial<{
 
 ### initState
 
-- 类型：`(value: State, isPrivate: boolean = false) => void`
+- 类型：`(value: State, isPrivate: boolean = false) => CreatedBlock`
 - 说明：初始化 Block 的状态。一个 Block 只能初始化一次状态，多次调用`initState`会抛出错误。如果希望状态不能被其他 Block 直接修改，第二个参数可以传入`true`，表示将状态初始化为私有状态。
 
 ### setState
@@ -185,11 +179,11 @@ type BlockDeclare = Partial<{
 ### addMethods
 
 - 类型：`(methods: Partial<Methods>) => (methodName?: string) => void`
-- 说明：给 Block 添加方法，返回值是用来取消方法的函数
+- 说明：给 Block 添加方法，返回值是用来移除方法的函数
 - 示例：
   - 添加方法：
     ```ts
-    const cancelMethods = block.addMethods({
+    const removeMethods = block.addMethods({
       logIn: async () => {
         await requestLogIn();
       },
@@ -200,48 +194,27 @@ type BlockDeclare = Partial<{
     ```
   - 批量取消方法：
     ```ts
-    cancelMethods();
+    removeMethods();
     ```
   - 取消单个方法
     ```ts
-    cancelMethods("logIn");
+    removeMethods("logIn");
     ```
-
-### export
-
-- 类型：`(exports: Exports) => void`
-- 说明：导出一个对象供其他Block使用
-- 示例：
-  ```ts
-  block.export({
-    text: 'hello rallie'
-  })
-  ```
 
 ### load
 
-- 类型：`(name: string, ctx?: Context) => Promise<void>`
-- 说明：加载 Block 的资源，接收两个参数，第一个参数是要加载的 Block 的名字，第二个参数是传递给资源加载[中间件](/guide/advance.html#中间件)的上下文
+- 类型：`(name: string) => Promise<void>`
+- 说明：加载 Block 的资源，参数是要加载的 Block 的名字
 
 ### activate
 
-- 类型：`(name: string, data?: any, ctx?: Context) => Promise<void>`
-- 说明：激活 Block，接收三个参数，第一个参数是要激活的 Block 的名字，第二个参数是传递给激活的 Block 的[生命周期](/guide/advance.html#生命周期)方法的参数，第三个参数是传递给资源加载[中间件](/guide/advance.html#中间件)的上下文
-
-### destroy
-
-- 类型：`(name: string, data?: any) => Promise<void>`
-- 说明：销毁 Block，接收两个参数，第一个参数是要销毁的 Block 的名字，第二个参数是传递给销毁的 Block 的[生命周期](/guide/advance.html#生命周期)方法的参数
-
-### run
-
-- 类型：`(callback: (env: Env) => void | Promise<void>) => Promise<void>`
-- 说明：执行传入的回调函数。可以在回调参数中获取当前 Block 的运行环境，详见[Env](#env)
+- 类型：`(name: string) => Promise<void>`
+- 说明：激活 Block，参数是要激活的 Block 的名字
 
 ### connect
 
-- 类型：`<T extends BlockDeclare>(name: string) => ConnectedBlock<T['state'], T['events'], T['methods'], T['exports']>`
-- 说明：连接 Block，接收要连接的 Block 的名字作为唯一参数，返回一个可以使用被连接 Block 的状态，事件，方法和导出对象的[ConnectedBlock](#connectedblock)。
+- 类型：`<T extends BlockDeclare>(name: string) => ConnectedBlock<T>`
+- 说明：连接 Block，接收要连接的 Block 的名字作为唯一参数，返回一个可以使用被连接 Block 的状态，事件，方法的[ConnectedBlock](#connectedblock)。
 - 示例：
   ```ts
   interface RemoteBlock {
@@ -265,122 +238,24 @@ type BlockDeclare = Partial<{
   const connectedBlock = block.connect<RemoteBlock>("remote");
   ```
 
-## ConnectedBlock
+[connect](#connect)方法将返回一个`ConnectedBlock`。其状态，事件和方法相关的API是[CreatedBlock](#createblock)的API的子集，包括[name](#name)，[state](#state)，[events](#events)，[methods](#methods)，[setState](#setstate)，[watchState](#watchstate) 和 [listenEvents](#lisenevents)
 
-### state / events / methods
+::: tip
+如果连接的 Block 将状态声明为私有状态，那么通过`ConnectedBlock`调用`setState`更改 Block 的状态将报错
+:::
 
-[connect](#connect)方法将返回一个`ConnectedBlock`。其状态，事件和方法相关的API是[CreatedBlock](#createdblock)的API的子集，包括
 
-- [name](#name)
-- [state](#state)
-- [events](#events)
-- [methods](#methods)
-- [setState](#setstate)
-  ::: tip
-  如果连接的 Block 将状态声明为私有状态，那么通过`ConnectedBlock`调用`setState`更改 Block 的状态将报错
-  :::
-- [watchState](#watchstate)
-- [listenEvents](#lisenevents)
 
 以上属性和方法的使用方式与 CreatedBlock 的使用方式是完全一致的
-
-### import
-
-- 类型：`() => Exports`
-- 说明：将连接的Block导出的对象进行导入
-- 示例：
-
-  导出对象
-  ```ts
-  const producer = createBlock('producer')
-  producer.export({
-    text: 'hello rallie'
-  })
-  ```
-  导入对象
-  ```ts
-  const consumer = createBlock('consumer')
-  const producer = consumer.connect('producer')
-  const { text } = producer.import()
-  console.log(text) // hello rallie
-  ```
 
 ::: tip
 对于一个 ConnectedBlock，要使用其状态，调用其方法，导入其暴露的对象，应该保证其状态已经被初始化，方法已经被添加，对象已经被导出。而 connect 操作并不会加载和激活要连接的 Block，因此你应该将要连接的 Block 声明为当前 Block 的[关联或依赖](/guide/advance.html#关联和依赖)，或者手动加载或激活要连接的 Block
 :::
 
-## registerBlock
+### run
 
-- 类型：`(block: CreatedBlock) => RegisteredBlock`
-- 说明：注册 Block 实例，只有注册过的 Block 才能被其他 Block[加载](#load)、[激活](#activate)和[卸载](#destroy)。该方法将返回一个[RegisteredBlock](#registerdblock)对象
-- 示例：
-
-  ```ts
-  import { registerBlock, createBlock } from "@rallie/block";
-
-  const app = createBlock("my-app");
-  registerBlock(app)
-    .relyOn(["lib:react"])
-    .relateTo(["your-app"])
-    .onBootstrap(() => {
-      // do the bootstrap
-    })
-    .onDestroy(() => {
-      // do the destroy
-    });
-  ```
-
-## RegisteredBlock
-
-通过调用`registerBlock`获得，用于声明注册的 Block 的[关联和依赖](/guide/advance.html#关联和依赖)，以及[生命周期](/guide/advance.html#生命周期)，支持链式调用
-
-### relateTo
-
-- 类型：`(Array<string | { name: string, ctx: Record<string, any> }>) => RegisteredBlock`
-- 说明：声明当前 Block 关联的 Block，接收的参数是一个数组，包含要关联的 Block 列表，数组项可以是关联 Block 的名称字符串，也可以是一个对象，包含`name`属性（关联 Block 的名称）和`ctx`属性（传递给资源加载中间件的上下文）。多次调用`relateTo`方法会对原来的关联数组进行去重追加
-- 示例：
-  ```ts
-  registerBlock(myBlock).relateTo([
-    "lib:react",
-    { name: "lib:react-dom", ctx: { version: "17.0.2" } },
-  ]);
-  ```
-
-### relyOn
-
-- 类型：`(Array<string | { name: string, data: any, ctx: Record<string, any> }>) => RegisteredBlock`
-- 说明：声明当前 Block 依赖的 Block，接收的参数是一个数组，包含依赖的 Block 列表，数组项可以是依赖 Block 的名称字符串，也可以是一个对象，包含`name`属性（依赖 Block 的名称）、`data`属性（传递给依赖 Block 的生命周期激活参数）和`ctx`属性（传递给资源加载中间件的上下文）。多次调用`relyOn`方法会对原来的依赖数组进行去重追加
-- 示例：
-  ```ts
-  registerBlock(myBlock).relyOn([
-    "lib:react",
-    {
-      name: "layout-block",
-      ctx: {
-        version: "17.0.2",
-        data: {
-          lang: "en",
-          theme: "dark",
-        },
-      },
-    },
-  ]);
-  ```
-
-### onBootstrap
-
-- 类型：`(callback: (data: any) => void | Promise<void>) => RegisteredBlock`
-- 说明：声明 bootstrap 阶段的回调，参考[生命周期](/guide/advance.html#生命周期)
-
-### onActivate
-
-- 类型：`(callbak: (data: any) => void | Promise<void>) => RegisteredBlock`
-- 说明：声明 activate 阶段的回调，参考[生命周期](/guide/advance.html#生命周期)
-
-### onDestroy
-
-- 类型：`(callback: (data: any) => void | Promise<void>) => RegisteredBlock`
-- 说明：声明 destroy 阶段的回调，参考[生命周期](/guide/advance.html#生命周期)
+- 类型：`(callback: (env: Env) => void | Promise<void>) => Promise<void>`
+- 说明：执行传入的回调函数。可以在回调参数中获取当前 Block 的运行环境，详见[Env](#env)
 
 ## Env
 

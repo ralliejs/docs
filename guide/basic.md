@@ -4,32 +4,28 @@
 
 ## 创建 Block
 
-正如[介绍](/guide/introduction.html#介绍)中所述，Rallie 中的每个应用对外提供响应式状态，事件，方法以及基于方法封装的导出对象作为服务。我们把这样的应用称之为一个 Block，它可以通过下面的方式创建：
+正如[介绍](/guide/introduction.html#介绍)中所述，Rallie 中的每个应用对外提供响应式状态，事件，方法以作为服务。我们把这样的应用称之为一个 Block，它可以通过下面的方式创建：
 
 ```ts
 import { createBlock } from "@rallie/block";
 
 interface Producer {
   state: {
-    user: string,
-    items: string[],
+    count: number,
   },
   events: {
-    print: (text: string) => void,
+    printCount: () => void,
   },
   methods: {
-    syncMethod: () => string,
-    asyncMethod: () => Promise<string>,
-  },
-  exports: {
-    text: string
+    addCount: () => void,
+    uploadCount: () => Promise<void>,
   }
 }
 
 export const producer = createBlock<Producer>("producer");
 ```
 
-创建 block 时，需要提供一个全局唯一的名字作为 block 的唯一标识，后续我们也是通过 block 名来与其他应用建立连接。同时，我们可以提供状态，事件，方法以及导出对象的泛型参数，为后面要使用的 API 提供更好的 typescript 支持。
+创建 block 时，需要提供一个全局唯一的名字作为 block 的唯一标识，后续我们也是通过 block 名来与其他应用建立连接。同时，如果你使用 typescript 开发的话，我们可以通过使用泛型参数，在创建 block 时定义好状态，事件，方法的类型，为后面要使用的 API 提供更好的ts支持。
 
 ### 状态
 
@@ -39,8 +35,7 @@ export const producer = createBlock<Producer>("producer");
 
 ```ts
 producer.initState({
-  user: "Tom",
-  items: [],
+  count: 0
 });
 ```
 
@@ -53,7 +48,7 @@ producer.initState({
 状态值可以直接通过 `block.state`属性读取
 
 ```ts
-console.log(producer.state.items); // []
+console.log(producer.state.count); // 0
 ```
 
 #### 修改状态
@@ -61,11 +56,11 @@ console.log(producer.state.items); // []
 要修改状态，必须通过 `block.setState`方法，在回调函数中修改，且在修改时，需要对本次操作进行适当说明。
 
 ```ts
-producer.setState("add apple", (state) => {
-  state.items.push("apple"); // 通过setState方法合法地修改状态
+producer.setState("add count", (state) => {
+  state.count++; // 通过setState方法可以合法地修改状态
 });
 
-producer.state.items = []; // 直接修改producer.state会抛出错误
+producer.state.count++; // 直接修改producer.state会抛出错误
 ```
 
 :::tip
@@ -77,22 +72,20 @@ producer.state.items = []; // 直接修改producer.state会抛出错误
 我们可以使用 `block.watchState`监听状态的变更。它的使用方式比较灵活。 你可以在 `watchState`方法中返回要监听的状态，紧接着链式调用 `do`方法，指定监听回调
 
 ```ts
-producer.setState("clear the state", (state) => {
-  state.items = [];
-  state.user = null;
+producer.setState("reset count", (state) => {
+  state.count = 0
 });
 
 const unwatch = producer
-  .watchState((state) => [state.items, state.user])
-  .do(([newItems, newUser], [oldItems, oldUser]) => {
-    console.log(newItems, newUser, oldItems, oldUser);
+  .watchState((state) => state.count)
+  .do((newCount, oldCount) => {
+    console.log(newCount, oldCount);
   });
 
-producer.setState("modify the state", (state) => {
-  state.items = ["apple", "banana"];
-  state.user = "Mike";
+producer.setState("modify the count", (state) => {
+  state.count = 1;
 });
-// 打印 [], null, [apple, banana], Mike
+// 打印 1, 0
 
 unwatch(); // 取消监听
 ```
@@ -100,20 +93,19 @@ unwatch(); // 取消监听
 也可以直接在 `watchState`方法中指定监听回调，响应式系统会自动记录依赖并在状态变更时执行回调函数，效果类似 Vue 的[watchEffect](https://v3.vuejs.org/guide/reactivity-computed-watchers.html#watcheffect)方法
 
 ```ts
-producer.setState("modify the state", (state) => {
-  state.items = ["apple", "banana"];
-  state.user = "Mike";
+producer.setState("reset count", (state) => {
+  state.count = 0
 });
 
-const watcher = producer.watchState((state) => {
-  console.log(state.items, state.user);
-});
+const watcher = producer
+  .watchState((state) => { 
+    console.log(state.count)
+  })
 
-producer.setState("modify the state again", (state) => {
-  state.items.pop();
-  state.user = "John";
+producer.setState("modify the count", (state) => {
+  state.count = 1;
 });
-// 分别打印 [apple, banana], Mike; [apple], John
+// 打印 0, 1
 
 watcher.unwatch(); // 取消监听
 ```
@@ -125,12 +117,12 @@ watcher.unwatch(); // 取消监听
 ```ts
 // 监听事件
 const cancelEvents = producer.listenEvents({
-  print(text) {
-    console.log(text);
+  printCount() {
+    console.log(producer.state.count);
   },
 });
 // 触发事件
-producer.events.print("hello");
+producer.events.printCount();
 // 取消监听
 cancelEvents();
 ```
@@ -141,18 +133,14 @@ cancelEvents();
 
 ```ts
 // 添加方法
-const cancelMethods = producer.addMethods({
-  syncMethod() {
-    return "sync";
-  },
-  async asyncMethod() {
-    return "async";
+const removeMethods = producer.addMethods({
+  async uploadCount() {
+    await service.uploadCount(producer.state.count)
   },
 });
 // 调用方法
-console.log(producer.methods.syncMethod()); // 调用同步方法
-producer.methods.asyncMethod().then((text) => consle.log(text)); // 调用异步方法
-// 取消方法
+await producer.methods.uploadCount()
+// 移除方法
 cancelMethods();
 ```
 
@@ -162,33 +150,6 @@ cancelMethods();
 1. 同一个事件可以被监听多次，当事件触发时，每一个事件回调都会被执行；同一个方法只能被添加一次，重复添加重名方法会抛出异常
 2. 事件回调没有返回值，方法则可以有返回值
    :::
-
-### 导出对象
-
-我们也可以直接导出一个对象暴露给其他block使用
-
-```ts
-producer.export({
-  text: 'hello rallie'
-})
-```
-
-:::tip
-export是基于addMethods封装的一个语法糖。需要注意的是，无论调用export方法多少次，最终导出的只会是第一次调用export传入的对象
-:::
-
-### 注册 Block
-
-创建好 Block 并声明了状态，事件和方法后，我们还需要通过 `registerBlock`方法进行注册，这样才能让其他 Block 使用我们提供的服务
-
-```ts
-import { registerBlock } from "@rallie/block";
-import { producer } from "./block";
-
-registerBlock(producer);
-```
-
-调用 `registerBlock`后，我们还可以紧接着声明 Block 的生命周期以及与其他 Block 的关联依赖关系，你将会在[进阶](/guide/advance.html)章节中了解更多。
 
 ## 加载 Block
 
@@ -236,101 +197,60 @@ consumer.load("producer").then(() => {
 ```ts
 interface Producer {
   state: {
-    user: string,
-    items: string[],
+    count: number,
   },
   events: {
-    print: (text: string) => void,
+    printCount: () => void,
   },
   methods: {
-    syncMethod: () => string,
-    asyncMethod: () => Promise<string>,
-  },
-  exports: {
-    text: string
+    addCount: () => void,
+    uploadCount: () => Promise<void>,
   }
 }
-export const producer = consumer.connect<Producer>("producer");
+const connectedProducer = consumer.connect<Producer>("producer");
 ```
 
-`connect`方法将返回一个 `ConnectedBlock`对象，除了 `ConnectedBlock.import`外，该对象的 API 是我们通过 `createBlock`方法创建出的 `CreatedBlock`对象的 API 的子集。具体可查看[ConnectedBlock API](/api/#connector)
-
-然后我们就可以用这个 `ConnectedBlock`调用 `producer`提供的服务了
+`connect`方法将返回一个 `ConnectedBlock`对象，然后我们就可以用这个 `ConnectedBlock`调用 `producer`提供的服务了
 
 ```ts
-import { producer } from "./connected-block";
-
+const connectedProducer = consumer.connect<Producer>("producer");
 consumer.load("producer").then(() => {
   // 状态
-  console.log(producer.state.items);
-  producer
-    .watchState((state) => state.user)
-    .do((user) => {
-      console.log(user);
+  console.log(connectedProducer.state.count);
+  connectedProducer
+    .watchState((state) => state.count)
+    .do((count) => {
+      console.log(count);
     });
-  producer.setState("push strawberry", (state) =>
-    state.items.push("strawberry")
+  connectedProducer.setState("modify count", (state) =>
+    state.count = 0
   );
   // 事件
-  producer.listenEvents({
-    print(text) {
-      console.log("print in consumer", text);
+  connectedProducer.listenEvents({
+    printCount() {
+      console.warn("print by consumer", connectedProducer.state.count);
     },
   });
-  producer.events.print("hello rallie");
+  connectedProducer.events.printCount();
   // 方法
-  producer.methods.asyncMethod().then((text) => {
-    console.log(text);
-  });
-  // 导入对象
-  const { text } = producer.import()
-  console.log(text)
+  connectedProducer.methods.uploadCount();
 });
 ```
 
-有的时候，为了保证状态安全，你不希望你创建的 block 的状态能直接被其他 ConnectedBlock 更改，此时你可以在初始化状态时给 `initState`方法传入第二个参数, 将状态设为私有
+你会发现`ConnectedBlock`的 API 和用 `createBlock`方法创建出的 `CreatedBlock`对象的 API 一模一样，不过需要额外注意的是：
+
+1. `ConnectedBlock`没有`addMethods`方法，你只能调用连接的 block 提供的方法，而无法为其添加方法
+2. 有的时候，为了保证状态安全，你不希望你创建的 block 的状态能直接被其他`ConnectedBlock`更改，此时你可以在初始化状态时给 `initState`方法传入第二个参数, 将状态权限设为私有
 
 ```ts
-interface Producer {
-  state: {
-    user: {
-      name: string,
-      token: string,
-    }
-  },
-  methods: {
-    logIn: () => Promise<void>,
-    logOut: () => Promise<void>,
-  }
-}
-
-const producer = createBlock<Producer>("producer");
-
-producer.initState(
-  {
-    user: {
-      name: "",
-      token: "",
-    },
-  },
-  true
-); // 私有状态
+const producer = createBlock<Producer>("producer").initState({
+  count: 0
+}, true) // 私有状态
 
 producer.addMethods({
-  logIn: async () => {
-    const user = await requestUserInfo();
-    producer.setState("log in", (state) => {
-      state.user = user;
-    });
-  },
-  logOut: async () => {
-    producer.setState("log out", (state) => {
-      state.user = {
-        name: "",
-        token: "",
-      };
-    });
-  },
+  addCount: () => {
+    producer.state.count++
+  }
 });
 ```
 
@@ -338,13 +258,12 @@ producer.addMethods({
 
 ```ts
 const consumer = createBlock("consumer");
-const producer = consumer.connect("producer");
+const connectedProducer = consumer.connect("producer");
 
-// 无法修改状态，因为producer的状态是私有的
-producer.setState("login", (state) => {
-  state.user.name = "Andy";
+// 会抛出错误，因为producer的状态是私有的
+connectedProducer.setState("add count", (state) => {
+  state.count++;
 });
-
-// 可以通过producer提供的方法修改状态
-producer.methods.logIn();
+// 能合法的修改状态
+connectedProducer.methods.addCount()
 ```
