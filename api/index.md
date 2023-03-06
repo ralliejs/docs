@@ -42,6 +42,8 @@ type BlockDeclare = Partial<{
   const myBlock = createBlock<MyBlock>("my-block");
   ```
 
+## CreatedBlock
+
 ### name
 
 - 类型：`string`
@@ -154,12 +156,13 @@ type BlockDeclare = Partial<{
 ### listenEvents
 
 - 类型：`(events: Partial<Events>) => (eventName?: string) => void`
-- 说明：给 Block 添加事件监听，返回值是用来取消事件监听的函数
+- 说明：给 Block 添加事件监听，返回值是用来取消事件监听的函数。从监听回调的`this`上下文中，可以获得事件调用方的block名
 - 示例：
   - 监听事件：
     ```ts
     const cancelEvents = block.listenEvents({
-      changeTheme: (themeColor) => {
+      changeTheme(this: { trigger: string }, themeColor) {
+        console.log(`事件调用方是${this.trigger}`)
         doChangeTheme(themeColor);
       },
       changeLanguage: (lang) => {
@@ -167,7 +170,7 @@ type BlockDeclare = Partial<{
       },
     });
     ```
-  - 批量取消监听事件：
+  - 取消监听所有事件：
     ```ts
     cancelEvents();
     ```
@@ -179,12 +182,13 @@ type BlockDeclare = Partial<{
 ### addMethods
 
 - 类型：`(methods: Partial<Methods>) => (methodName?: string) => void`
-- 说明：给 Block 添加方法，返回值是用来移除方法的函数
+- 说明：给 Block 添加方法，返回值是用来移除方法的函数。从方法回调的`this`上下文中，可以获得事件调用方的block名
 - 示例：
   - 添加方法：
     ```ts
     const removeMethods = block.addMethods({
-      logIn: async () => {
+      async logIn(this: { trigger: string }) => {
+        console.log(`事件调用方是${this.trigger}`)
         await requestLogIn();
       },
       logOut: async () => {
@@ -192,11 +196,11 @@ type BlockDeclare = Partial<{
       },
     });
     ```
-  - 批量取消方法：
+  - 移除所有方法：
     ```ts
     removeMethods();
     ```
-  - 取消单个方法
+  - 移除单个方法
     ```ts
     removeMethods("logIn");
     ```
@@ -290,7 +294,7 @@ Block 的运行环境对象，可以在[run](#run)方法的回调中获得
     loadLink: (
       link: Partial<HTMLLinkElement> | string | HTMLLinkElement
     ) => Promise<void>; // 插入Link标签的方法
-    [other: string]: any;
+    [other: string]: any; // 中间件可以给context添加方法和属性
   }
   ```
 

@@ -308,7 +308,7 @@ export default {
 
 ### mixinBlockMethods
 
-`mixinBlockMethods`和`mixinBlockEvents`使用方法相同。组件将在挂载时添加方法，在卸载时取消方法
+`mixinBlockMethods`和`mixinBlockEvents`使用方法相同。组件将在挂载时添加方法，在卸载时移除方法
 
 ```vue
 <template>
@@ -340,6 +340,10 @@ export default {
 }
 </script>
 ```
+
+:::warning
+`mixinBlockEvents`和`mixinBlockMethods`的回调函数中的`this`是所在组件的Vue实例，无法直接通过`this.trigger`获得事件或方法调用方的block名。如果要使用这一特性，你可以在组件生命周期方法中手动监听事件或添加方法
+:::
 
 ## load-html 中间件
 

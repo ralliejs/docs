@@ -90,7 +90,7 @@ Rallie 的中间件是一个洋葱圈模型
 如果运行环境被冻结，那么运行在非入口环境的 Block 注册的中间件将不会生效
 :::
 
-## 依赖管理
+## 应用治理
 
 ### 依赖
 在[基础](/guide/basic.html#基础)章节中，consumer必须等待producer初始化状态后才能执行后续操作，因此我们可以说consumer依赖了producer
@@ -107,7 +107,7 @@ const consumer = createBlock('consumer')
 
 `relyOn`方法用于指定依赖，`onActivate`方法则用于指定依赖就绪后的回调。
  
-当我们需要使用consumer提供的服务时，不再调用`load`方法，而是调用`activate('consumer')`，Rallie 将会先激活producer，等producer就绪后再执行consumer指定的onActivate回调。
+当我们需要使用consumer提供的服务时，不再调用`block.load`方法，而是调用`block.activate('consumer')`，Rallie 将会先激活consumer依赖的producer，等producer就绪后再执行consumer指定的onActivate回调。
 
 :::tip
 load方法只会加载Block的资源，而`activate`方法还会递归激活依赖并执行`onActivate`回调
@@ -176,7 +176,7 @@ block.run((env) => {
 })
 ```
 
-你或许已经注意到我们在生命周期方法中使用了[动态导入](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import#dynamic_imports)，这是因为 block 的资源会先于 Vue 源码被加载，使用动态导入可以让 block 的源码在构建时被分包，在`window.Vue`全局变量被挂载后才加载使用了 Vue 的逻辑。
+你或许已经注意到我们在`onActivate`回调中使用了[动态导入](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import#dynamic_imports)，这是因为 block 的资源会先于 Vue 源码被加载，使用动态导入可以让 block 的源码在构建时被分包，在`window.Vue`全局变量被挂载后才加载使用了 Vue 的逻辑。
 
 最后，我们配置一下构建工具的`external`特性即可
 

@@ -267,3 +267,20 @@ connectedProducer.setState("add count", (state) => {
 // 能合法的修改状态
 connectedProducer.methods.addCount()
 ```
+
+另外，在方法和事件的监听函数中，你可以通过`this`上下文获得调用事件或方法的block的名字
+
+```ts
+producer.addMethods({
+  addCount: (this: { trigger: string }) => {
+    console.log(this.trigger)
+    producer.state.count++
+  }
+})
+
+connectedProducer.methods.addCount()
+// 打印结果 ’consumer‘
+```
+
+在很多业务场景中，这个特性非常有用
+
