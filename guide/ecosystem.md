@@ -393,7 +393,10 @@ env.use(
 
 比如上面这个例子，如果宿主 html 中预留了 id 为`root`的元素，则激活`producer`时，中间件会将该预留元素的`innerHTML`的内容替换为`http://localhost:3000/producer.html`解析出的 id 为`root`的元素内容。如果没有提前预留好这个元素，则中间件会直接将加载的 html 中解析出的 id 为`root`的元素插入到`body`中
 
-除了`entries`，该中间件还接收两个配置参数，一个是`fetch`，这是用来加载 html 的函数，你可以传入自定义的 fetch 函数来应对需要添加特殊请求头的情况，如果不传，则默认是`window.fetch`；另一个配置项是`regardHtmlPathAsRoot`，这是一个布尔值，默认是`false`，如果置为`true`，则中间件在转换 html 中的资源的路径时，会将`html`的路径视作根路径。
+除了`entries`，该中间件还支持以下几个可选的配置参数
+
+- `fetch`：这是用来加载 html 的函数，你可以传入自定义的 fetch 函数来应对需要添加特殊请求头的情况，如果不传，则默认是`window.fetch`；
+- `regardHtmlPathAsRoot`：这是一个布尔值，默认是`false`，如果置为`true`，则中间件在转换 html 中的资源的路径时，会将`html`的路径视作根路径。
 
 举个例子：
 
@@ -433,3 +436,13 @@ env.use(
 ```
 
 这个配置项对于将 html 上传到公共 cdn 上的场景非常有用
+
+- `filter`：这是用来过滤html中的元素的方法。该方法接收一个`HTMLScriptElement ｜ HTMLLinkElement ｜ HTMLStyleElement`实例作为参数，返回一个布尔值，如果返回`true`，则该元素会被保留，否则会被移除。
+
+比如你可以通过这个配置项，只保留Html中的script标签
+
+```ts
+env.use(loadHtml({
+  filter: (el) => el.tagName === 'SCRIPT'
+}))
+```
