@@ -3,15 +3,15 @@ home: true
 heroImage: /logo.png
 heroAlt: rallie.js
 heroText: Rallie.js
-tagline: 帮助用户实现去中心化的前端微服务架构的库
-actionText: 开始使用
+tagline: A library to help users achieve a decentralized front-end microservices architecture
+actionText: Get Started
 actionLink: /guide/introduction/
 features:
-    - title: 服务编排
-      details: 没有所谓的主应用和子应用的概念区分，一切应用皆服务，服务间的依赖关系由rallie管理和编排
-    - title: 服务通信
-      details: 服务可对外暴露基于@vue/reactivity的响应式状态以及基于proxy的事件和方法
-    - title: 中间件扩展
-      details: 基于koa-compose实现的中间件机制，使应用资源加载变得高度灵活可扩展
+    - title: Service Orchestration
+      details: There is no concept of distinguishing between a main application and sub-applications; every application is a service, and the dependencies between services are managed and orchestrated by Rallie.
+    - title: Service Communication
+      details: Services can expose reactive states based on @vue/reactivity, as well as events and methods based on proxy.
+    - title: Middleware Extension
+      details: The middleware mechanism based on koa-compose makes application resource loading highly flexible and extensible.
 footer: MIT Licensed | Runnan
 ---

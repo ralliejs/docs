@@ -18,6 +18,6 @@
   },
   "homepage": "https://github.com/ralliejs/docs#readme",
   "devDependencies": {
-    "vuepress": "^1.8.2"
+    "vuepress": "^1.9.10"
   }
 }

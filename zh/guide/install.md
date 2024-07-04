@@ -1,12 +1,12 @@
-## Installation
+# 安装
 
-### npm
+## npm
 
 ```shell
 npm install @rallie/block
 ```
 
-### CDN
+## cdn
 
 ```html
 <script src="https://cdn.jsdelivr.net/npm/@rallie/block"></script>

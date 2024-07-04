@@ -1,8 +1,8 @@
-# 生态
+# Ecosystem
 
 ## React
 
-Rallie 官方维护`@rallie/react`，提供了几个常用的 Hook 帮助你更好地使用应用提供的服务。你可以安装`@rallie/react`来使用它们
+Rallie officially maintains `@rallie/react`, offering several commonly used Hooks to help you better utilize the services provided by applications. You can install `@rallie/react` to use them.
 
 ```shell
 npm install @rallie/react
@@ -10,13 +10,13 @@ npm install @rallie/react
 
 ### useBlockState
 
-该 hook 的第一个参数是一个`CreatedBlock`或`ConnectedBlock`实例，第二个参数是指定 Block 状态的回调，最终该 hook 会返回与指定的 Block 状态同步的 React 状态
+The first argument of this hook is a `CreatedBlock` or `ConnectedBlock` instance, and the second argument is a callback specifying the Block state. Ultimately, the hook returns the React state synchronized with the specified Block state.
 
 ```tsx
 import { createBlock } from "@rallie/block";
 import { useBlockState } from "@rallie/react";
 
-interface Comsumer {
+interface Consumer {
   state: {
     count: number
   }
@@ -31,13 +31,12 @@ interface Producer {
 const consumer = createBlock<Consumer>("consumer").initState({
   count: 0,
 });
-consumer
 const producer = consumer.connect<Producer>("producer");
 
 export const Demo = () => {
   const count = useBlockState(consumer, (state) => state.count);
   const theme = useBlockState(producer, (state) => state.theme);
-  const addCount = () =>
+  const addCount = () => 
     consumer.setState("add count", (state) => state.count++);
   return (
     <div style={{ color: theme }}>
@@ -47,11 +46,11 @@ export const Demo = () => {
 };
 ```
 
-同时你可以指定第三个参数——一个依赖数组，useBlockState 将在依赖变化时重新监听 Rallie 状态
+You can also specify a third parameter — a dependency array. `useBlockState` will re-listen to Rallie state when the dependencies change.
 
 ### useBlockEvents
 
-该 hook 将在组件挂载时监听事件，在组件卸载时取消监听
+This hook listens to events when the component mounts and cancels the event listening when the component unmounts.
 
 ```tsx
 import { createBlock } from "@rallie/block";
@@ -78,11 +77,11 @@ export const Demo = () => {
 };
 ```
 
-同时你可以指定第三个参数——一个依赖数组，useBlockEvents 将在依赖变化时重新监听事件
+You can also specify a third parameter — a dependency array. `useBlockEvents` will re-listen to events when the dependencies change.
 
 ### useBlockMethods
 
-该 hook 将在组件挂载时添加方法，在组件卸载时取消方法
+This hook adds methods when the component mounts and removes methods when the component unmounts.
 
 ```tsx
 import { useRef } from "react";
@@ -102,7 +101,7 @@ export const Demo = () => {
   useBlockMethods(producer, {
     getInputRef: () => inputRef.current,
   });
-  const focusInputInput = () => {
+  const focusInput = () => {
     const el = producer.methods.getInputRef();
     if (el) {
       el.focus();
@@ -111,32 +110,35 @@ export const Demo = () => {
   return (
     <div>
       <input ref={inputRef} />
-      <button onClick={focusInputInput}>focus</button>
+      <button onClick={focusInput}>focus</button>
     </div>
   );
 };
 ```
 
-同时你可以指定第三个参数——一个依赖数组，useBlockMethods 将在依赖变化时重新添加方法
+You can also specify a third parameter — a dependency array. `useBlockMethods` will re-add methods when the dependencies change.
 
-## Vue3
 
-Rallie 官方维护`@rallie/vue`，同时包含了对 Vue3 和对 Vue2 的支持，你可以安装`@rallie/vue`来使用
+## Vue 3
+
+Rallie officially maintains the `@rallie/vue` package, which supports both Vue 3 and Vue 2. You can install `@rallie/vue` to take advantage of its features.
 
 ```sh
 npm install @rallie/vue
 ```
 
-针对 Vue3 应用，Rallie 提供了几个 CompositionAPI，除了不需要指定依赖数组之外，命名和使用方法都与`@rallie/react`的 api 相同
+For Vue 3 applications, Rallie provides several Composition API functions. Except for not needing to specify a dependency array, the naming and usage methods are the same as the APIs in `@rallie/react`.
 
 ### useBlockState
+
+The `useBlockState` hook in Vue 3 is used to synchronize a piece of state from a `CreatedBlock` or `ConnectedBlock` instance with the component's reactive state.
 
 ```vue
 <script setup lang="ts">
 import { createBlock } from "@rallie/block";
 import { useBlockState } from "@rallie/vue";
 
-interface Comsumer {
+interface Consumer {
   state: {
     count: number
   }
@@ -169,6 +171,8 @@ const addCount = () =>
 
 ### useBlockEvents
 
+The `useBlockEvents` hook in Vue 3 is used to listen to events from a block. It sets up the event listeners when the component is mounted and cleans them up when the component is unmounted.
+
 ```vue
 <script setup lang="ts">
 import { createBlock } from "@rallie/block";
@@ -176,7 +180,7 @@ import { useBlockEvents } from "@rallie/vue";
 
 interface Producer {
   events: {
-    print: () => voi
+    print: () => void
   }
 }
 
@@ -189,12 +193,14 @@ useBlockEvents(producer, {
 
 <template>
   <div>
-    <button @click="producer.events.print()">print</button>
+    <button @click="() => producer.events.print()">print</button>
   </div>
 </template>
 ```
 
 ### useBlockMethods
+
+The `useBlockMethods` hook in Vue 3 is used to add methods to a block. It attaches the methods when the component is mounted and removes them when the component is unmounted.
 
 ```vue
 <script setup lang="ts">
@@ -204,7 +210,7 @@ import { useBlockMethods } from "@rallie/vue";
 
 interface Producer {
   methods: {
-    getRef: () => HTMLElement
+    getInputRef: () => HTMLElement
   }
 }
 
@@ -230,21 +236,20 @@ const focusInput = () => {
 </template>
 ```
 
-## Vue2
+In Vue 3, the `<script setup>` syntax is used for a more concise and performant way to author Composition API functions. The examples above demonstrate how to integrate Rallie's functionality within the Vue 3 Composition API, allowing for reactive state synchronization, event handling, and method binding within the context of a Vue component.
 
-对于 Vue2 的应用，`@rallie/vue`提供了几个 mixin 支持，你可以从`@rallie/vue/mixins`中导入它们
+
+## Vue 2
+
+For Vue 2 applications, `@rallie/vue` offers several mixins for support, which you can import from `@rallie/vue/mixins`.
 
 ```ts
-import {
-  mixinBlockState,
-  mixinBlockEvents,
-  mixinBlockMethods,
-} from "@rallie/vue/mixin";
+import { mixinBlockState, mixinBlockEvents, mixinBlockMethods } from "@rallie/vue/mixin";
 ```
 
 ### mixinBlockState
 
-该方法接收两个参数，第一个参数是一个`CreatedBlock`或`ConnectedBlock`实例，第二个参数是一个将 Block 的状态映射为组件的计算属性的函数。你可以像这样使用它
+This method takes two parameters. The first is an instance of `CreatedBlock` or `ConnectedBlock`, and the second is a function that maps the Block's state to the component's computed properties. Here's how to use it:
 
 ```vue
 <template>
@@ -262,7 +267,7 @@ producer.initState({
 
 export default {
   mixins: [
-    mixinBlockState(app, (state) => ({
+    mixinBlockState(producer, (state) => ({
       count: state.count,
     })),
   ],
@@ -277,7 +282,7 @@ export default {
 
 ### mixinBlockEvents
 
-该方法的第一个参数是一个`CreatedBlock`或`ConnectedBlock`实例，第二个参数是要监听的事件回调集合。组件将在挂载时监听事件，在卸载时取消监听
+The first parameter of this method is an instance of `CreatedBlock` or `ConnectedBlock`, and the second is a collection of event callback functions to listen to. The component will listen to the events when mounted and cancel them when unmounted.
 
 ```vue
 <template>
@@ -289,11 +294,12 @@ import { createBlock } from "@rallie/block";
 import { mixinBlockEvents } from "@rallie/vue/dist/mixin";
 
 const producer = createBlock("producer");
+
 export default {
   mixins: [
     mixinBlockEvents(producer, {
       print() {
-        console.log(this.text); // 可以在回调函数中通过this访问组件实例
+        console.log(this.text); // You can access the component instance via `this` in the callback function
       },
     }),
   ],
@@ -308,12 +314,12 @@ export default {
 
 ### mixinBlockMethods
 
-`mixinBlockMethods`和`mixinBlockEvents`使用方法相同。组件将在挂载时添加方法，在卸载时移除方法
+`mixinBlockMethods` is used in the same way as `mixinBlockEvents`. The component will add methods when mounted and remove them when unmounted.
 
 ```vue
 <template>
   <div>
-    <input ref="input" @click="focuseInput"></input>
+    <input ref="input" @click="focuseInput"/>
     <button @click="focusInput">focus</button>
   </div>
 </template>
@@ -323,6 +329,7 @@ import { createBlock } from "@rallie/block";
 import { mixinBlockMethods } from '@rallie/vue/dist/mixin'
 
 const producer = createBlock('producer')
+
 export default {
   mixins: [
     mixinBlockMethods(producer, {
@@ -342,18 +349,18 @@ export default {
 ```
 
 :::warning
-`mixinBlockEvents`和`mixinBlockMethods`的回调函数中的`this`是所在组件的Vue实例，无法直接通过`this.trigger`获得事件或方法调用方的block名。如果要使用这一特性，你可以在组件生命周期方法中手动监听事件或添加方法
+The `this` inside the callback functions of `mixinBlockEvents` and `mixinBlockMethods` refers to the Vue instance of the component, not the block instance. You cannot directly access the block name that triggered the event or method using `this.trigger`. If you need this functionality, you can manually listen to events or add methods in the component's lifecycle methods.
 :::
 
-## load-html 中间件
+## load-html Middleware
 
-Rallie 官方维护`@rallie/load-html`，这是一个中间件，你可以安装`@rallie/load-html`来使用它
+Rallie officially maintains `@rallie/load-html`, a middleware you can install and use with:
 
 ```sh
 npm install @rallie/load-html
 ```
 
-它的作用是让你可以直接给应用配置 html 路径，中间件将通过`fetch`加载并解析 html，然后将`link`、`style`和`script`标签插入到文档中
+This middleware allows you to configure the HTML path for an application directly. It loads and parses the HTML via `fetch` and then inserts `link`, `style`, and `script` tags into the document.
 
 ```ts
 import { loadHtml } from "@rallie/load-html";
@@ -370,7 +377,7 @@ block.run((env) => {
 });
 ```
 
-你也可以不配置`entries`，而是在后续中间件中使用`ctx.loadHtml`方法来加载和解析 html
+You can also skip the `entries` configuration and use the `ctx.loadHtml` method in subsequent middleware to load and parse HTML.
 
 ```ts
 env.use(loadHtml());
@@ -379,7 +386,7 @@ env.use(async (ctx, next) => {
 });
 ```
 
-如果在 html 路径中带上 hash，则中间件还会以该 hash 值作为 id，将 html 中对应 id 的元素插入到文档中。
+If a hash is included in the HTML path, the middleware will also use that hash value as an id to insert the corresponding element from the HTML into the document.
 
 ```ts
 env.use(
@@ -391,14 +398,14 @@ env.use(
 );
 ```
 
-比如上面这个例子，如果宿主 html 中预留了 id 为`root`的元素，则激活`producer`时，中间件会将该预留元素的`innerHTML`的内容替换为`http://localhost:3000/producer.html`解析出的 id 为`root`的元素内容。如果没有提前预留好这个元素，则中间件会直接将加载的 html 中解析出的 id 为`root`的元素插入到`body`中
+For example, if the host HTML reserves an element with the id `root`, when activating `producer`, the middleware will replace the `innerHTML` of the reserved element with the content of the element with id `root` parsed from `http://localhost:3000/producer.html`. If no element is reserved in advance, the middleware will directly insert the element with id `root` parsed from the loaded HTML into the `body`.
 
-除了`entries`，该中间件还支持以下几个可选的配置参数
+In addition to `entries`, this middleware also supports the following optional configuration parameters:
 
-- `fetch`：这是用来加载 html 的函数，你可以传入自定义的 fetch 函数来应对需要添加特殊请求头的情况，如果不传，则默认是`window.fetch`；
-- `regardHtmlPathAsRoot`：这是一个布尔值，默认是`false`，如果置为`true`，则中间件在转换 html 中的资源的路径时，会将`html`的路径视作根路径。
+- `fetch`: This is the function used to load the HTML. You can provide a custom fetch function to handle situations where special request headers are needed. If not provided, the default is `window.fetch`.
+- `regardHtmlPathAsRoot`: This is a boolean value, defaulting to `false`. If set to `true`, the middleware will consider the `html` path as the root path when converting the paths of resources in the HTML.
 
-举个例子：
+For example:
 
 ```ts
 env.use(
@@ -411,38 +418,26 @@ env.use(
 );
 ```
 
-如果配置了`regardHtmlPathAsRoot`为`true`，则中间在解析`https://cdn.jsdelivr.net/npm/@rallie/demo/dist/index.html`时，会将文档中的
-
-```html
-<script src="/assets/chunk.js"></script>
-```
-
-替换为
+If `regardHtmlPathAsRoot` is set to `true`, when parsing `https://cdn.jsdelivr.net/npm/@rallie/demo/dist/index.html`, the middleware will replace the script tag in the document with:
 
 ```html
 <script src="https://cdn.jsdelivr.net/npm/@rallie/demo/dist/assets/chunk.js"></script>
 ```
 
-而如果`regardHtmlPathAsRoot`为`false`，则中间件会将文档中的
-
-```html
-<script src="/assets/chunk.js"></script>
-```
-
-替换为
+If `regardHtmlPathAsRoot` is `false`, the middleware will replace the script tag with:
 
 ```html
 <script src="https://cdn.jsdelivr.net/assets/chunk.js"></script>
 ```
 
-这个配置项对于将 html 上传到公共 cdn 上的场景非常有用
+This configuration is particularly useful when uploading HTML to a public CDN.
 
-- `filter`：这是用来过滤html中的元素的方法。该方法接收一个`HTMLScriptElement ｜ HTMLLinkElement ｜ HTMLStyleElement`实例作为参数，返回一个布尔值，如果返回`true`，则该元素会被保留，否则会被移除。
+- `filter`: This is a method for filtering elements in the HTML. The method takes an `HTMLScriptElement | HTMLLinkElement | HTMLStyleElement` instance as an argument and returns a boolean value. If it returns `true`, the element will be retained; otherwise, it will be removed.
 
-比如你可以通过这个配置项，只保留Html中的script标签
+For example, you can use this configuration to only keep script tags in the HTML:
 
 ```ts
 env.use(loadHtml({
   filter: (el) => el.tagName === 'SCRIPT'
-}))
+}));
 ```

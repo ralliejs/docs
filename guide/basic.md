@@ -1,10 +1,10 @@
-#  基础
+# Basics
 
-下面你将学习关于 Rallie 的一切，阅读文档可能不能解答你的所有困惑，我们推荐你结合 Rallie 源码仓库中提供的[样例](https://github.com/ralliejs/rallie/tree/master/packages/playground)进行学习，虽然这是一个没有什么实用价值的 demo，但它囊括了 Rallie 的大多数功能
+Below, you will learn everything about Rallie. Reading the documentation may not answer all your questions, so we recommend studying in conjunction with the [examples](https://github.com/ralliejs/rallie/tree/master/packages/playground) provided in the Rallie source code repository. Although this is a demo with no practical value, it covers most of Rallie's features.
 
-## 创建 Block
+## Creating a Block
 
-正如[介绍](/guide/introduction.html#介绍)中所述，Rallie 中的每个应用对外提供响应式状态，事件，方法以作为服务。我们把这样的应用称之为一个 Block，它可以通过下面的方式创建：
+As stated in the [Introduction](/guide/introduction.html#introduction), each application in Rallie provides reactive state, events, and methods as services externally. Such an application is called a Block, and it can be created in the following way:
 
 ```ts
 import { createBlock } from "@rallie/block";
@@ -25,13 +25,13 @@ interface Producer {
 export const producer = createBlock<Producer>("producer");
 ```
 
-创建 block 时，需要提供一个全局唯一的名字作为 block 的唯一标识，后续我们也是通过 block 名来与其他应用建立连接。同时，如果你使用 typescript 开发的话，我们可以通过使用泛型参数，在创建 block 时定义好状态，事件，方法的类型，为后面要使用的 API 提供更好的ts支持。
+When creating a block, you need to provide a globally unique name as the unique identifier for the block. Subsequently, we also connect with other applications through the block name. At the same time, if you are developing with TypeScript, you can define the types of state, events, and methods through generic parameters when creating a block, providing better TypeScript support for the subsequent APIs to be used.
 
-### 状态
+### State
 
-#### 初始化状态
+#### Initialize State
 
-如果你的应用要对外提供响应式状态，那么你需要在创建 block 后初始化状态
+If your application needs to provide reactive state externally, you need to initialize the state after creating the block.
 
 ```ts
 producer.initState({
@@ -39,37 +39,37 @@ producer.initState({
 });
 ```
 
-状态是一个[reactive](https://v3.vuejs.org/api/basic-reactivity.html#reactive)对象，因此不能将状态初始化为[原始数据类型](https://developer.mozilla.org/zh-CN/docs/Glossary/Primitive)
+The state is a [reactive](https://v3.vuejs.org/api/basic-reactivity.html#reactive) object, so you cannot initialize the state with [primitive data types](https://developer.mozilla.org/zh-CN/docs/Glossary/Primitive).
 
-状态只有在被初始化之后才能被读取，修改和监听，因此，我们一般在创建完 block 后就立即调用 initState 方法初始化状态。
+The state can only be read, modified, and monitored after it is initialized, so we usually call the initState method to initialize the state immediately after creating the block.
 
-#### 读取状态
+#### Read State
 
-状态值可以直接通过 `block.state`属性读取
+State values can be directly read through the `block.state` property.
 
 ```ts
 console.log(producer.state.count); // 0
 ```
 
-#### 修改状态
+#### Modify State
 
-要修改状态，必须通过 `block.setState`方法，在回调函数中修改，且在修改时，需要对本次操作进行适当说明。
+To modify the state, you must use the `block.setState` method, modify it in the callback function, and provide an appropriate description of this operation when modifying.
 
 ```ts
 producer.setState("add count", (state) => {
-  state.count++; // 通过setState方法可以合法地修改状态
+  state.count++; // You can legally modify the state through the setState method
 });
 
-producer.state.count++; // 直接修改producer.state会抛出错误
+producer.state.count++; // Directly modifying producer.state will throw an error
 ```
 
 :::tip
-要求在 setState 时描述本次操作主要是为了督促开发者更规范，谨慎地修改状态，后续还会开发 devtools，修改状态的描述将会出现在 devtools 面板中
+The requirement to describe the operation when setting the state is mainly to encourage developers to modify the state more standardized and cautiously. Subsequently, we will also develop devtools, and the description of modifying the state will appear in the devtools panel.
 :::
 
-#### 监听状态变更
+#### Monitor State Changes
 
-我们可以使用 `block.watchState`监听状态的变更。它的使用方式比较灵活。 你可以在 `watchState`方法中返回要监听的状态，紧接着链式调用 `do`方法，指定监听回调
+We can use `block.watchState` to monitor changes in state. Its usage is quite flexible. You can return the state to be monitored in the `watchState` method, and then call the `do` method in a chained manner to specify the monitoring callback.
 
 ```ts
 producer.setState("reset count", (state) => {
@@ -85,12 +85,12 @@ const unwatch = producer
 producer.setState("modify the count", (state) => {
   state.count = 1;
 });
-// 打印 1, 0
+// Prints 1, 0
 
-unwatch(); // 取消监听
+unwatch(); // Stop monitoring
 ```
 
-也可以直接在 `watchState`方法中指定监听回调，响应式系统会自动记录依赖并在状态变更时执行回调函数，效果类似 Vue 的[watchEffect](https://v3.vuejs.org/guide/reactivity-computed-watchers.html#watcheffect)方法
+You can also directly specify the monitoring callback in the `watchState` method, and the reactive system will automatically record the dependencies and execute the callback function when the state changes, similar to Vue's [watchEffect](https://v3.vuejs.org/guide/reactivity-computed-watchers.html#watcheffect) method.
 
 ```ts
 producer.setState("reset count", (state) => {
@@ -105,82 +105,82 @@ const watcher = producer
 producer.setState("modify the count", (state) => {
   state.count = 1;
 });
-// 打印 0, 1
+// Prints 0, 1
 
-watcher.unwatch(); // 取消监听
+watcher.unwatch(); // Stop monitoring
 ```
 
-### 事件
+### Events
 
-我们可以通过 `block.listenEvents`监听事件, 而触发事件，则直接使用 `app.events[eventName]`即可
+We can monitor events through `block.listenEvents`, and to trigger events, simply use `app.events[eventName]`.
 
 ```ts
-// 监听事件
+// Monitor events
 const cancelEvents = producer.listenEvents({
   printCount() {
     console.log(producer.state.count);
   },
 });
-// 触发事件
+// Trigger event
 producer.events.printCount();
-// 取消监听
+// Stop monitoring
 cancelEvents();
 ```
 
-### 方法
+### Methods
 
-方法的 API 和事件类似
+The API for methods is similar to events.
 
 ```ts
-// 添加方法
+// Add method
 const removeMethods = producer.addMethods({
   async uploadCount() {
     await service.uploadCount(producer.state.count)
   },
 });
-// 调用方法
+// Call method
 await producer.methods.uploadCount()
-// 移除方法
+// Remove method
 cancelMethods();
 ```
 
 :::tip
-事件和方法的区别在于：
+The difference between events and methods is:
 
-1. 同一个事件可以被监听多次，当事件触发时，每一个事件回调都会被执行；同一个方法只能被添加一次，重复添加重名方法会抛出异常
-2. 事件回调没有返回值，方法则可以有返回值
-   :::
+1. The same event can be monitored multiple times, and when the event is triggered, each event callback will be executed; the same method can only be added once, and adding a method with the same name again will throw an exception.
+2. Event callbacks have no return value, but methods can have a return value.
+:::
 
-## 加载 Block
+## Loading Block
 
-假设我们已经将 producer 打包部署到 `https://localhost:8000/producer.js`。现在我们要开发一个新的应用，并且该应用能加载并使用 producer 提供的服务。
+Suppose we have packaged and deployed `producer` to `https://localhost:8000/producer.js`. Now we want to develop a new application that can load and use the services provided by `producer`.
 
-首先，我们创建一个名为 `consumer`的 block
+First, we create a block called `consumer`.
 
 ```ts
 import { createBlock } from "@rallie/block";
 export const consumer = createBlock("consumer");
 ```
 
-要让 consumer 知道 producer 被部署在哪里，我们可以通过下面这段代码进行声明
+To let `consumer` know where `producer` is deployed, we can declare it with the following code:
 
 ```ts
 consumer.run((env) => {
   env.config({
     assets: {
       producer: [
-        js: ['https://localhost:8000/producer.js']
+        { js: 'https://localhost:8000/producer.js' }
       ]
     }
   })
 })
 ```
 
-Rallie 没有所谓的的主应用或中心应用的概念，默认情况下每个 block 都可以调用 `run`方法，在回调函数中访问到应用集群的运行环境对象 `env`，并通过 `env`来配置整个应用集群的资源路径。
+Rallie does not have the concept of a master or central application. By default, each block can call the `run` method, access the application cluster's running environment object `env` in the callback function, and configure the entire application cluster's resource path through `env`.
 
-你可以在[进阶](/guide/advance.html)章节了解到更多关于[运行环境](/api/#bus)的用法
+You can learn more about the usage of the [runtime environment](/api/#bus) in the [Advanced](/guide/advance.html) section.
 
-配置好资源路径后，我们就可以直接加载 `producer`
+After configuring the resource path, we can directly load `producer`.
 
 ```ts
 consumer.load("producer").then(() => {
@@ -188,11 +188,11 @@ consumer.load("producer").then(() => {
 });
 ```
 
-执行上面的代码将会往 `document`中插入 `<script src="https://localhost:8000/producer.js" />`, 这样的话创建和注册 `producer`的逻辑也就在 `consumer`提供的宿主环境中执行了
+Executing the above code will insert `<script src="https://localhost:8000/producer.js" />` into the `document`, so the logic for creating and registering `producer` is also executed in the host environment provided by `consumer`.
 
-## 连接 Block
+## Connecting Block
 
-最后，我们要使用 `producer`提供的服务，还需要与它建立连接
+Finally, to use the services provided by `producer`, we also need to establish a connection with it.
 
 ```ts
 interface Producer {
@@ -210,12 +210,12 @@ interface Producer {
 const connectedProducer = consumer.connect<Producer>("producer");
 ```
 
-`connect`方法将返回一个 `ConnectedBlock`对象，然后我们就可以用这个 `ConnectedBlock`调用 `producer`提供的服务了
+The `connect` method will return a `ConnectedBlock` object, and then we can use this `ConnectedBlock` to call the services provided by `producer`.
 
 ```ts
 const connectedProducer = consumer.connect<Producer>("producer");
 consumer.load("producer").then(() => {
-  // 状态
+  // State
   console.log(connectedProducer.state.count);
   connectedProducer
     .watchState((state) => state.count)
@@ -225,27 +225,27 @@ consumer.load("producer").then(() => {
   connectedProducer.setState("modify count", (state) =>
     state.count = 0
   );
-  // 事件
+  // Events
   connectedProducer.listenEvents({
     printCount() {
       console.warn("print by consumer", connectedProducer.state.count);
     },
   });
   connectedProducer.events.printCount();
-  // 方法
+  // Methods
   connectedProducer.methods.uploadCount();
 });
 ```
 
-你会发现`ConnectedBlock`的 API 和用 `createBlock`方法创建出的 `CreatedBlock`对象的 API 一模一样，不过需要额外注意的是：
+You will find that the API of `ConnectedBlock` is exactly the same as the API of the `CreatedBlock` object created by the `createBlock` method. However, it should be noted that:
 
-1. `ConnectedBlock`没有`addMethods`方法，你只能调用连接的 block 提供的方法，而无法为其添加方法
-2. 有的时候，为了保证状态安全，你不希望你创建的 block 的状态能直接被其他`ConnectedBlock`更改，此时你可以在初始化状态时给 `initState`方法传入第二个参数, 将状态权限设为私有
+1. `ConnectedBlock` does not have the `addMethods` method. You can only call the methods provided by the connected block and cannot add methods for it.
+2. Sometimes, to ensure state security, you may not want the state of the block you created to be directly modified by other `ConnectedBlock`. At this time, you can pass a second parameter to the `initState` method when initializing the state to set the state permissions to private.
 
 ```ts
 const producer = createBlock<Producer>("producer").initState({
   count: 0
-}, true) // 私有状态
+}, true) // Private state
 
 producer.addMethods({
   addCount: () => {
@@ -254,21 +254,22 @@ producer.addMethods({
 });
 ```
 
-这样其他 Block 就只能通过你提供的方法修改状态，而无法使用 `ConnectedBlock.setState`直接修改状态
+In this way, other blocks can only modify the state through the methods you provide and cannot directly modify the state using `ConnectedBlock.setState`.
 
 ```ts
 const consumer = createBlock("consumer");
 const connectedProducer = consumer.connect("producer");
 
-// 会抛出错误，因为producer的状态是私有的
+// Will throw an error because the state of producer is private
+
 connectedProducer.setState("add count", (state) => {
   state.count++;
 });
-// 能合法的修改状态
+// Can legally modify the state
 connectedProducer.methods.addCount()
 ```
 
-另外，在方法和事件的监听函数中，你可以通过`this`上下文获得调用事件或方法的block的名字
+In addition, in the method and event listening functions, you can obtain the name of the block that called the event or method through the `this` context.
 
 ```ts
 producer.addMethods({
@@ -279,8 +280,7 @@ producer.addMethods({
 })
 
 connectedProducer.methods.addCount()
-// 打印结果 ’consumer‘
+// Prints result 'consumer'
 ```
 
-在很多业务场景中，这个特性非常有用
-
+In many business scenarios, this feature is very useful.

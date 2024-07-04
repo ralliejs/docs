@@ -1,42 +1,46 @@
 # API
-## 基础类型
+## Basic Types
+
 ```ts
-type State = Record<string, any>
+type State = Record<string, any>;
 
-type Events = Record<string, (...args: any[]) => void>
+type Events = Record<string, (...args: any[]) => void>;
 
-type Methods = Record<string, (...args: any[]) => any>
+type Methods = Record<string, (...args: any[]) => any>;
 
-type BlockDeclare = Partial<{ 
-  state:  State
-  events: Events
-  methods: Methods
-}>
+type BlockDeclare = Partial<{
+  state: State;
+  events: Events;
+  methods: Methods;
+}>;
 ```
 
 ## createBlock
 
-- 类型：`<T extends BlockDeclare>(name: string) => CreatedBlock<T['state'], T['events'], T['methods'], T['exports']>`
-- 说明：创建一个 Block，接收全局唯一的 block 名作为参数，返回一个[CreatedBlock](#createBlock)实例。
-- 示例：
+- Type: 
+  ```ts
+  <T extends BlockDeclare>(name: string) => CreatedBlock<T['state'], T['events'], T['methods'], T['exports']>
+  ```
+- Description: Creates a Block, accepting a globally unique block name as a parameter, and returns a `CreatedBlock` instance.
+- Example:
 
   ```ts
   import { createBlock } from "@rallie/block";
 
   interface MyBlock {
     state: {
-      count: number,
+      count: number;
       user: {
-        name: string
-      }
+        name: string;
+      };
     },
     events: {
-      incrementCount: () => void
+      incrementCount: () => void;
     },
     methods: {
-      login: () => void,
-      logout: () => void
-    }
+      login: () => void;
+      logout: () => void;
+    };
   }
 
   const myBlock = createBlock<MyBlock>("my-block");
@@ -46,24 +50,22 @@ type BlockDeclare = Partial<{
 
 ### name
 
-- 类型：`string`
-- 说明： Block 的名称
-
-
+- Type: `string`
+- Description: The name of the Block.
 
 ### state
 
-- 类型：`State`
-- 说明： Block 的状态，是只读的，要修改 Block 的状态必须使用[setState](#setstate)方法
+- Type: `State`
+- Description: The state of the Block, which is read-only. To modify the state of a Block, the [setState](#setState) method must be used.
 
 ### methods
 
-- 类型：`Methods`
-- 说明：Block 的方法调用器，是只读的，要给 Block 添加方法，必须使用[addMethods](#addmethods)方法
-- 示例：
+- Type: `Methods`
+- Description: The method invoker of the Block, which is read-only. To add methods to a Block, the [addMethods](#addMethods) method must be used.
+- Example:
 
   ```ts
-  // 添加方法
+  // Add methods
   block.addMethods({
     login: async () => {
       const success = await requestLogin();
@@ -71,7 +73,7 @@ type BlockDeclare = Partial<{
     },
   });
 
-  // 调用方法
+  // Invoke method
   block.methods.login().then((success) => {
     if (success) {
       alert("Login successfully");
@@ -81,40 +83,40 @@ type BlockDeclare = Partial<{
 
 ### events
 
-- 类型：`Events`
-- 说明：Block 的事件调用器，是只读的，要给 Block 添加事件监听，必须使用[listenEvents](#listenevents)方法
-- 示例：
+- Type: `Events`
+- Description: The event invoker of the Block, which is read-only. To add event listeners to a Block, the [listenEvents](#listenEvents) method must be used.
+- Example:
 
   ```ts
-  // 监听事件
+  // Listen to events
   block.listenEvents({
     themeChange: (themeColor) => {
       doChangeTheme(themeColor);
     },
   });
 
-  // 触发事件
+  // Trigger event
   block.events.themeChange("red");
   ```
 
 ### initState
 
-- 类型：`(value: State, isPrivate: boolean = false) => CreatedBlock`
-- 说明：初始化 Block 的状态。一个 Block 只能初始化一次状态，多次调用`initState`会抛出错误。如果希望状态不能被其他 Block 直接修改，第二个参数可以传入`true`，表示将状态初始化为私有状态。
+- Type: `(value: State, isPrivate: boolean = false) => CreatedBlock`
+- Description: Initializes the state of the Block. A Block can only be initialized once. Calling `initState` multiple times will throw an error. If you want the state to be unmodifiable by other Blocks, pass `true` as the second parameter to indicate that the state is set as private.
 
 ### setState
 
-- 类型：`((action: string, state: State) => void | Promise<void>) => Promise<void>`
-- 说明：修改 Block 的状态，第一个参数是对本次操作的描述
-- 示例：
+- Type: `((action: string, state: State) => void | Promise<void>) => Promise<void>`
+- Description: Modifies the state of the Block. The first parameter is a description of this operation.
+- Example:
 
   ```ts
-  // 同步修改状态
+  // Synchronously modify state
   block.setState("add the count synchronously", (state) => {
     state.count++;
   });
 
-  // 异步修改状态
+  // Asynchronously modify state
   await block.setState("add the count asynchronously", async (state) => {
     const userInfo = await requestLogIn();
     state.user = userInfo;
@@ -123,46 +125,46 @@ type BlockDeclare = Partial<{
 
 ### watchState
 
-- 类型：`((state: State) => any)) => Watcher`
-- 说明：监听 Block 的状态变化，基于`@vue/reactivity`的`effect`方法实现的。具体使用方式见示例
-- 示例：
+- Type: `((state: State) => any) => Watcher`
+- Description: Listens to changes in the Block's state, implemented based on the `effect` method of `@vue/reactivity`. See examples for specific usage.
+- Example:
 
-  - 链式调用监听状态
+  - Chained calling to watch state
 
     ```ts
-    // 监听状态
+    // Watch state
     const unwatch = block
       .watchState((state) => state.count)
       .do((newCount, oldCount) => {
         console.log(newCount, oldCount);
       });
 
-    // 取消监听
+    // Unwatch
     unwatch();
     ```
 
   - watchEffect
 
     ```ts
-    // 监听状态
+    // Watch state
     const watcher = block.watchState((state) => {
       console.log(state.count, state.user);
     });
 
-    // 取消监听
+    // Unwatch
     watcher.unwatch();
     ```
 
 ### listenEvents
 
-- 类型：`(events: Partial<Events>) => (eventName?: string) => void`
-- 说明：给 Block 添加事件监听，返回值是用来取消事件监听的函数。从监听回调的`this`上下文中，可以获得事件调用方的block名
-- 示例：
-  - 监听事件：
+- Type: `(events: Partial<Events>) => (eventName?: string) => void`
+- Description: Adds event listeners to the Block, and the return value is a function to cancel the event listening. The block name of the event caller can be obtained from the `this` context of the listening callback.
+- Example:
+  - Listen to events:
     ```ts
     const cancelEvents = block.listenEvents({
       changeTheme(this: { trigger: string }, themeColor) {
-        console.log(`事件调用方是${this.trigger}`)
+        console.log(`Event caller is ${this.trigger}`)
         doChangeTheme(themeColor);
       },
       changeLanguage: (lang) => {
@@ -170,25 +172,25 @@ type BlockDeclare = Partial<{
       },
     });
     ```
-  - 取消监听所有事件：
+  - Cancel listening to all events:
     ```ts
     cancelEvents();
     ```
-  - 取消监听单个事件
+  - Cancel listening to a single event
     ```ts
     cancelEvents("changeTheme");
     ```
 
 ### addMethods
 
-- 类型：`(methods: Partial<Methods>) => (methodName?: string) => void`
-- 说明：给 Block 添加方法，返回值是用来移除方法的函数。从方法回调的`this`上下文中，可以获得事件调用方的block名
-- 示例：
-  - 添加方法：
+- Type: `(methods: Partial<Methods>) => (methodName?: string) => void`
+- Description: Adds methods to the Block, and the return value is a function to remove the methods. The block name of the event caller can be obtained from the `this` context of the method callback.
+- Example:
+  - Add methods:
     ```ts
     const removeMethods = block.addMethods({
       async logIn(this: { trigger: string }) => {
-        console.log(`事件调用方是${this.trigger}`)
+        console.log(`Event caller is ${this.trigger}`)
         await requestLogIn();
       },
       logOut: async () => {
@@ -196,30 +198,33 @@ type BlockDeclare = Partial<{
       },
     });
     ```
-  - 移除所有方法：
+  - Remove all methods:
     ```ts
     removeMethods();
     ```
-  - 移除单个方法
+  - Remove a single method
     ```ts
     removeMethods("logIn");
     ```
 
 ### load
 
-- 类型：`(name: string) => Promise<void>`
-- 说明：加载 Block 的资源，参数是要加载的 Block 的名字
+- Type: `(name: string) => Promise<void>`
+- Description: Loads the resources of a Block, with the argument being the name of the Block to be loaded.
 
 ### activate
 
-- 类型：`(name: string) => Promise<void>`
-- 说明：激活 Block，参数是要激活的 Block 的名字
+- Type: `(name: string) => Promise<void>`
+- Description: Activates a Block, with the argument being the name of the Block to be activated.
 
 ### connect
 
-- 类型：`<T extends BlockDeclare>(name: string) => ConnectedBlock<T>`
-- 说明：连接 Block，接收要连接的 Block 的名字作为唯一参数，返回一个可以使用被连接 Block 的状态，事件，方法的[ConnectedBlock](#connectedblock)。
-- 示例：
+- Type: 
+  ```ts
+  <T extends BlockDeclare>(name: string) => ConnectedBlock<T>
+  ```
+- Description: Connects to a Block, receiving the name of the Block to be connected as the only parameter, and returns a [ConnectedBlock](#connectedblock) that allows the use of the connected Block's state, events, and methods.
+- Example:
   ```ts
   interface RemoteBlock {
     state: {
@@ -242,65 +247,63 @@ type BlockDeclare = Partial<{
   const connectedBlock = block.connect<RemoteBlock>("remote");
   ```
 
-[connect](#connect)方法将返回一个`ConnectedBlock`。其状态，事件和方法相关的API是[CreatedBlock](#createblock)的API的子集，包括[name](#name)，[state](#state)，[events](#events)，[methods](#methods)，[setState](#setstate)，[watchState](#watchstate) 和 [listenEvents](#lisenevents)
+The [connect](#connect) method will return a `ConnectedBlock`. Its state, event, and method-related APIs are a subset of the [CreatedBlock](#createblock) APIs, including [name](#name), [state](#state), [events](#events), [methods](#methods), [setState](#setstate), [watchState](#watchstate), and [listenEvents](#listenevents).
 
 ::: tip
-如果连接的 Block 将状态声明为私有状态，那么通过`ConnectedBlock`调用`setState`更改 Block 的状态将报错
+If the connected Block declares its state as private, calling `setState` to change the Block's state via `ConnectedBlock` will result in an error.
 :::
 
-
-
-以上属性和方法的使用方式与 CreatedBlock 的使用方式是完全一致的
+The usage of the above properties and methods is completely consistent with the usage of CreatedBlock.
 
 ::: tip
-对于一个 ConnectedBlock，要使用其状态，调用其方法，导入其暴露的对象，应该保证其状态已经被初始化，方法已经被添加，对象已经被导出。而 connect 操作并不会加载和激活要连接的 Block，因此你应该将要连接的 Block 声明为当前 Block 的[关联或依赖](/guide/advance.html#关联和依赖)，或者手动加载或激活要连接的 Block
+For a ConnectedBlock, to use its state, call its methods, or import its exposed objects, you should ensure that its state has been initialized, methods have been added, and objects have been exported. The connect operation does not load or activate the Block to be connected, so you should declare the Block to be connected as the current Block's [association or dependency](/guide/advance.html#association-and-dependency), or manually load or activate the Block to be connected.
 :::
 
 ### run
 
-- 类型：`(callback: (env: Env) => void | Promise<void>) => Promise<void>`
-- 说明：执行传入的回调函数。可以在回调参数中获取当前 Block 的运行环境，详见[Env](#env)
+- Type: `(callback: (env: Env) => void | Promise<void>) => Promise<void>`
+- Description: Executes the passed callback function. The current Block's runtime environment can be obtained in the callback parameter, see [Env](#env).
 
 ## Env
 
-Block 的运行环境对象，可以在[run](#run)方法的回调中获得
+The runtime environment object of a Block, which can be obtained in the callback of the [run](#run) method.
 
 ### isEntry
 
-- 类型：`boolean`
-- 说明：是否是入口环境。如果一个 Block 是应用集群中第一个被创建的应用，则在执行 Block 的`run`方法时，其回调参数`env.isEntry`为`true`，否则为`false`
+- Type: `boolean`
+- Description: Whether it is the entry environment. If a Block is the first application created in the application cluster, then when executing the Block's `run` method, its callback parameter `env.isEntry` is `true`, otherwise it is `false`.
 
 ### freeze
 
-- 类型：`() => void`
-- 说明：冻结当前运行环境，只有当`env.isEntry`为`true`时，该方法才有效。当运行环境被冻结后，非入口环境的 Block 应用的中间件和配置将不生效
+- Type: `() => void`
+- Description: Freezes the current runtime environment, which is only effective when `env.isEntry` is `true`. After the runtime environment is frozen, the middleware and configurations applied by non-entry environment Blocks will not take effect.
 
 ### unfreeze
 
-- 类型：`() => void`
-- 说明：解冻当前运行环境，只有当`env.isEntry`为`true`时，该方法才有效。
+- Type: `() => void`
+- Description: Unfreezes the current runtime environment, which is only effective when `env.isEntry` is `true`.
 
 ### use
 
-- 类型：`(middleware: (ctx: Context, next: () => Promise<void>) => void) => void`
-- 说明：应用资源加载中间件，使用方式参考[中间件](/guide/advance.html#中间件)，context 的类型为：
+- Type: `(middleware: (ctx: Context, next: () => Promise<void>) => void) => void`
+- Description: Applies resource loading middleware, usage refers to [middleware](/guide/advance.html#middleware), the type of context is:
   ```ts
   interface Context {
-    name: string; // 要加载的Block的名字
-    conf: ConfType; // 运行环境的配置，参考env.conf
+    name: string; // The name of the Block to be loaded
+    conf: ConfType; // The configuration of the runtime environment, refer to env.conf
     loadScript: (
       script: Partial<HTMLScriptElement> | string | HTMLScriptElement
-    ) => Promise<void>; // 插入script脚本的方法
+    ) => Promise<void>; // Method to insert script tags
     loadLink: (
       link: Partial<HTMLLinkElement> | string | HTMLLinkElement
-    ) => Promise<void>; // 插入Link标签的方法
-    [other: string]: any; // 中间件可以给context添加方法和属性
+    ) => Promise<void>; // Method to insert link tags
+    [other: string]: any; // Middleware can add methods and properties to context
   }
   ```
 
 ### conf
 
-- 类型：
+- Type:
   ```ts
   interface ConfType {
     assets?: Record<
@@ -313,12 +316,12 @@ Block 的运行环境对象，可以在[run](#run)方法的回调中获得
     [other: string]: any;
   }
   ```
-- 说明：运行环境的全局配置，可以通过`env.config`进行配置。其中`assets`属性是应用集群的资源路径信息，rallie 的洋葱圈中间件模型的最内层中间件会根据 Block 的名字在`assets`中查找应用资源并加载
+- Description: The global configuration of the runtime environment, which can be configured through `env.config`. The `assets` property is the resource path information of the application cluster. The innermost middleware of rallie's onion middleware model will look for and load application resources in `assets` based on the Block's name.
 
 ### config
 
-- 类型：`(conf: ConfType) => void`
-- 说明：对运行环境进行配置。在配置`assets`时，配置的信息将会追加，而不会覆盖。
+- Type: `(conf: ConfType) => void`
+- Description: Configures the runtime environment. When configuring `assets`, the information will be appended and not overwritten.
   ```ts
   env.config({
     assets: {
@@ -335,7 +338,7 @@ Block 的运行环境对象，可以在[run](#run)方法的回调中获得
     },
   });
   console.log(env.conf.assets);
-  /* 打印结果为：
+  /* The result will be printed as:
     {
       bar: {
         js: ['bar.js']

@@ -1,34 +1,34 @@
-# 介绍
+# Introduction
 
-rallie 是一个可以帮助用户实现去中心化的前端微服务架构的库。基于 rallie 开发的前端应用可以成为一个对外暴露响应式状态，事件，方法的服务，不同服务之间可以共享依赖，灵活组合与编排，从而提高大型前端应用的可扩展性
+Rallie is a library that helps users achieve a decentralized front-end microservices architecture. Front-end applications developed based on Rallie can become services that expose reactive states, events, and methods externally. Different services can share dependencies and be flexibly combined and orchestrated, improving the scalability of large front-end applications.
 
-## 前端服务化
+## Front-end Service
 
-前端服务化常常以“微前端”的名字出现在近几年的前端技术圈中，它将微服务的理念应用于浏览器端，即将 Web 应用由单一的单体应用转变为多个小型前端应用聚合为一的应用，且各个前端应用还可以独立运行、独立开发、独立部署。微前端不是单纯的前端框架或者工具，而是一套架构体系，这个概念最早在 2016 年底被提出，更多相关信息可以参考[这篇文章](https://swearer23.github.io/micro-frontends/)
+Front-end service often appears in recent years' front-end technology circles under the name "micro-frontends." It applies the microservices concept to the browser side, transforming a single monolithic web application into an aggregate of multiple small front-end applications, each capable of running independently, being developed and deployed independently. Micro-frontends are not merely a front-end framework or tool but an architectural system. This concept was first proposed at the end of 2016. More information can be found in [this article](https://micro-frontends.org/).
 
-## 核心理念
+## Core Concepts
 
-- **应用即服务：** 基于 Rallie 构建的应用，可以对外暴露响应式状态，事件，方法，以及基于方法封装的导出对象作为服务，应用间并不强调严格独立与隔离，可以有依赖关系，也可以共享公共的库。而在开发应用的时候，用户只需要声明依赖即可，依赖的加载和编排问题由 Rallie 解决
-- **去中心化：** 基于 Rallie 构建的应用是平等的，并不区分所谓的基座应用和子应用。每个应用既有可能作为入口去加载其他应用，也可能被其他入口加载
+- **Application as a Service:** Applications built on Rallie can expose reactive states, events, methods, and exported objects encapsulated by methods as services. There is no emphasis on strict independence and isolation between applications; they can have dependencies and can share common libraries. When developing applications, users only need to declare dependencies, and Rallie handles the loading and orchestration of dependencies.
+- **Decentralization:** Applications built on Rallie are equal and do not distinguish between a base application and sub-applications. Each application can act as an entry point to load other applications or be loaded by other applications.
 
-## 它是如何工作的
+## How It Works
 
-Rallie 的响应式状态依赖[@vue/reactivity](https://github.com/vuejs/vue-next/tree/master/packages/reactivity)，事件和方法则是基于发布订阅模式和`Proxy`实现的。
+Rallie's reactive states rely on [@vue/reactivity](https://github.com/vuejs/vue-next/tree/master/packages/reactivity), while events and methods are implemented based on the publish-subscribe model and `Proxy`.
 
-## 比较
+## Comparison
 
-### 微前端框架
+### Micro-frontend Frameworks
 
-微前端概念被提出后，许多团队进行了实践，社区里也出现了一批优秀的微前端解决方案，比如[qiankun](https://qiankun.umijs.org/zh)，[icestark](https://micro-frontends.ice.work/)，[microApp](https://zeroing.jd.com/)，[garfish](https://garfish.top/guide/develop/from-zero)等，Rallie 和这些方案不管是实现思路还是使用场景都略有不同。
+After the micro-frontend concept was proposed, many teams began implementing it, and several excellent micro-frontend solutions emerged in the community, such as [qiankun](https://qiankun.umijs.org/en), [icestark](https://micro-frontends.ice.work/), [microApp](https://zeroing.jd.com/), and [garfish](https://garfish.top/guide/develop/from-zero). Rallie differs from these solutions in both implementation logic and usage scenarios.
 
-首先，这些微前端框架是中心化的，实质依赖微前端框架的是一个基座应用，其他内容应用只是需要做一些改造（比如打包为 umd 格式并导出生命周期函数），然后在基座应用中加载内容应用。而 Rallie 是去中心化的，实质上并不区分基座应用和内容应用，每个应用都需要引入 Rallie，把自己包装成一个可以被其他应用激活，也可以激活其他应用的服务
+Firstly, these micro-frontend frameworks are centralized, relying on a base application, while content applications only need some modifications (e.g., packaging as UMD format and exporting lifecycle functions) to be loaded by the base application. Rallie, however, is decentralized and does not distinguish between base and content applications. Each application needs to integrate Rallie, packaging itself as a service that can be activated by other applications and can activate other applications.
 
-其次，上述的微前端框架更强调应用独立与隔离，它们的主要作用是将一个个相对独立的应用聚合到一起而**互不影响**。因此上述框架的重要卖点是 js 沙箱，样式隔离等技术，它们提供的应用间通信机制也都比较简单。而 Rallie 更强调“服务化”，即应用构建出来是为了给其他应用提供服务的，Rallie 的作用是让构建出的前端应用可组合，可复用
+Secondly, the aforementioned micro-frontend frameworks emphasize the independence and isolation of applications, mainly aggregating relatively independent applications without affecting each other. Therefore, key features of these frameworks include JS sandboxing and style isolation, with relatively simple inter-application communication mechanisms. Rallie, on the other hand, emphasizes "service orientation," where applications are built to provide services for other applications. Rallie’s role is to enable the built front-end applications to be composable and reusable.
 
-打一个不太恰当的比方，上述微前端框架帮助用户实现的是一个体验更好的 iframe，而 Rallie 帮助用户实现的是一个体验更好的 sdk。微前端框架更适合类似于将几个现有的项目接入到一个门户中这样的场景，而 Rallie 则比较适合实现一个可伸缩的微内核架构应用的场景
+To draw an imperfect analogy, the aforementioned micro-frontend frameworks help users achieve an experience akin to a more efficient and pleasant iframe, while Rallie helps users achieve a more efficient and pleasant SDK. Micro-frontend frameworks are more suitable for scenarios like integrating several existing projects into a portal, whereas Rallie is more suited for implementing a scalable micro-kernel architecture.
 
-### 模块联邦
+### Module Federation
 
-[模块联邦](https://webpack.js.org/concepts/module-federation/)是 webpack5 提供的一个新特性，比起微前端框架，Rallie 要解决的问题和模块联邦要解决的问题更相似一些，他们都适合实现去中心化的微前端架构。二者的区别在于，模块联邦是一个编译时方案，你的运行时代码可以像动态导入本地的 ES6 模块一样导入其他应用的模块，而 Rallie 则是一个纯运行时方案，你必须用 Rallie 提供的API在运行时配置和使用其他应用。
+[Module Federation](https://webpack.js.org/concepts/module-federation/) is a new feature introduced in webpack 5. Compared to micro-frontend frameworks, Rallie addresses problems more similar to those solved by Module Federation, as both are suitable for implementing decentralized micro-frontends. The difference is that Module Federation is a compile-time solution, allowing you to import modules from other applications as if they were local ES6 modules during runtime, while Rallie is a purely runtime solution where you must configure and use other applications with Rallie's APIs at runtime.
 
-基于运行时的特点也让 Rallie 可以吸收微前端框架的优点，拓展出html entry，沙箱隔离，应用间响应式状态共享等功能。
+The runtime nature of Rallie also allows it to incorporate the advantages of micro-frontend frameworks, extending features like HTML entry, sandbox isolation, and reactive state sharing between applications.
