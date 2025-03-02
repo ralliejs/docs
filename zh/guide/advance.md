@@ -136,7 +136,7 @@ const consumer = createBlock('consumer')
 
 ### 共享公共库
 
-Rallie 把 Block 分为两类，一类是 App，其 js 资源中必须包含调用`registerBlock`注册 Block 的逻辑，然后通过 Block 实例对外提供服务，比如[基础](/guide/basic.html#基础)章节中的 consumer 和 producer；另一类是 Library，其 js 资源中不必包含注册 Block 的逻辑，被加载之后作为整个环境的运行时使用，比如`React`、`Vue`、`jQuery`等第三方库。Rallie 通过应用名是否以`lib:`开头判断应用是 Library 还是 App
+Rallie 把 Block 分为两类，一类是 App，其 js 资源中必须包含调用`createBlock`创建 Block 的逻辑，然后通过 Block 实例对外提供服务，比如[基础](/guide/basic.html#基础)章节中的 consumer 和 producer；另一类是 Library，其 js 资源中不必包含创建 Block 的逻辑，被加载之后作为整个环境的运行时使用，比如`React`、`Vue`、`jQuery`等第三方库。Rallie 通过应用名是否以`lib:`开头判断应用是 Library 还是 App
 
 ```ts
 block.run((env) => {

@@ -8,7 +8,7 @@ Front-end service often appears in recent years' front-end technology circles un
 
 ## Core Concepts
 
-- **Application as a Service:** Applications built on Rallie can expose reactive states, events, methods, and exported objects encapsulated by methods as services. There is no emphasis on strict independence and isolation between applications; they can have dependencies and can share common libraries. When developing applications, users only need to declare dependencies, and Rallie handles the loading and orchestration of dependencies.
+- **Application as a Service:** Applications built on Rallie can expose reactive states, events, methods as services. There is no emphasis on strict independence and isolation between applications; they can have dependencies and can share common libraries. When developing applications, users only need to declare dependencies, and Rallie handles the loading and orchestration of dependencies.
 - **Decentralization:** Applications built on Rallie are equal and do not distinguish between a base application and sub-applications. Each application can act as an entry point to load other applications or be loaded by other applications.
 
 ## How It Works

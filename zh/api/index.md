@@ -16,8 +16,8 @@ type BlockDeclare = Partial<{
 
 ## createBlock
 
-- 类型：`<T extends BlockDeclare>(name: string) => CreatedBlock<T['state'], T['events'], T['methods'], T['exports']>`
-- 说明：创建一个 Block，接收全局唯一的 block 名作为参数，返回一个[CreatedBlock](#createBlock)实例。
+- 类型：`<T extends BlockDeclare>(name: string) => Block<T['state'], T['events'], T['methods'], T['exports']>`
+- 说明：创建一个 Block，接收全局唯一的 block 名作为参数，返回一个[Block](#Block)实例。
 - 示例：
 
   ```ts
@@ -42,7 +42,7 @@ type BlockDeclare = Partial<{
   const myBlock = createBlock<MyBlock>("my-block");
   ```
 
-## CreatedBlock
+## Block
 
 ### name
 
@@ -218,7 +218,7 @@ type BlockDeclare = Partial<{
 ### connect
 
 - 类型：`<T extends BlockDeclare>(name: string) => ConnectedBlock<T>`
-- 说明：连接 Block，接收要连接的 Block 的名字作为唯一参数，返回一个可以使用被连接 Block 的状态，事件，方法的[ConnectedBlock](#connectedblock)。
+- 说明：连接 Block，接收要连接的 Block 的名字作为唯一参数，返回一个可以使用被连接 Block 的状态，事件，方法的 `ConnectedBlock`。
 - 示例：
   ```ts
   interface RemoteBlock {
@@ -242,7 +242,7 @@ type BlockDeclare = Partial<{
   const connectedBlock = block.connect<RemoteBlock>("remote");
   ```
 
-[connect](#connect)方法将返回一个`ConnectedBlock`。其状态，事件和方法相关的API是[CreatedBlock](#createblock)的API的子集，包括[name](#name)，[state](#state)，[events](#events)，[methods](#methods)，[setState](#setstate)，[watchState](#watchstate) 和 [listenEvents](#lisenevents)
+[connect](#connect)方法返回的 `ConnectedBlock` 的状态，事件和方法相关的API是普通[Block](#block)的API的子集，包括[name](#name)，[state](#state)，[events](#events)，[methods](#methods)，[setState](#setstate)，[watchState](#watchstate) 和 [listenEvents](#lisenevents)
 
 ::: tip
 如果连接的 Block 将状态声明为私有状态，那么通过`ConnectedBlock`调用`setState`更改 Block 的状态将报错
@@ -250,10 +250,10 @@ type BlockDeclare = Partial<{
 
 
 
-以上属性和方法的使用方式与 CreatedBlock 的使用方式是完全一致的
+以上属性和方法的使用方式与 `Block` 的使用方式是完全一致的
 
 ::: tip
-对于一个 ConnectedBlock，要使用其状态，调用其方法，导入其暴露的对象，应该保证其状态已经被初始化，方法已经被添加，对象已经被导出。而 connect 操作并不会加载和激活要连接的 Block，因此你应该将要连接的 Block 声明为当前 Block 的[关联或依赖](/guide/advance.html#关联和依赖)，或者手动加载或激活要连接的 Block
+对于一个 ConnectedBlock，要使用其状态，调用其方法，应该保证其状态已经被初始化，方法已经被添加。而 connect 操作并不会加载和激活要连接的 Block，因此你应该将要连接的 Block 声明为当前 Block 的[关联或依赖](/guide/advance.html#关联和依赖)，或者手动加载或激活要连接的 Block
 :::
 
 ### run

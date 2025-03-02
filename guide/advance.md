@@ -137,7 +137,7 @@ const consumer = createBlock('consumer')
 
 ### Sharing Common Libraries
 
-Rallie divides Blocks into two categories. One category is App, whose JS resources must contain the logic of calling `registerBlock` to register Blocks, and then provide services through Block instances, such as consumer and producer in the [Basics](/guide/basic.html#基础) section. The other category is Library, whose JS resources do not need to contain the logic of registering Blocks. After being loaded, they are used as the runtime of the entire environment, such as `React`, `Vue`, `jQuery`, and other third-party libraries. Rallie determines whether an application is a Library or an App based on whether the application name starts with `lib:`.
+Rallie divides Blocks into two categories. One category is App, whose JS resources must contain the logic of calling `createBlock` to create Blocks, and then provide services through Block instances, such as consumer and producer in the [Basics](/guide/basic.html#基础) section. The other category is Library, whose JS resources do not need to contain the logic of creating Blocks. After being loaded, they are used as the runtime of the entire environment, such as `React`, `Vue`, `jQuery`, and other third-party libraries. Rallie determines whether an application is a Library or an App based on whether the application name starts with `lib:`.
 
 ```ts
 block.run((env) => {

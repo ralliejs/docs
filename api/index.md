@@ -19,9 +19,9 @@ type BlockDeclare = Partial<{
 
 - Type: 
   ```ts
-  <T extends BlockDeclare>(name: string) => CreatedBlock<T['state'], T['events'], T['methods'], T['exports']>
+  <T extends BlockDeclare>(name: string) => Block<T['state'], T['events'], T['methods'], T['exports']>
   ```
-- Description: Creates a Block, accepting a globally unique block name as a parameter, and returns a `CreatedBlock` instance.
+- Description: Creates a Block, accepting a globally unique block name as a parameter, and returns a `Block` instance.
 - Example:
 
   ```ts
@@ -46,7 +46,7 @@ type BlockDeclare = Partial<{
   const myBlock = createBlock<MyBlock>("my-block");
   ```
 
-## CreatedBlock
+## Block
 
 ### name
 
@@ -223,7 +223,7 @@ type BlockDeclare = Partial<{
   ```ts
   <T extends BlockDeclare>(name: string) => ConnectedBlock<T>
   ```
-- Description: Connects to a Block, receiving the name of the Block to be connected as the only parameter, and returns a [ConnectedBlock](#connectedblock) that allows the use of the connected Block's state, events, and methods.
+- Description: Connects to a Block, receiving the name of the Block to be connected as the only parameter, and returns a `ConnectedBlock` that allows the use of the connected Block's state, events, and methods.
 - Example:
   ```ts
   interface RemoteBlock {
@@ -247,13 +247,13 @@ type BlockDeclare = Partial<{
   const connectedBlock = block.connect<RemoteBlock>("remote");
   ```
 
-The [connect](#connect) method will return a `ConnectedBlock`. Its state, event, and method-related APIs are a subset of the [CreatedBlock](#createblock) APIs, including [name](#name), [state](#state), [events](#events), [methods](#methods), [setState](#setstate), [watchState](#watchstate), and [listenEvents](#listenevents).
+The [connect](#connect) method will return a `ConnectedBlock`. Its state, event, and method-related APIs are a subset of the normal [Block](#block) APIs, including [name](#name), [state](#state), [events](#events), [methods](#methods), [setState](#setstate), [watchState](#watchstate), and [listenEvents](#listenevents).
 
 ::: tip
 If the connected Block declares its state as private, calling `setState` to change the Block's state via `ConnectedBlock` will result in an error.
 :::
 
-The usage of the above properties and methods is completely consistent with the usage of CreatedBlock.
+The usage of the above properties and methods is completely consistent with the usage of Block.
 
 ::: tip
 For a ConnectedBlock, to use its state, call its methods, or import its exposed objects, you should ensure that its state has been initialized, methods have been added, and objects have been exported. The connect operation does not load or activate the Block to be connected, so you should declare the Block to be connected as the current Block's [association or dependency](/guide/advance.html#association-and-dependency), or manually load or activate the Block to be connected.
